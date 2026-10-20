@@ -1,7 +1,257 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f5f4ed"><title>BBIYONG — 박재현</title><meta name="description" content="로봇 화재 탐지 평가, 사건·알림 백엔드와 CI/CD를 개발한 BBIYONG 프로젝트."><meta property="og:title" content="BBIYONG — 박재현"><meta property="og:description" content="로봇 화재 탐지 평가, 사건·알림 백엔드와 CI/CD를 개발한 BBIYONG 프로젝트."><meta property="og:type" content="website"><meta property="og:image" content="https://durian98.github.io/assets/portrait.webp"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="styles.css"><script src="app.js" defer></script></head><body><a class="skip-link" href="#main">본문으로 바로가기</a><div class="reading-progress" aria-hidden="true"></div>
-<header class="site-header"><a class="wordmark" href="index.html" aria-label="박재현 포트폴리오 홈">JAEHYUN PARK <small>박재현</small></a>
-<button class="menu-toggle" aria-expanded="false" aria-controls="site-nav">MENU +</button><nav class="site-nav" id="site-nav" aria-label="주 메뉴"><a href="work.html" aria-current="page">Work</a><a href="about.html">About</a><a href="#contact">Contact ↗</a><span class="nav-meta">BACKEND DEVELOPER / 2026</span></nav></header><main id="main"><section class="project-hero wrap"><div class="project-topline"><a href="work.html">← ALL WORK</a><span>01 / ROBOT SAFETY & MONITORING</span></div><h1 class="project-title">BBIYONG</h1><p class="project-subtitle">화재·과열 감지 로봇과 실시간 관제</p><div class="project-cover"><span class="cover-mark" aria-hidden="true">BBIYONG</span><img class="dashboard-image" src="assets/bbiyong-dashboard.webp" width="1440" height="810" alt="로봇 위치와 순찰 상태, 사건 로그가 표시된 BBIYONG 관제 화면" fetchpriority="high"></div><p class="image-caption">프로젝트 팀 시연 화면. 자율주행과 관제 UI는 팀 구현이며, 본인은 화재 탐지 평가·기준, 사건·알림 백엔드와 인프라를 담당했습니다.</p></section>
-<section class="project-summary wrap reveal"><div><h2>로봇의 위험 감지를<br>관제와 사건 기록에<br>연결했습니다.</h2><p style="margin-top:28px">사람이 계속 순찰하기 어려운 공간에서 로봇이 화재와 설비 과열을 감지하고, 사건 위치와 현장 영상을 관제에서 확인하는 서비스입니다.</p></div><div><dl class="project-facts"><div><dt>PERIOD</dt><dd>2026.07.06–08.10</dd></div><div><dt>TEAM</dt><dd>6명 / 전체 기여도 20%</dd></div><div><dt>MY ROLE</dt><dd>화재 탐지 평가·탐지 기준·재포착<br>사건·알림 백엔드 / 인프라·CI/CD</dd></div><div><dt>RESULT</dt><dd>공통 프로젝트 우수상<br>2026.08.10</dd></div></dl><p class="role-note">모델 전체 학습과 자율주행·관제 화면은 팀 구현입니다. ONNX·TensorRT 변환과 실물 경보 시험은 공동으로 수행했습니다.</p><a class="text-link" href="https://github.com/durian98/BBIYONG" target="_blank" rel="noopener noreferrer">소스 코드와 팀 시연 <span aria-hidden="true">↗</span></a></div></section><section class="content-section wrap"><div class="section-side reveal"><div class="eyebrow">01 / WHAT I BUILT</div><h2>담당한 기능과<br>기술의 역할</h2></div><div class="section-body reveal"><article class="feature-entry"><div class="entry-number">01</div><h3>로봇에서 동작하는 화재 탐지</h3><p>화재를 놓치는 경우를 줄이기 위해 모델의 탐지 결과와 판정 기준을 비교하는 평가 도구를 만들었습니다. 실물에서는 탐지 기준을 조정하고, 움직이다 놓친 열원을 다시 찾는 로직을 수정했습니다.</p><div class="tech-line">PYTHON · PYTORCH · YOLO11n</div></article><article class="feature-entry"><div class="entry-number">02</div><h3>같은 경보를 같은 사건으로 기록</h3><p>로봇이 경보를 재전송해도 한 번만 저장되도록 DB 제약으로 중복을 방어했습니다. 저장된 사건 번호(eventId)를 로봇 회신, 관제 전달과 사건 영상에 공통으로 사용했습니다. 외부 알림은 대기 상태와 최대 3회 재시도를 따로 관리했습니다.</p><div class="tech-line">SPRING BOOT · MYSQL · MESSAGE ID / EVENT ID</div></article><article class="feature-entry"><div class="entry-number">03</div><h3>파트별 검증과 배포 자동화</h3><p>GitLab MR에서는 임시 MySQL로 빌드·테스트하고, dev 병합 후에는 해당 파트만 배포하도록 나눴습니다. EC2, Nginx와 Docker Compose로 실행 환경을 구성하고, 서버 준비 상태를 확인한 뒤 배포 결과를 전달했습니다.</p><div class="tech-line">EC2 · NGINX · DOCKER COMPOSE · JENKINS</div></article></div></section><section class="content-section wrap"><div class="section-side reveal"><div class="eyebrow">02 / ON THE ROBOT</div><h2>모델을 실기기<br>추론으로 연결</h2></div><div class="section-body reveal"><p>학습 모델을 로봇 GPU에서 실행하도록 ONNX로 변환하고 TensorRT FP16으로 추론했습니다. 전열기를 시험용 열원으로 사용해 위험 감지부터 관제 경보까지 공동 시험했습니다.</p><ol class="flow-list"><li><small>01 / TEAM</small><strong>화재·연기 데이터<br>모델 학습</strong></li><li><small>02 / MY WORK</small><strong>평가 도구<br>탐지·재포착 기준</strong></li><li><small>03 / TOGETHER</small><strong>ONNX 변환<br>TensorRT 실행</strong></li><li><small>04 / TOGETHER</small><strong>실제 로봇 시험<br>관제 전달</strong></li></ol><div class="metric-pair"><div><div class="metric-number">30.17 <small style="font-size:20px">ms</small></div><div class="metric-label">발표 기록의 변환 전 추론시간</div></div><div><div class="metric-number">10.51 <small style="font-size:20px">ms</small></div><div class="metric-label">공동 최적화 후 추론시간</div></div></div><p class="scope">공동 결과의 발표 기록입니다. 전체 영상·주행 지연이나 실제 화재 정확도를 뜻하지 않습니다.</p><figure class="large-figure demo"><img src="assets/bbiyong-demo.gif" width="860" height="484" alt="전열기와 열화상 영상, 위험 알림을 함께 확인하는 팀 시연" loading="lazy"><figcaption class="image-caption">시연용 열원의 과열 감지와 웹 경보. 센서 결합 시스템 전체와 관제 UI는 팀 구성입니다.</figcaption></figure></div></section><section class="content-section wrap"><div class="section-side reveal"><div class="eyebrow">03 / ENGINEERING CASES</div><h2>저장 경쟁과<br>처리 순서를 검증</h2></div><div class="section-body reveal"><article class="case"><span class="case-label">VERIFICATION / 프로젝트 종료 후 로컬 시험</span><h3>같은 경보가 동시에 도착해도<br>저장은 한 번만</h3><p>저장 전에 존재 여부를 확인해도 두 요청이 동시에 “없음”을 보면 중복으로 저장하려는 경쟁이 생깁니다. 경보 번호(messageId)의 DB unique 제약으로 최종 중복을 방어하고, 실제 MySQL에 동시에 저장하도록 시험했습니다.</p><div class="metric-pair"><div><div class="metric-number">24</div><div class="metric-label">동시 작업 수 / 총 3회 반복</div></div><div><div class="metric-number">1</div><div class="metric-label">매회 실제 DB에 저장된 사건 행</div></div></div><details><summary>검증 조건과 확인 범위</summary><div class="detail-body"><p>24개 작업이 모두 선조회를 지난 뒤 저장을 경쟁하게 했습니다. 3회 모두 DB 1행, 저장 이후 모의 함수 호출은 각 1회였습니다.</p><p>실제 로컬 MySQL을 사용했으며 로봇 회신, 관제와 외부 알림은 모의 처리로 분리했습니다. 기존 중복 방어의 사후 검증이며, 24행이 생기던 운영 문제를 1행으로 줄였다는 성과는 아닙니다.</p></div></details></article>
-<article class="case"><span class="case-label">IMPROVEMENT / 개인 로컬 후속 실험</span><h3>같은 로봇의 순서는 지키고,<br>다른 로봇은 함께 처리</h3><p>대기열이 차면 일부 작업이 앞선 작업을 추월해 처리 순서가 바뀌었습니다. 빈자리를 기다리게 바꿔 순서는 지켰지만 합성 작업 400건의 총 시간은 약 4.7초에서 6.2초로 늘었습니다.</p><p>이후 로봇 번호로 네 대기열을 나눴습니다. 같은 로봇의 작업은 들어온 순서대로 처리하고, 서로 다른 로봇은 함께 처리하는 구조를 실제 DB 저장 200건으로 비교했습니다.</p><div class="metric-pair"><div><div class="metric-number">176.83 → 607.90</div><div class="metric-label">초당 배치 처리량 / 개인 로컬 MySQL 시험</div></div><div><div class="metric-number">1,118 → 319</div><div class="metric-label">처리시간 p99, ms / 작업 99%가 이 값 이하</div></div></div><details><summary>수치와 시험 조건 자세히</summary><div class="detail-body"><div class="table-scroll"><table class="data-table"><thead><tr><th>항목</th><th>단일 경로</th><th>4분할</th></tr></thead><tbody><tr><td>배치 처리량</td><td>176.83건/초</td><td>607.90건/초</td></tr><tr><td>p99</td><td>1,118ms</td><td>319ms</td></tr><tr><td>저장 행</td><td>200/200</td><td>200/200</td></tr><tr><td>순서 위반 / 실패</td><td>0 / 0</td><td>0 / 0</td></tr></tbody></table></div><p>네 로봇 번호에 각 50건, 구조별 3회 중앙값입니다. 후속 알림은 모의 처리이며, 합성 400건의 순서 시험과 실제 DB 200건의 처리량 시험은 서로 다른 실험입니다.</p><p>프로그램 종료와 새 작업 접수가 겹치는 경우가 남아 운영에는 반영하지 않았습니다. 특정 로봇에 요청이 몰리는 조건과 로봇 수신부터 화면 표시까지의 실제 부하 시험도 추가 과제입니다.</p></div></details></article></div></section><section class="content-section wrap"><div class="section-side reveal"><div class="eyebrow">04 / WORKING TOGETHER</div><h2>한 대의 로봇을<br>함께 쓰는 방법</h2></div><div class="section-body reveal"><p>자율주행, 지도 생성과 백엔드 통신을 맡은 세 명이 한 대의 로봇을 공유했습니다. 각자 필요한 작업에 집중하다 보니 로봇을 넘겨받는 시점과 작업 범위가 불분명해졌습니다.</p><p>로봇이 필요한 작업을 작은 단위로 나누고, 당일 완료할 범위와 다음 사람에게 넘기는 시점을 함께 정했습니다. 요청이 바로 반영되지 않을 때는 필요한 시점과 이유를 다시 명확히 공유하도록 제안했습니다.</p><p>팀원들이 사용 시점을 예상할 수 있게 됐고, 각 기능을 한 로봇에서 연동해 결과물을 완성했습니다.</p><p class="scope">공식 팀장 역할은 아니었습니다. 자발적인 작업·소통 조율 경험이며 세 기능 전체를 개인 구현으로 표현하지 않았습니다.</p></div></section><a class="next-project wrap" href="gabolle.html"><div><div class="eyebrow">NEXT PROJECT</div><h2>GABOLLE</h2></div><span class="next-arrow" aria-hidden="true">↗</span></a></main><footer class="contact-section wrap" id="contact"><div class="contact-top"><span class="eyebrow">HAVE SOMETHING IN MIND?</span><a class="text-link" href="https://github.com/durian98" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a></div>
-<h2 class="contact-heading">같이 <span class="serif italic">이야기해요.</span></h2><div class="contact-links"><a class="email-link" href="mailto:masdf13@naver.com">masdf13@naver.com</a><button class="copy-button" data-copy-email aria-label="이메일 주소 복사">⧉</button></div><div class="copy-status" role="status" aria-live="polite"></div>
-<div class="footer-bottom"><span>© 2026 PARK JAEHYUN</span><span>BACKEND, AI & THE WAY WE WORK TOGETHER</span><button class="back-top" aria-label="페이지 맨 위로">BACK TO TOP ↑</button></div></footer></body></html>
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<title>BBIYONG — 박재현</title>
+<meta name="description" content="로봇 화재 탐지 평가, 사건·알림 백엔드와 CI/CD를 개발한 BBIYONG 프로젝트.">
+<meta property="og:title" content="BBIYONG — 박재현">
+<meta property="og:description" content="로봇 화재 탐지 평가, 사건·알림 백엔드와 CI/CD를 개발한 BBIYONG 프로젝트.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://durian98.github.io/assets/portrait.webp">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="styles.css?v=cd72437c">
+<script src="app.js?v=df5a969a" defer>
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">본문으로 바로가기</a>
+<header class="site-header">
+<a class="wordmark" href="index.html" aria-label="박재현 포트폴리오 홈">박재현</a>
+<button class="menu-toggle" aria-expanded="false" aria-controls="site-nav">메뉴</button>
+<nav class="site-nav" id="site-nav" aria-label="주 메뉴">
+<a href="work.html" aria-current="page">프로젝트</a>
+<a href="about.html">소개</a>
+<a href="#contact">연락처</a>
+</nav>
+</header>
+<main id="main">
+<section class="project-hero wrap">
+<div class="project-topline">
+<a href="work.html">← 프로젝트 목록</a>
+<span>삐용 · 로봇 안전 모니터링</span>
+</div>
+<h1 class="project-title">BBIYONG</h1>
+<p class="project-subtitle">화재·과열 감지 로봇과 실시간 관제</p>
+<div class="project-cover">
+<img class="dashboard-image" src="assets/bbiyong-dashboard.webp" width="1440" height="810" alt="로봇 위치와 순찰 상태, 사건 로그가 표시된 BBIYONG 관제 화면" fetchpriority="high">
+</div>
+<p class="image-caption">로봇 위치, 순찰 상태와 사건 로그를 보여주는 팀 관제 화면입니다.</p>
+</section>
+<section class="project-summary wrap reveal">
+<div>
+<h2>프로젝트 개요</h2>
+<p style="margin-top:28px">사람이 계속 순찰하기 어려운 공간에서 로봇이 화재와 설비 과열을 감지하고, 사건 위치와 현장 영상을 관제에서 확인하는 서비스입니다.</p>
+</div>
+<div>
+<dl class="project-facts">
+<div>
+<dt>기간</dt>
+<dd>2026.07.06–08.10</dd>
+</div>
+<div>
+<dt>팀</dt>
+<dd>6명 / 전체 기여도 20%</dd>
+</div>
+<div>
+<dt>담당</dt>
+<dd>화재 탐지 평가·탐지 기준·재포착 <br>사건·알림 백엔드 / 인프라·CI/CD</dd>
+</div>
+<div>
+<dt>수상</dt>
+<dd>공통 프로젝트 우수상 <br>2026.08.10</dd>
+</div>
+</dl>
+<p class="role-note">모델 전체 학습, 자율주행과 관제 화면은 팀원이 맡았습니다. 모델 변환과 실물 경보 시험은 함께 진행했습니다.</p>
+<a class="text-link" href="https://github.com/durian98/BBIYONG" target="_blank" rel="noopener noreferrer">소스 코드와 팀 시연 <span aria-hidden="true">↗</span>
+</a>
+</div>
+</section>
+<section class="content-section wrap">
+<div class="section-side reveal">
+<div class="eyebrow">01</div>
+<h2>화재 탐지와 <br>사건 처리</h2>
+</div>
+<div class="section-body reveal">
+<article class="feature-entry">
+<div class="entry-number">01</div>
+<h3>로봇에서 동작하는 화재 탐지</h3>
+<p>화재를 놓치는 경우를 줄이기 위해 모델의 탐지 결과와 판정 기준을 비교하는 평가 도구를 만들었습니다. 실물에서는 탐지 기준을 조정하고, 움직이다 놓친 열원을 다시 찾는 로직을 수정했습니다.</p>
+<div class="tech-line">Python · PyTorch · YOLO11n</div>
+</article>
+<article class="feature-entry">
+<div class="entry-number">02</div>
+<h3>사건 저장과 경보 재전송 처리</h3>
+<p>로봇이 경보를 재전송해도 한 번만 저장되도록 DB 제약으로 중복을 방어했습니다. 저장된 사건 번호(eventId)를 로봇 회신, 관제 전달과 사건 영상에 공통으로 사용했습니다. 외부 알림은 대기 상태와 최대 3회 재시도를 따로 관리했습니다.</p>
+<div class="tech-line">Spring Boot · MySQL · messageId / eventId</div>
+</article>
+<article class="feature-entry">
+<div class="entry-number">03</div>
+<h3>파트별 검증과 배포 자동화</h3>
+<p>GitLab MR에서는 임시 MySQL로 빌드·테스트하고, dev 병합 후에는 해당 파트만 배포하도록 나눴습니다. EC2, Nginx와 Docker Compose로 실행 환경을 구성하고, 서버 준비 상태를 확인한 뒤 배포 결과를 전달했습니다.</p>
+<div class="tech-line">EC2 · Nginx · Docker Compose · Jenkins</div>
+</article>
+</div>
+</section>
+<section class="content-section wrap">
+<div class="section-side reveal">
+<div class="eyebrow">02</div>
+<h2>모델 변환과 <br>로봇 시험</h2>
+</div>
+<div class="section-body reveal">
+<p>학습 모델을 로봇 GPU에서 실행하도록 ONNX로 변환하고 TensorRT FP16으로 추론했습니다. 전열기를 시험용 열원으로 사용해 위험 감지부터 관제 경보까지 공동 시험했습니다.</p>
+<ol class="flow-list">
+<li>
+<small>팀원 담당</small>
+<strong>화재·연기 데이터 <br>모델 학습</strong>
+</li>
+<li>
+<small>담당 작업</small>
+<strong>평가 도구 <br>탐지·재포착 기준</strong>
+</li>
+<li>
+<small>공동 작업</small>
+<strong>ONNX 변환 <br>TensorRT 실행</strong>
+</li>
+<li>
+<small>공동 시험</small>
+<strong>실제 로봇 시험 <br>관제 전달</strong>
+</li>
+</ol>
+<div class="metric-pair">
+<div>
+<div class="metric-number">30.17 <small style="font-size:20px">ms</small>
+</div>
+<div class="metric-label">발표 기록의 변환 전 추론시간</div>
+</div>
+<div>
+<div class="metric-number">10.51 <small style="font-size:20px">ms</small>
+</div>
+<div class="metric-label">공동 최적화 후 추론시간</div>
+</div>
+</div>
+<p class="scope">공동 결과의 발표 기록입니다. 전체 영상·주행 지연이나 실제 화재 정확도를 뜻하지 않습니다.</p>
+<figure class="large-figure demo">
+<img src="assets/bbiyong-demo.gif" width="860" height="484" alt="전열기와 열화상 영상, 위험 알림을 함께 확인하는 팀 시연" loading="lazy">
+<figcaption class="image-caption">시연용 열원의 과열 감지와 웹 경보. 센서 결합 시스템 전체와 관제 UI는 팀 구성입니다.</figcaption>
+</figure>
+</div>
+</section>
+<section class="content-section wrap">
+<div class="section-side reveal">
+<div class="eyebrow">03</div>
+<h2>중복 저장과 <br>처리 순서 검증</h2>
+</div>
+<div class="section-body reveal">
+<article class="case">
+<span class="case-label">프로젝트 종료 후 로컬 검증</span>
+<h3>같은 경보가 동시에 도착해도 <br>저장은 한 번만</h3>
+<p>저장 전에 존재 여부를 확인해도 두 요청이 동시에 “없음”을 보면 중복으로 저장하려는 경쟁이 생깁니다. 경보 번호(messageId)의 DB unique 제약으로 최종 중복을 방어하고, 실제 MySQL에 동시에 저장하도록 시험했습니다.</p>
+<div class="metric-pair">
+<div>
+<div class="metric-number">24</div>
+<div class="metric-label">동시 작업 수 / 총 3회 반복</div>
+</div>
+<div>
+<div class="metric-number">1</div>
+<div class="metric-label">매회 실제 DB에 저장된 사건 행</div>
+</div>
+</div>
+<details>
+<summary>검증 조건과 확인 범위</summary>
+<div class="detail-body">
+<p>24개 작업이 모두 선조회를 지난 뒤 저장을 경쟁하게 했습니다. 3회 모두 DB 1행, 저장 이후 모의 함수 호출은 각 1회였습니다.</p>
+<p>실제 로컬 MySQL을 사용했으며 로봇 회신, 관제와 외부 알림은 모의 처리로 분리했습니다. 기존 중복 방어 로직을 사후 검증한 결과입니다. 운영 환경의 개선 전후 비교는 수행하지 않았습니다.</p>
+</div>
+</details>
+</article>
+<article class="case">
+<span class="case-label">개인 로컬 후속 실험</span>
+<h3>같은 로봇의 순서는 지키고, <br>다른 로봇은 함께 처리</h3>
+<p>대기열이 차면 일부 작업이 앞선 작업을 추월해 처리 순서가 바뀌었습니다. 빈자리를 기다리게 바꿔 순서는 지켰지만 합성 작업 400건의 총 시간은 약 4.7초에서 6.2초로 늘었습니다.</p>
+<p>이후 로봇 번호로 네 대기열을 나눴습니다. 같은 로봇의 작업은 들어온 순서대로 처리하고, 서로 다른 로봇은 함께 처리하는 구조를 실제 DB 저장 200건으로 비교했습니다.</p>
+<div class="metric-pair">
+<div>
+<div class="metric-number">176.83 → 607.90</div>
+<div class="metric-label">초당 배치 처리량 / 개인 로컬 MySQL 시험</div>
+</div>
+<div>
+<div class="metric-number">1,118 → 319</div>
+<div class="metric-label">처리시간 p99, ms / 작업 99%가 이 값 이하</div>
+</div>
+</div>
+<details>
+<summary>수치와 시험 조건 자세히</summary>
+<div class="detail-body">
+<div class="table-scroll">
+<table class="data-table">
+<thead>
+<tr>
+<th>항목</th>
+<th>단일 경로</th>
+<th>4분할</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>배치 처리량</td>
+<td>176.83건/초</td>
+<td>607.90건/초</td>
+</tr>
+<tr>
+<td>p99</td>
+<td>1,118ms</td>
+<td>319ms</td>
+</tr>
+<tr>
+<td>저장 행</td>
+<td>200/200</td>
+<td>200/200</td>
+</tr>
+<tr>
+<td>순서 위반 / 실패</td>
+<td>0 / 0</td>
+<td>0 / 0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>네 로봇 번호에 각 50건, 구조별 3회 중앙값입니다. 후속 알림은 모의 처리이며, 합성 400건의 순서 시험과 실제 DB 200건의 처리량 시험은 서로 다른 실험입니다.</p>
+<p>프로그램 종료와 새 작업 접수가 겹치는 경우가 남아 운영에는 반영하지 않았습니다. 특정 로봇에 요청이 몰리는 조건과 로봇 수신부터 화면 표시까지의 실제 부하 시험도 추가 과제입니다.</p>
+</div>
+</details>
+</article>
+</div>
+</section>
+<section class="content-section wrap"><div class="section-side"><div class="eyebrow">04</div><h2>회고</h2></div><div class="section-body">
+<article class="reflection-entry"><h3>속도를 바꾸기 전에 지킬 조건부터 정하기</h3><p>대기열이 찼을 때 처리 순서가 바뀌는 문제를 확인한 뒤, 기다리도록 바꾸자 순서는 지켰지만 전체 시간은 늘었습니다. 다음에는 같은 로봇의 처리 순서와 사건의 중복 저장 방지를 먼저 기준으로 정하고, 처리량을 바꿀 때 두 조건을 함께 검증하려 합니다.</p></article>
+<article class="reflection-entry"><h3>종료와 재시도를 처음 설계에 포함하기</h3><p>정상적으로 요청을 처리하는 경로를 확인한 뒤에도 프로그램 종료와 새 작업 접수가 겹치는 경우가 남았습니다. 다음에는 대기열 포화, 종료 시 남은 작업과 재시도 이후 중복 처리 기준을 설계 단계에서 함께 정하려 합니다.</p></article>
+<article class="reflection-entry"><h3>서버 준비 상태와 실제 경보 전달을 나눠 보기</h3><p>서버가 떠 있는지와 로봇의 경보가 관제까지 전달되는지는 따로 확인해야 합니다. 기기를 연동하는 작업에서는 로봇 송신, DB 저장, 관제 표시와 외부 알림을 구간별로 확인하고, 실패한 지점을 추적할 수 있게 검증하려 합니다.</p><p class="scope">로봇 수신부터 화면 표시까지의 실제 부하 시험과 실행기 종료 정책의 보완은 추가 과제입니다.</p></article>
+</div></section>
+<a class="next-project wrap" href="gabolle.html">
+<div>
+<div class="eyebrow">다른 프로젝트</div>
+<h2>GABOLLE</h2>
+</div>
+<span class="next-arrow" aria-hidden="true">↗</span>
+</a>
+</main>
+<footer class="contact-section wrap" id="contact">
+<div class="contact-top">
+<h2>연락처</h2>
+<a class="text-link" href="https://github.com/durian98" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+</div>
+<div class="contact-links">
+<a class="email-link" href="mailto:masdf13@naver.com">masdf13@naver.com</a>
+<button class="copy-button" data-copy-email aria-label="이메일 주소 복사">⧉</button>
+</div>
+<div class="copy-status" role="status" aria-live="polite">
+</div>
+<div class="footer-bottom">
+<span>© 2026 박재현</span>
+<button class="back-top" aria-label="페이지 맨 위로">맨 위로 ↑</button>
+</div>
+</footer>
+</body>
+</html>

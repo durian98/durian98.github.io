@@ -1,7 +1,281 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f5f4ed"><title>GABOLLE — 박재현</title><meta name="description" content="인증부터 여행과 추천 작업, 기록·공유까지 REST API 전반을 구현한 여행 서비스 GABOLLE."><meta property="og:title" content="GABOLLE — 박재현"><meta property="og:description" content="인증부터 여행과 추천 작업, 기록·공유까지 REST API 전반을 구현한 여행 서비스 GABOLLE."><meta property="og:type" content="website"><meta property="og:image" content="https://durian98.github.io/assets/portrait.webp"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="styles.css"><script src="app.js" defer></script></head><body><a class="skip-link" href="#main">본문으로 바로가기</a><div class="reading-progress" aria-hidden="true"></div>
-<header class="site-header"><a class="wordmark" href="index.html" aria-label="박재현 포트폴리오 홈">JAEHYUN PARK <small>박재현</small></a>
-<button class="menu-toggle" aria-expanded="false" aria-controls="site-nav">MENU +</button><nav class="site-nav" id="site-nav" aria-label="주 메뉴"><a href="work.html" aria-current="page">Work</a><a href="about.html">About</a><a href="#contact">Contact ↗</a><span class="nav-meta">BACKEND DEVELOPER / 2026</span></nav></header><main id="main"><section class="project-hero wrap"><div class="project-topline"><a href="work.html">← ALL WORK</a><span>02 / PERSONALIZED TRAVEL SERVICE</span></div><h1 class="project-title">GABOLLE</h1><p class="project-subtitle">부산 여행을 취향과 조건에 맞추는 서비스</p><div class="project-cover gabolle-cover"><span class="cover-mark" aria-hidden="true">GABOLLE</span><div class="phone-stage"><img src="assets/gabolle-course.webp" alt="여행 장소와 이동 경로를 함께 보여주는 전체 일정 화면" fetchpriority="high"><img src="assets/gabolle-feed.webp" alt="여행 기록을 공유하는 피드 화면" loading="lazy"></div></div><p class="image-caption">팀 서비스의 일정과 피드 화면. 본인 담당은 인증, 여행·추천 작업, 기록·피드와 동행·공유 백엔드 API입니다.</p></section>
-<section class="project-summary wrap reveal"><div><h2>인증부터 여행 생성,<br>추천 작업과 기록까지<br>REST API로 연결했습니다.</h2><p style="margin-top:28px">부산 여행자의 취향, 이동, 식단과 접근성 조건으로 장소와 일정을 추천하고 여행 기록과 공유로 이어지는 서비스입니다.</p></div><div><dl class="project-facts"><div><dt>PERIOD</dt><dd>2026.08.10–10.05</dd></div><div><dt>TEAM</dt><dd>6명 / 팀장 / 전체 기여도 20%</dd></div><div><dt>MY ROLE</dt><dd>Spring Boot REST API 전반<br>인증·여행·추천 작업·기록·공유</dd></div><div><dt>RESULT</dt><dd>특화 프로젝트 우수상<br>2026.09.28</dd></div></dl><p class="role-note">REST API의 개인 초기 구현과 연결 작업을 설명합니다. 추천 알고리즘, 장소 데이터와 이후 팀원의 확장·수정 전체를 개인 기여로 합치지 않았습니다.</p><a class="text-link" href="https://github.com/durian98/GABBOLE" target="_blank" rel="noopener noreferrer">소스 코드와 서비스 화면 <span aria-hidden="true">↗</span></a></div></section><section class="content-section wrap"><div class="section-side reveal"><div class="eyebrow">01 / API COVERAGE</div><h2>서비스를 이어주는<br>REST API 전반</h2></div><div class="section-body reveal"><div class="table-scroll"><table class="data-table"><thead><tr><th>기능</th><th>직접 구현한 API와 처리</th></tr></thead><tbody><tr><td>인증·사용자</td><td>이메일·소셜 로그인, 토큰 갱신, 로그아웃과 사용자·세션 관리</td></tr><tr><td>여행·추천 작업</td><td>여행 생성·목록·상세·삭제, 조건 저장과 추천 접수·상태·결과 조회</td></tr><tr><td>장소·경로</td><td>장소 조회, 두 좌표 사이의 경로 조회와 외부 경로 연동</td></tr><tr><td>기록·피드</td><td>여행 기록 생성·조회·수정·삭제, 미디어 저장, 피드·팔로우</td></tr><tr><td>동행·공유</td><td>동행 초대, 여행 공유와 공유 여행 복제</td></tr></tbody></table></div><article class="feature-entry"><div class="entry-number">01</div><h3>로그아웃을 즉시 반영하는 인증 구조</h3><p>토큰의 유효기간이 남아 있어도 로그아웃한 사용자의 접근은 막아야 했습니다. JWT와 서버 세션을 함께 사용해 요청마다 세션을 확인하고, 로그아웃과 갱신 토큰 재사용을 반영했습니다. 웹은 HttpOnly Cookie, 모바일은 JSON으로 전달했습니다.</p><div class="tech-line">SPRING SECURITY · JWT · SERVER SESSION</div></article><article class="feature-entry"><div class="entry-number">02</div><h3>오래 걸리는 계산은 접수와 완료를 분리</h3><p>날짜·예산·이동 조건과 취향을 저장하고, 같은 요청을 다시 보내도 중복 여행이 생기지 않도록 했습니다. 긴 추천 계산은 접수 응답(202)과 작업 번호(jobId)를 먼저 반환하고, SSE와 조회 API로 진행 상태와 완료 결과를 전달했습니다.</p><div class="tech-line">SPRING BOOT · JPA · POSTGRESQL · SSE</div></article><article class="feature-entry"><div class="entry-number">03</div><h3>기록 처리와 파일 저장 방식을 분리</h3><p>여행 기록과 미디어, 피드·팔로우를 구현했습니다. 글과 사용자·여행 관계는 DB에 저장하고, 파일 저장은 공통 인터페이스(StoragePort) 뒤의 Local/S3 구현으로 나눴습니다. 동행 초대, 여행 공유와 복제 API도 연결했습니다.</p><div class="tech-line">STORAGE PORT · LOCAL / S3 · DOMAIN API</div></article></div></section><section class="content-section wrap"><div class="section-side reveal"><div class="eyebrow">02 / HOW IT WORKS</div><h2>요청부터 결과까지,<br>네 단계로 살펴보기</h2></div><div class="section-body reveal"><p>Spring API는 여행과 작업 상태를 DB에 저장·조회합니다. 긴 추천 계산은 같은 백엔드 내부의 별도 실행기로 넘기고, 화면은 진행 상태와 결과를 확인합니다.</p><div class="stage-tabs" role="group" aria-label="추천 작업 단계"><button class="stage-button" aria-pressed="true" aria-controls="stage-detail"><span>01</span>접수</button><button class="stage-button" aria-pressed="false" aria-controls="stage-detail"><span>02</span>계산</button><button class="stage-button" aria-pressed="false" aria-controls="stage-detail"><span>03</span>저장</button><button class="stage-button" aria-pressed="false" aria-controls="stage-detail"><span>04</span>결과</button></div><div class="stage-panel" id="stage-detail" role="region" aria-label="선택한 단계 설명" aria-live="polite"><div class="eyebrow">REQUEST ACCEPTED</div><h3>접수와 완료를 구분합니다</h3><p>화면이 날짜·예산·이동 조건과 취향을 보내면 여행과 제약을 저장합니다. 긴 추천 계산은 접수 응답(202)과 작업 번호(jobId)를 먼저 반환합니다. 같은 요청을 다시 보내도 중복 여행이 생기지 않도록 처리했습니다.</p></div><div class="backend-map" aria-label="핵심 백엔드 구조"><div class="map-node"><strong>웹·앱</strong><small>조건 입력 / SSE 진행 상태와 결과 조회</small></div><div class="map-node"><strong>Spring Boot API</strong><small>인증과 기능별 요청 / 추천 작업 접수 / DB 저장·조회</small></div><div class="map-node"><strong>Spring 내부의 별도 실행기</strong><small>추천 후보·일정 계산과 결과 저장</small></div><div class="map-node"><strong>PostgreSQL</strong><small>사용자·여행·작업 상태·추천 결과</small></div></div><p class="map-caption">일반 API도 PostgreSQL을 직접 저장·조회합니다. 별도 실행기는 독립된 서버가 아닌 Spring 내부의 비동기 작업입니다.</p></div></section><section class="content-section wrap"><div class="section-side reveal"><div class="eyebrow">03 / ENGINEERING CASES</div><h2>배포 경로와<br>저장 비용을 확인</h2></div><div class="section-body reveal"><article class="case"><span class="case-label">TROUBLESHOOTING / SOCIAL LOGIN</span><h3>서버 응답이 정상이어도<br>화면의 로그인은 끝나지 않았습니다.</h3><p>서버 API를 직접 호출하면 응답이 나왔지만, 배포 웹에서는 공급자 로그인으로 이동하지 않거나 콜백 뒤 화면을 찾지 못했습니다. 요청 흐름을 서버 설정, API 규칙, 빌드와 화면의 네 구간으로 나눠 추적했습니다.</p><p>실행 컨테이너의 환경변수뿐 아니라 실제 배포 JavaScript 번들을 확인했습니다. 번들의 client ID가 비어 있고 API 주소가 localhost인 점을 확인했으며, 누락된 콜백 라우팅을 보완했습니다.</p><details><summary>확인한 경로와 남은 범위</summary><div class="detail-body"><p>Jenkinsfile·Dockerfile의 설정 전달 경로, 앱과 서버의 redirect URI, 실제 번들과 콜백 화면을 대조했습니다. 네이버 동의 화면부터 공급자 토큰 교환까지 확인했고, 이후 계정 연결 정책은 별도 검토로 남겼습니다.</p><p>소셜 공급자·브라우저·기기 조합 전체가 검증됐다는 뜻은 아닙니다.</p></div></details></article>
-<article class="case"><span class="case-label">FOLLOW-UP EXPERIMENT / LOCAL ONLY</span><h3>신규 후보의 존재 조회를 없애고,<br>여러 건을 묶어 저장했습니다.</h3><p>새 후보 200개를 저장하기 전에 존재 여부를 200번 조회하고 저장도 한 건씩 처리하고 있었습니다. 미리 부여한 ID가 수정·저장을 판단하는 경로(merge)에 들어가고 있어, 신규 데이터는 바로 저장(persist)하는 방식과 50개씩 묶는 방식을 비교했습니다.</p><div class="metric-pair"><div><div class="metric-number">171.59 → 52.52</div><div class="metric-label">후보 저장 구간 p95, ms</div></div><div><div class="metric-number">69.4<small style="font-size:22px">%</small></div><div class="metric-label">저장 구간의 p95 감소 / 전체 추천 시간과 구분</div></div></div><p class="case-note">p95는 측정한 저장 요청 95%의 처리시간이 이 값 이하라는 뜻입니다. 별도 부하 시험에서 첫 추천 결과를 받는 시간은 같았으며, 개선율을 전체 추천 속도로 표현하지 않았습니다.</p><details><summary>비교 조건과 데이터 보존 확인</summary><div class="detail-body"><div class="table-scroll"><table class="data-table"><thead><tr><th>방식</th><th>저장 p95</th><th>실행된 저장 방식</th></tr></thead><tbody><tr><td>기존</td><td>171.59ms</td><td>SELECT 200 + 개별 삽입</td></tr><tr><td>신규 바로 저장</td><td>123.91ms</td><td>존재 조회 0 + 개별 삽입</td></tr><tr><td>50개 묶음</td><td>52.52ms</td><td>존재 조회 0 + 50개 배치</td></tr></tbody></table></div><p>모드별 준비 3건을 제외하고 20건을 측정했습니다. 실제 저장은 모두 200행이며, 기존 트랜잭션과 후보·점수·코스 내용 보존 및 오류 롤백을 확인했습니다.</p><p>SQL 계측을 켠 저장 구간의 비교입니다. AI 보조의 개인 로컬 후속 실험이며 dev와 운영에는 반영하지 않았습니다.</p></div></details></article></div></section><section class="content-section wrap"><div class="section-side reveal"><div class="eyebrow">04 / WHAT REMAINS</div><h2>완료한 기능과<br>다음에 확인할 경계</h2></div><div class="section-body reveal"><p>이메일 인증과 세션, 여행 생성과 추천 접수·상태·결과 조회, 기록·피드·공유 API를 연결했습니다. API의 접수 응답과 실제 계산 완료를 구분하고, 화면과 서버가 같은 진행 상태를 보도록 맞췄습니다.</p><p>서버가 재시작되면 진행 중인 추천 작업이 남을 수 있어 자동 복구가 필요합니다. 재처리 또는 실패 전환 기준과 소셜 로그인 전체 경로는 실제 배포 환경에서 보완·확인할 과제입니다.</p><figure class="large-figure"><img src="assets/gabolle-home.webp" width="1600" height="1112" alt="부산 여행 조건 입력과 여행 기록 피드가 보이는 팀 서비스 홈 화면" loading="lazy"><figcaption class="image-caption">GABOLLE 팀 서비스의 웹 홈 화면. 본인 기여는 기능별 백엔드 API입니다.</figcaption></figure></div></section><a class="next-project wrap" href="bbiyong.html"><div><div class="eyebrow">ANOTHER PROJECT</div><h2>BBIYONG</h2></div><span class="next-arrow" aria-hidden="true">↗</span></a></main><footer class="contact-section wrap" id="contact"><div class="contact-top"><span class="eyebrow">HAVE SOMETHING IN MIND?</span><a class="text-link" href="https://github.com/durian98" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a></div>
-<h2 class="contact-heading">같이 <span class="serif italic">이야기해요.</span></h2><div class="contact-links"><a class="email-link" href="mailto:masdf13@naver.com">masdf13@naver.com</a><button class="copy-button" data-copy-email aria-label="이메일 주소 복사">⧉</button></div><div class="copy-status" role="status" aria-live="polite"></div>
-<div class="footer-bottom"><span>© 2026 PARK JAEHYUN</span><span>BACKEND, AI & THE WAY WE WORK TOGETHER</span><button class="back-top" aria-label="페이지 맨 위로">BACK TO TOP ↑</button></div></footer></body></html>
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<title>GABOLLE — 박재현</title>
+<meta name="description" content="인증부터 여행과 추천 작업, 기록·공유까지 REST API 전반을 구현한 여행 서비스 GABOLLE.">
+<meta property="og:title" content="GABOLLE — 박재현">
+<meta property="og:description" content="인증부터 여행과 추천 작업, 기록·공유까지 REST API 전반을 구현한 여행 서비스 GABOLLE.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://durian98.github.io/assets/portrait.webp">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="styles.css?v=cd72437c">
+<script src="app.js?v=df5a969a" defer>
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">본문으로 바로가기</a>
+<header class="site-header">
+<a class="wordmark" href="index.html" aria-label="박재현 포트폴리오 홈">박재현</a>
+<button class="menu-toggle" aria-expanded="false" aria-controls="site-nav">메뉴</button>
+<nav class="site-nav" id="site-nav" aria-label="주 메뉴">
+<a href="work.html" aria-current="page">프로젝트</a>
+<a href="about.html">소개</a>
+<a href="#contact">연락처</a>
+</nav>
+</header>
+<main id="main">
+<section class="project-hero wrap">
+<div class="project-topline">
+<a href="work.html">← 프로젝트 목록</a>
+<span>가볼래 · 부산 여행 서비스</span>
+</div>
+<h1 class="project-title">GABOLLE</h1>
+<p class="project-subtitle">부산 여행을 취향과 조건에 맞추는 서비스</p>
+<div class="project-cover gabolle-cover"><img class="dashboard-image" src="assets/gabolle-map.jpg" width="2360" height="1640" alt="여행 일정과 경로를 지도에 크게 보여주는 GABOLLE 화면" fetchpriority="high"></div>
+<p class="image-caption">여행 일정과 방문 순서를 지도에 표시한 팀 서비스 화면입니다.</p>
+</section>
+<section class="project-summary wrap reveal">
+<div>
+<h2>프로젝트 개요</h2>
+<p style="margin-top:28px">부산 여행자의 취향, 이동, 식단과 접근성 조건으로 장소와 일정을 추천하고 여행 기록과 공유로 이어지는 서비스입니다.</p>
+</div>
+<div>
+<dl class="project-facts">
+<div>
+<dt>기간</dt>
+<dd>개발 2026.08.10–10.05</dd>
+</div>
+<div>
+<dt>팀</dt>
+<dd>6명 / 팀장 / 전체 기여도 20%</dd>
+</div>
+<div>
+<dt>담당</dt>
+<dd>Spring Boot REST API 전반 <br>인증·여행·추천 작업·기록·공유</dd>
+</div>
+<div>
+<dt>출시·수상</dt>
+<dd>앱 출시·서비스 중 <br>특화 프로젝트 우수상 <br>2026.09.28</dd>
+</div>
+</dl>
+<p class="role-note">Spring Boot API의 초기 구현과 연동을 맡았고, 이후 팀원들이 기능을 확장·수정했습니다. 추천 알고리즘과 장소 데이터는 팀 담당입니다.</p>
+<a class="text-link" href="https://github.com/durian98/GABBOLE" target="_blank" rel="noopener noreferrer">소스 코드와 서비스 화면 <span aria-hidden="true">↗</span>
+</a>
+</div>
+</section>
+<section class="content-section wrap">
+<div class="section-side reveal">
+<div class="eyebrow">01</div>
+<h2>구현한 API와 <br>기술 선택</h2>
+</div>
+<div class="section-body reveal">
+<div class="table-scroll">
+<table class="data-table">
+<thead>
+<tr>
+<th>기능</th>
+<th>직접 구현한 API와 처리</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>인증·사용자</td>
+<td>이메일·소셜 로그인, 토큰 갱신, 로그아웃과 사용자·세션 관리</td>
+</tr>
+<tr>
+<td>여행·추천 작업</td>
+<td>여행 생성·목록·상세·삭제, 조건 저장과 추천 접수·상태·결과 조회</td>
+</tr>
+<tr>
+<td>장소·경로</td>
+<td>장소 조회, 두 좌표 사이의 경로 조회와 외부 경로 연동</td>
+</tr>
+<tr>
+<td>기록·피드</td>
+<td>여행 기록 생성·조회·수정·삭제, 미디어 저장, 피드·팔로우</td>
+</tr>
+<tr>
+<td>동행·공유</td>
+<td>동행 초대, 여행 공유와 공유 여행 복제</td>
+</tr>
+</tbody>
+</table>
+</div>
+<article class="feature-entry">
+<div class="entry-number">01</div>
+<h3>로그아웃을 즉시 반영하는 인증 구조</h3>
+<p>토큰의 유효기간이 남아 있어도 로그아웃한 사용자의 접근은 막아야 했습니다. JWT와 서버 세션을 함께 사용해 요청마다 세션을 확인하고, 로그아웃과 갱신 토큰 재사용을 반영했습니다. 웹은 HttpOnly Cookie, 모바일은 JSON으로 전달했습니다.</p>
+<div class="tech-line">Spring Security · JWT · 서버 세션</div>
+</article>
+<article class="feature-entry">
+<div class="entry-number">02</div>
+<h3>오래 걸리는 계산은 접수와 완료를 분리</h3>
+<p>날짜·예산·이동 조건과 취향을 저장하고, 같은 요청을 다시 보내도 중복 여행이 생기지 않도록 했습니다. 긴 추천 계산은 접수 응답(202)과 작업 번호(jobId)를 먼저 반환하고, SSE와 조회 API로 진행 상태와 완료 결과를 전달했습니다.</p>
+<div class="tech-line">Spring Boot · JPA · PostgreSQL · SSE</div>
+</article>
+<article class="feature-entry">
+<div class="entry-number">03</div>
+<h3>기록 처리와 파일 저장 방식을 분리</h3>
+<p>여행 기록과 미디어, 피드·팔로우를 구현했습니다. 글과 사용자·여행 관계는 DB에 저장하고, 파일 저장은 공통 인터페이스(StoragePort) 뒤의 Local/S3 구현으로 나눴습니다. 동행 초대, 여행 공유와 복제 API도 연결했습니다.</p>
+<div class="tech-line">StoragePort · Local / S3</div>
+</article>
+</div>
+</section>
+<section class="content-section wrap">
+<div class="section-side reveal">
+<div class="eyebrow">02</div>
+<h2>추천 작업 <br>처리 흐름</h2>
+</div>
+<div class="section-body reveal">
+<p>Spring API는 여행과 작업 상태를 DB에 저장·조회합니다. 긴 추천 계산은 같은 백엔드 내부의 별도 실행기로 넘기고, 화면은 진행 상태와 결과를 확인합니다.</p>
+<div class="stage-tabs" role="group" aria-label="추천 작업 단계">
+<button class="stage-button" aria-pressed="true" aria-controls="stage-detail">
+<span>01</span>접수</button>
+<button class="stage-button" aria-pressed="false" aria-controls="stage-detail">
+<span>02</span>계산</button>
+<button class="stage-button" aria-pressed="false" aria-controls="stage-detail">
+<span>03</span>저장</button>
+<button class="stage-button" aria-pressed="false" aria-controls="stage-detail">
+<span>04</span>결과</button>
+</div>
+<div class="stage-panel" id="stage-detail" role="region" aria-label="선택한 단계 설명" aria-live="polite">
+<div class="eyebrow">01 · 요청 접수</div>
+<h3>여행과 추천 작업 접수</h3>
+<p>화면이 날짜·예산·이동 조건과 취향을 보내면 여행과 제약을 저장합니다. 긴 추천 계산은 접수 응답(202)과 작업 번호(jobId)를 먼저 반환합니다. 같은 요청을 다시 보내도 중복 여행이 생기지 않도록 처리했습니다.</p>
+</div>
+<div class="backend-map" aria-label="핵심 백엔드 구조">
+<div class="map-node">
+<strong>웹·앱</strong>
+<small>조건 입력 / SSE 진행 상태와 결과 조회</small>
+</div>
+<div class="map-node">
+<strong>Spring Boot API</strong>
+<small>인증과 기능별 요청 / 추천 작업 접수 / DB 저장·조회</small>
+</div>
+<div class="map-node">
+<strong>Spring 내부의 별도 실행기</strong>
+<small>추천 후보·일정 계산과 결과 저장</small>
+</div>
+<div class="map-node">
+<strong>PostgreSQL</strong>
+<small>사용자·여행·작업 상태·추천 결과</small>
+</div>
+</div>
+<p class="map-caption">일반 API도 PostgreSQL을 직접 저장·조회합니다. 별도 실행기는 독립된 서버가 아닌 Spring 내부의 비동기 작업입니다.</p>
+</div>
+</section>
+<section class="content-section wrap"><div class="section-side"><div class="eyebrow">03</div><h2>출시와 <br>사용자 피드백</h2></div><div class="section-body">
+<p>앱을 출시해 현재 서비스 중이며, 약 80명의 회원을 확보했습니다. FLY ASIA 창업박람회에 참가해 투자자와 사용자에게 서비스를 보여주고 피드백을 받았습니다.</p>
+<div class="product-numbers"><div><strong>약 80명</strong><small>출시 후 회원 <br>2026.10.21 기준</small></div><div><strong>180명</strong><small>출시 전 직접 설문 <br>초기 추천 데이터 마련</small></div></div>
+<article class="reflection-entry"><h3>이용 이력이 없는 상태의 추천 준비</h3><p>출시 전에는 사용자 정보와 이용 이력이 충분하지 않았습니다. 180명에게 직접 설문을 받아 초기 추천에 필요한 정보를 확보했습니다. 신규 사용자의 정보가 부족한 상황에서도 추천할 수 있도록 준비했습니다.</p></article>
+<article class="reflection-entry"><h3>입력 절차를 줄이고 경로를 잘 보이게</h3><p>피드백을 반영해 지도에서 루트가 더 잘 보이도록 수정했습니다. 여행 생성에 필요하지 않은 정보 수집을 없애고 절차를 간편하게 했습니다. 기능을 두 단계 안에서 찾을 수 있도록 동선도 검토했습니다.</p><p>여행을 만들고 추천 결과를 확인하는 동선을 기준으로 화면과 입력 항목을 다시 살폈습니다.</p></article>
+<figure class="app-gallery"><div><img src="assets/gabolle-create.jpg" width="560" height="1214" alt="여행 생성에 필요한 조건을 입력하는 앱 화면" loading="lazy"><p class="image-caption">여행 생성 화면</p></div><div><img src="assets/gabolle-app-home.jpg" width="1082" height="2347" alt="여행 생성과 주요 기능에 접근하는 앱 홈 화면" loading="lazy"><p class="image-caption">앱 홈 화면</p></div></figure>
+<p class="scope">프로젝트의 실제 화면 예시입니다. 개선 전후를 같은 조건에서 비교한 자료는 아닙니다.</p>
+</div></section>
+<section class="content-section wrap">
+<div class="section-side reveal">
+<div class="eyebrow">04</div>
+<h2>로그인 오류 수정과 <br>저장 방식 비교</h2>
+</div>
+<div class="section-body reveal">
+<article class="case">
+<span class="case-label">배포 환경의 소셜 로그인 오류</span>
+<h3>서버 응답이 정상이어도 <br>화면의 로그인은 끝나지 않았습니다.</h3>
+<p>서버 API를 직접 호출하면 응답이 나왔지만, 배포 웹에서는 공급자 로그인으로 이동하지 않거나 콜백 뒤 화면을 찾지 못했습니다. 요청 흐름을 서버 설정, API 규칙, 빌드와 화면의 네 구간으로 나눠 추적했습니다.</p>
+<p>실행 컨테이너의 환경변수뿐 아니라 실제 배포 JavaScript 번들을 확인했습니다. 번들의 client ID가 비어 있고 API 주소가 localhost인 점을 확인했으며, 누락된 콜백 라우팅을 보완했습니다.</p>
+<details>
+<summary>확인한 경로와 남은 범위</summary>
+<div class="detail-body">
+<p>Jenkinsfile·Dockerfile의 설정 전달 경로, 앱과 서버의 redirect URI, 실제 번들과 콜백 화면을 대조했습니다. 네이버 동의 화면부터 공급자 토큰 교환까지 확인했고, 이후 계정 연결 정책은 별도 검토로 남겼습니다.</p>
+<p>소셜 공급자·브라우저·기기 조합 전체가 검증됐다는 뜻은 아닙니다.</p>
+</div>
+</details>
+</article>
+<article class="case">
+<span class="case-label">개인 로컬 후속 실험</span>
+<h3>신규 후보의 존재 조회를 없애고, <br>여러 건을 묶어 저장했습니다.</h3>
+<p>새 후보 200개를 저장하기 전에 존재 여부를 200번 조회하고 저장도 한 건씩 처리하고 있었습니다. 미리 부여한 ID가 수정·저장을 판단하는 경로(merge)에 들어가고 있어, 신규 데이터는 바로 저장(persist)하는 방식과 50개씩 묶는 방식을 비교했습니다.</p>
+<div class="metric-pair">
+<div>
+<div class="metric-number">171.59 → 52.52</div>
+<div class="metric-label">후보 저장 구간 p95, ms</div>
+</div>
+<div>
+<div class="metric-number">69.4<small style="font-size:22px">%</small>
+</div>
+<div class="metric-label">후보 저장 구간의 p95 감소</div>
+</div>
+</div>
+<p class="case-note">p95는 측정 요청 95%의 처리시간이 이 값 이하라는 뜻입니다. 후보 저장 구간을 비교한 결과이며, 별도 부하 시험에서 첫 추천 결과를 받는 시간은 같았습니다.</p>
+<details>
+<summary>비교 조건과 데이터 보존 확인</summary>
+<div class="detail-body">
+<div class="table-scroll">
+<table class="data-table">
+<thead>
+<tr>
+<th>방식</th>
+<th>저장 p95</th>
+<th>실행된 저장 방식</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>기존</td>
+<td>171.59ms</td>
+<td>SELECT 200 + 개별 삽입</td>
+</tr>
+<tr>
+<td>신규 바로 저장</td>
+<td>123.91ms</td>
+<td>존재 조회 0 + 개별 삽입</td>
+</tr>
+<tr>
+<td>50개 묶음</td>
+<td>52.52ms</td>
+<td>존재 조회 0 + 50개 배치</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>모드별 준비 3건을 제외하고 20건을 측정했습니다. 실제 저장은 모두 200행이며, 기존 트랜잭션과 후보·점수·코스 내용 보존 및 오류 롤백을 확인했습니다.</p>
+<p>SQL 계측을 켠 저장 구간의 비교입니다. AI 보조의 개인 로컬 후속 실험이며 dev와 운영에는 반영하지 않았습니다.</p>
+</div>
+</details>
+</article>
+</div>
+</section>
+<section class="content-section wrap"><div class="section-side"><div class="eyebrow">05</div><h2>회고</h2></div><div class="section-body">
+<article class="reflection-entry"><h3>처음 쓰는 사람의 동선부터 확인하기</h3><p>출시 후 피드백을 받아보니 여행 생성에 꼭 필요한 정보와 화면에 놓을 기능부터 다시 골라야 했습니다. 다음에는 기능을 추가하기 전에 입력이 필요한 이유, 주요 기능까지의 이동 단계, 지도에서 결과가 읽히는지를 먼저 확인하려 합니다.</p></article>
+<article class="reflection-entry"><h3>추천 결과를 고쳐 쓰는 과정까지 보기</h3><p>설문으로 초기 데이터를 마련했지만, 실제로 어떤 추천을 선택하고 수정하는지는 서비스에서 계속 확인해야 할 부분입니다. 앞으로는 계산 시간과 함께 추천 장소의 이유와 사용자가 바꾸고 싶어 하는 점을 살펴 추천 엔진을 보완하려 합니다.</p></article>
+<article class="reflection-entry"><h3>최종 빌드에서 로그인부터 결과까지 확인하기</h3><p>소셜 로그인 오류를 추적하며 서버 응답만 확인해서는 화면의 동작을 보장할 수 없다는 점을 배웠습니다. 다음 배포부터는 실제 빌드에 들어간 설정과 로그인, 여행 생성, 추천 결과 확인을 하나의 동선으로 점검하려 합니다.</p><p>서버 재시작 뒤 진행 중인 작업을 어떻게 재처리하거나 실패로 전환할지도 처음 설계할 때 정해두려 합니다. 자동 복구와 소셜 로그인 전체 경로의 추가 확인은 남은 과제입니다.</p></article>
+</div></section>
+<a class="next-project wrap" href="bbiyong.html">
+<div>
+<div class="eyebrow">다른 프로젝트</div>
+<h2>BBIYONG</h2>
+</div>
+<span class="next-arrow" aria-hidden="true">↗</span>
+</a>
+</main>
+<footer class="contact-section wrap" id="contact">
+<div class="contact-top">
+<h2>연락처</h2>
+<a class="text-link" href="https://github.com/durian98" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+</div>
+<div class="contact-links">
+<a class="email-link" href="mailto:masdf13@naver.com">masdf13@naver.com</a>
+<button class="copy-button" data-copy-email aria-label="이메일 주소 복사">⧉</button>
+</div>
+<div class="copy-status" role="status" aria-live="polite">
+</div>
+<div class="footer-bottom">
+<span>© 2026 박재현</span>
+<button class="back-top" aria-label="페이지 맨 위로">맨 위로 ↑</button>
+</div>
+</footer>
+</body>
+</html>
