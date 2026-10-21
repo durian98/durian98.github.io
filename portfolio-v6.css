@@ -463,3 +463,10 @@ body { isolation: isolate; }
   .ai-object { position: relative; top: auto; right: auto; width: 100%; height: 380px; margin: -40px auto -30px; }
   .project-hero:has(.ai-object) { min-height: 0; }
 }
+
+/* Photo stack can be dragged. */
+.hero-photos { cursor: grab; touch-action: pan-x; user-select: none; -webkit-user-select: none; }
+.hero-photos.is-dragging { cursor: grabbing; }
+.hero-card img { -webkit-user-drag: none; pointer-events: none; }
+@media (max-width:760px) { .hero-photos { touch-action: pan-y; } }
+.ai-object { mix-blend-mode: multiply; }

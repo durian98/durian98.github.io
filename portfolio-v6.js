@@ -208,12 +208,12 @@
   root.append(dots);
   // Only the card resting at the top loses its upper corners; peeking cards stay rounded.
   const markFront = () => [...track.children].forEach((card, i) => card.classList.toggle('is-front', i === index));
-  const place = animate => {
+  const place = (animate, offset = 0) => {
     if (animate) track.querySelector('.is-front')?.classList.remove('is-front'); else markFront();
     const current = ((index - 1) % cards.length + cards.length) % cards.length;
     buttons.forEach((button, i) => button.toggleAttribute('aria-current', i === current));
     track.style.transition = animate ? 'transform 1.1s cubic-bezier(.6,0,.2,1.12)' : 'none';
-    const shift = (base - index * pitch).toFixed(1);
+    const shift = (base - index * pitch + offset).toFixed(1);
     track.style.transform = phone.matches ? `translate3d(${shift}px, 0, 0)` : `translate3d(0, ${shift}px, 0)`;
   };
   const layout = () => {
@@ -234,8 +234,43 @@
   track.addEventListener('transitionend', event => {
     if (event.target !== track) return;
     if (index === cards.length + 1) index = 1;
+    if (index === 0) index = cards.length;
     place(false);
   });
+  // Drag or swipe the stack: vertical on desktop, horizontal on phones. A short flick or a third of a card turns the page.
+  let drag = null;
+  const axis = event => phone.matches ? event.clientX : event.clientY;
+  root.addEventListener('pointerdown', event => {
+    if (event.button !== 0 || event.target.closest('.hero-dots')) return;
+    drag = { id: event.pointerId, start: axis(event), cross: phone.matches ? event.clientY : event.clientX, time: performance.now(), delta: 0, active: false };
+    clearTimeout(timer);
+  });
+  root.addEventListener('pointermove', event => {
+    if (!drag || drag.id !== event.pointerId) return;
+    const delta = axis(event) - drag.start, cross = (phone.matches ? event.clientY : event.clientX) - drag.cross;
+    if (!drag.active) {
+      if (Math.abs(delta) < 6) return;
+      if (Math.abs(cross) > Math.abs(delta)) { drag = null; schedule(); return; }   // let the page scroll instead
+      drag.active = true; root.setPointerCapture(event.pointerId); root.classList.add('is-dragging');
+    }
+    drag.delta = delta;
+    place(false, delta);
+  });
+  const release = event => {
+    if (!drag || drag.id !== event.pointerId) return;
+    const { delta, active, time } = drag; drag = null;
+    root.classList.remove('is-dragging');
+    if (!active) { schedule(); return; }
+    const speed = Math.abs(delta) / Math.max(1, performance.now() - time);
+    if (Math.abs(delta) > pitch / 3 || (speed > .45 && Math.abs(delta) > 30)) index += delta < 0 ? 1 : -1;
+    track.style.transition = 'transform .5s cubic-bezier(.2,.7,.2,1)';
+    place(true);
+    track.style.transition = 'transform .5s cubic-bezier(.2,.7,.2,1)';
+    schedule();
+  };
+  root.addEventListener('pointerup', release);
+  root.addEventListener('pointercancel', release);
+  root.addEventListener('dragstart', event => event.preventDefault());
   const schedule = () => {
     clearTimeout(timer);
     if (reduced.matches || !visible || document.hidden) return;

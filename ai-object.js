@@ -1,83 +1,134 @@
-// Gill-cap object beside the AI title, after the reference clip: rounded translucent caps filled with fine
-// fibres that gather into a dark stem, warm in the middle and pale at the rim, recoloured to the site palette.
-// Motion from the clip (30 fps, within shots): a steady turn of about 5 deg/s, the caps opening by roughly
-// a fifth over 2-3 s and a slow drift. Here it loops without cuts.
+// Gill-cap object beside the AI title, drawn on the GPU (WebGL fragment shader, no library).
+// After the reference clip: rounded translucent caps packed with fine fibres that gather into a dark stem,
+// dark at the stem, warm in the middle and pale with a thin rim at the edge, recoloured to the site palette.
+// Motion from the clip (30 fps, within shots): a steady turn of about 5 deg/s, the caps opening by roughly a
+// fifth over 2-3 s and a slow drift. Here it loops without cuts.
 (() => {
   const canvas = document.querySelector('.ai-object');
   if (!canvas) return;
-  const ctx = canvas.getContext('2d');
+  const gl = canvas.getContext('webgl', { premultipliedAlpha: true, antialias: false, alpha: true });
+  if (!gl) { canvas.hidden = true; return; }
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  // stem point, cap direction, cap size, how far the cap centre sits from the stem, colours
-  const caps = [
-    { sx: .50, sy: .58, dir: -1.75, size: .30, off: .55, n: 420, ph: 0,   core: [26, 34, 44], deep: [52, 84, 104],  warm: [222, 160, 120], rim: [176, 164, 206] },
-    { sx: .50, sy: .60, dir: -.35,  size: .23, off: .60, n: 330, ph: 2.1, core: [28, 40, 34], deep: [74, 110, 92],  warm: [232, 196, 150], rim: [184, 200, 168] },
-    { sx: .46, sy: .64, dir: 2.35,  size: .17, off: .62, n: 260, ph: 4.0, core: [40, 30, 52], deep: [118, 92, 150], warm: [236, 168, 140], rim: [200, 178, 214] }
-  ];
-  let width = 0, height = 0, visible = true, frame = 0, start = 0;
-  const size = () => {
-    const box = canvas.getBoundingClientRect(), dpr = Math.min(2, devicePixelRatio || 1);
-    width = box.width; height = box.height;
-    canvas.width = Math.round(width * dpr); canvas.height = Math.round(height * dpr);
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  };
-  const wave = (t, period, phase = 0) => Math.sin(2 * Math.PI * t / period + phase);
-  const rgba = (c, a) => `rgba(${c[0]},${c[1]},${c[2]},${a})`;
-  function drawCap(cap, t, unit, turn, ox, oy) {
-    const open = 1 + .18 * wave(t, 9, cap.ph);                        // caps open and close by about 18 %
-    const dir = cap.dir + turn + .1 * wave(t, 11, cap.ph);
-    const sx = cap.sx * width + ox, sy = cap.sy * height + oy;
-    const R = cap.size * unit * open, d = R * cap.off * 1.6;
-    const cx = sx + Math.cos(dir) * d, cy = sy + Math.sin(dir) * d;    // cap centre, offset from the stem
-    const outline = a => {                                             // rounded, slightly scalloped rim
-      const wob = 1 + .045 * Math.sin(a * 3 + t * .7 + cap.ph) + .02 * Math.sin(a * 11 - t * 1.1);
-      return [cx + Math.cos(a) * R * wob, cy + Math.sin(a) * R * wob];
-    };
-    const body = ctx.createRadialGradient(sx, sy, 0, sx, sy, d + R);
-    body.addColorStop(0, rgba(cap.core, .95));
-    body.addColorStop(.42, rgba(cap.deep, .8));
-    body.addColorStop(.74, rgba(cap.warm, .6));
-    body.addColorStop(1, rgba(cap.rim, .18));
-    const trace = steps => {
-      ctx.beginPath();
-      for (let i = 0; i <= steps; i++) { const p = outline(i / steps * Math.PI * 2); if (i) ctx.lineTo(p[0], p[1]); else ctx.moveTo(p[0], p[1]); }
-    };
-    ctx.globalCompositeOperation = 'multiply';
-    ctx.fillStyle = body; ctx.globalAlpha = .38;                       // translucent membrane
-    trace(96); ctx.fill();
-    // fibres from the stem to the rim; each lags a little so the cap ripples open
-    ctx.globalAlpha = .55; ctx.strokeStyle = body; ctx.lineWidth = .55;
-    ctx.beginPath();
-    for (let i = 0; i < cap.n; i++) {
-      const k = i / cap.n, a = dir + Math.PI + (k - .5) * 2 * Math.PI * .97;
-      const [ex, ey] = outline(a + .06 * wave(t - k * 2.4, 9, cap.ph));
-      const twist = .55 + .15 * wave(t - k * 1.8, 7, cap.ph);
-      const mx = (sx + ex) / 2 + Math.cos(a + Math.PI / 2) * R * .25 * twist;
-      const my = (sy + ey) / 2 + Math.sin(a + Math.PI / 2) * R * .25 * twist;
-      ctx.moveTo(sx, sy); ctx.quadraticCurveTo(mx, my, ex, ey);
-    }
-    ctx.stroke();
-    ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = .5;  // thin rim line
-    ctx.strokeStyle = rgba(cap.rim, .9); ctx.lineWidth = 1;
-    trace(120); ctx.stroke();
-    ctx.globalAlpha = 1;
+
+  const vertex = 'attribute vec2 p; void main(){ gl_Position = vec4(p, 0.0, 1.0); }';
+  const fragment = `
+precision highp float;
+uniform vec2 res;
+uniform float t;
+uniform float dpr;
+uniform vec4 capA[3];   // stem x, stem y (0..1, y up), direction, size
+uniform vec4 capB[3];   // centre offset, phase, fibre count, unused
+uniform vec3 cCore[3];
+uniform vec3 cDeep[3];
+uniform vec3 cWarm[3];
+uniform vec3 cRim[3];
+const float PI = 3.14159265;
+
+float wave(float time, float period, float phase){ return sin(6.2831853 * time / period + phase); }
+
+// thin bright line every 'step' radians along angle a, at radius r (px); returns 0..1 coverage
+float fibres(float a, float r, float count){
+  float step = 6.2831853 / count;
+  float d = abs(mod(a + step * 0.5, step) - step * 0.5) * r;   // pixel distance to the nearest fibre
+  float spacing = step * r;                                     // fade fibres where they crowd closer than a few pixels (no moire)
+  return (1.0 - smoothstep(0.25 * dpr, 1.15 * dpr, d)) * smoothstep(2.5 * dpr, 5.0 * dpr, spacing);
+}
+
+void main(){
+  float unit = min(res.x, res.y);
+  vec2 q = gl_FragCoord.xy;
+  vec2 drift = vec2(wave(t, 17.0, 0.0), wave(t, 17.0, 1.3)) * 8.0 * dpr;
+  float turn = 0.32 * wave(t, 13.0, 0.0);
+  vec4 acc = vec4(0.0);
+
+  for (int i = 0; i < 3; i++) {
+    vec4 A = capA[i]; vec4 B = capB[i];
+    float open = 1.0 + 0.18 * wave(t, 9.0, B.y);
+    float dir = A.z + turn + 0.1 * wave(t, 11.0, B.y);
+    vec2 stem = A.xy * res + drift;
+    float R = A.w * unit * open;
+    float d = R * B.x * 1.6;
+    vec2 centre = stem + vec2(cos(dir), sin(dir)) * d;
+
+    vec2 fromC = q - centre;
+    float ac = atan(fromC.y, fromC.x);
+    float wob = 1.0 + 0.045 * sin(ac * 3.0 + t * 0.7 + B.y) + 0.02 * sin(ac * 11.0 - t * 1.1);
+    float rim = R * wob;
+    float dc = length(fromC);
+    float inside = 1.0 - smoothstep(rim - 3.0 * dpr, rim + 0.5 * dpr, dc);
+    float rimLine = 0.7 * exp(-pow((dc - rim) / (1.1 * dpr), 2.0));
+    if (inside < 0.001 && rimLine < 0.01) continue;
+
+    vec2 fromS = q - stem;
+    float r = length(fromS);
+    float reach = d + rim;
+    float u = clamp(r / reach, 0.0, 1.0);               // 0 at the stem, 1 at the far rim
+    float as = atan(fromS.y, fromS.x);
+    // fibres curl a little as they leave the stem; each band lags so the cap ripples open
+    float twist = (0.55 + 0.15 * wave(t - u * 1.8, 7.0, B.y)) * u * 0.9;
+    float a = as + twist + 0.06 * wave(t - u * 2.4, 9.0, B.y);
+    float line = max(fibres(a, r, B.z), 0.6 * fibres(a + 0.0137, r, B.z * 2.7));
+
+    // colour along the fibre: dark stem -> deep -> warm -> pale rim
+    vec3 col = mix(cCore[i], cDeep[i], smoothstep(0.02, 0.42, u));
+    col = mix(col, cWarm[i], smoothstep(0.36, 0.76, u));
+    col = mix(col, cRim[i], smoothstep(0.72, 1.0, u));
+    // silky body: a dense coloured membrane with faint fibres over it, thick near the stem, thin at the edge
+    float membrane = mix(0.96, 0.16, smoothstep(0.0, 1.0, u));
+    float sheen = 0.5 + 0.5 * sin(a * 7.0 + t * 0.4 + B.y);
+    float alpha = inside * clamp(membrane * (0.68 + 0.08 * sheen) + line * mix(0.32, 0.14, u), 0.0, 1.0);
+    alpha = max(alpha, rimLine * 0.45);
+    col = mix(col, cRim[i] * 0.9, rimLine * (1.0 - inside));
+
+    acc.rgb = col * alpha + acc.rgb * (1.0 - alpha);    // back-to-front over
+    acc.a = alpha + acc.a * (1.0 - alpha);
   }
-  const draw = t => {
-    ctx.clearRect(0, 0, width, height);
-    const unit = Math.min(width, height);
-    const turn = .32 * wave(t, 13);                                    // about +-18 deg, near the measured 5 deg/s
-    const ox = 8 * wave(t, 17), oy = 8 * wave(t, 17, 1.3);
-    for (const cap of caps) drawCap(cap, t, unit, turn, ox, oy);
-    // stem: a short dark twist under the caps
-    ctx.globalCompositeOperation = 'multiply';
-    const sx = .49 * width + ox, sy = .62 * height + oy;
-    const stem = ctx.createLinearGradient(sx, sy - unit * .05, sx, sy + unit * .22);
-    stem.addColorStop(0, 'rgba(26,34,44,.9)'); stem.addColorStop(1, 'rgba(118,92,150,0)');
-    ctx.strokeStyle = stem; ctx.lineWidth = unit * .03; ctx.lineCap = 'round';
-    ctx.beginPath(); ctx.moveTo(sx, sy);
-    ctx.bezierCurveTo(sx + unit * .05 * wave(t, 8), sy + unit * .08, sx - unit * .04, sy + unit * .14, sx + unit * .02 * wave(t, 10, 1), sy + unit * .22);
-    ctx.stroke();
-    ctx.globalCompositeOperation = 'source-over';
+
+  gl_FragColor = acc;
+}`;
+
+  const compile = (type, source) => {
+    const shader = gl.createShader(type);
+    gl.shaderSource(shader, source); gl.compileShader(shader);
+    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(shader));
+    return shader;
   };
+  let program;
+  try {
+    program = gl.createProgram();
+    gl.attachShader(program, compile(gl.VERTEX_SHADER, vertex));
+    gl.attachShader(program, compile(gl.FRAGMENT_SHADER, fragment));
+    gl.linkProgram(program);
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(program));
+  } catch (error) { console.warn('[ai-object]', error); canvas.hidden = true; return; }
+  gl.useProgram(program);
+  const buffer = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+  const loc = gl.getAttribLocation(program, 'p');
+  gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+  const u = name => gl.getUniformLocation(program, name);
+
+  const rgb = hex => [parseInt(hex.slice(1, 3), 16) / 255, parseInt(hex.slice(3, 5), 16) / 255, parseInt(hex.slice(5, 7), 16) / 255];
+  // stem x, y (y measured from the bottom), cap direction (rad), size | offset, phase, fibre count
+  const caps = [
+    { a: [.50, .42, 1.75, .30], b: [.55, 0, 520, 0], core: '#1b2330', deep: '#3a5f78', warm: '#e2a27c', rim: '#b4a8d2' },
+    { a: [.51, .41, .35, .23],  b: [.60, 2.1, 420, 0], core: '#1d2a24', deep: '#4f7a66', warm: '#e8c494', rim: '#bccab0' },
+    { a: [.49, .40, -2.35, .17], b: [.62, 4.0, 340, 0], core: '#2a2036', deep: '#6d5a96', warm: '#ecae8e', rim: '#cbb6da' }
+  ];
+  gl.uniform4fv(u('capA'), caps.flatMap(c => c.a));
+  gl.uniform4fv(u('capB'), caps.flatMap(c => c.b));
+  for (const key of ['core', 'deep', 'warm', 'rim']) gl.uniform3fv(u('c' + key[0].toUpperCase() + key.slice(1)), caps.flatMap(c => rgb(c[key])));
+  const uRes = u('res'), uT = u('t'), uDpr = u('dpr');
+
+  let visible = true, frame = 0, start = 0;
+  const size = () => {
+    const dpr = Math.min(1.5, devicePixelRatio || 1), box = canvas.getBoundingClientRect();
+    canvas.width = Math.max(1, Math.round(box.width * dpr)); canvas.height = Math.max(1, Math.round(box.height * dpr));
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    gl.uniform2f(uRes, canvas.width, canvas.height); gl.uniform1f(uDpr, dpr);
+  };
+  const draw = seconds => { gl.uniform1f(uT, seconds); gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4); };
   const tick = time => {
     if (!start) start = time - 2000;
     draw((time - start) / 1000);
