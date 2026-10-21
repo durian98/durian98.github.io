@@ -1,5 +1,5 @@
 /* A shared paper surface, actual project screens and a quieter introduction. */
-body { background-image: url('assets/paper-grain.svg?v=7b'); }
+body { background-image: url('assets/paper-grain.svg?v=g2'); }
 .site-header { justify-content: flex-end; }
 .site-nav { justify-content: flex-end; }
 .hero { grid-template-columns: minmax(0,1.08fr) minmax(0,1fr); gap: 8%; padding-block: 46px 72px; min-height: min(760px,calc(100svh - 88px)); overflow: visible; }
@@ -30,7 +30,7 @@ body { background-image: url('assets/paper-grain.svg?v=7b'); }
 .pill-link.soft:hover { background: rgba(37,43,36,.11); color: var(--ink); }
 .pill-link { display: inline-flex; gap: 30px; align-items: center; border: 1px solid var(--ink); border-radius: 40px; background: var(--ink); color: var(--paper); font-size: 14px; padding: 16px 23px; transition: background .2s; }
 .pill-link:hover { background: #46513e; }
-.work-visual,.project-cover,.app-gallery { background-image: url('assets/paper-grain.svg?v=7b'); background-blend-mode: multiply; }
+.work-visual,.project-cover,.app-gallery { background-image: url('assets/paper-grain.svg?v=g2'); background-blend-mode: multiply; }
 .work-visual { padding: 49px 29px 66px; }
 .work-visual::before,.work-visual::after { content: none; }
 .browser-frame { min-width: 0; width: 100%; background: #30352e; border: 5px solid #30352e; border-top-width: 0; border-radius: 11px; overflow: hidden; box-shadow: 0 18px 29px -15px #252b2470,0 1px 2px #252b2440; }
