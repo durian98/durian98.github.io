@@ -123,12 +123,16 @@
       event.preventDefault(); stopAuto(); select(target); tabs[target].focus({ preventScroll: true });
     });
   });
-  track.addEventListener('pointerenter', () => { hover = true; clearTimeout(resumeTimer); });
-  track.addEventListener('pointerleave', () => { hover = false; resumeLater(); });
-  track.addEventListener('focusin', () => { focus = true; if (!drag) stopAuto(); });
+  // Hover pauses only for a mouse; a finger leaves no hover state behind, so auto movement can resume after touch.
+  track.addEventListener('pointerenter', event => { if (event.pointerType === 'mouse') { hover = true; clearTimeout(resumeTimer); } });
+  track.addEventListener('pointerleave', event => { if (event.pointerType === 'mouse') { hover = false; resumeLater(); } });
+  track.addEventListener('focusin', event => { focus = event.target.matches(':focus-visible'); if (!drag) stopAuto(); });
   track.addEventListener('focusout', event => { if (!track.contains(event.relatedTarget)) { focus = false; resumeLater(); } });
   track.addEventListener('pointerdown', event => {
     if (event.button !== 0) return;
+    clearTimeout(resumeTimer);
+    // Once in manual mode, touch uses the browser's own horizontal scrolling and momentum.
+    if (event.pointerType !== 'mouse' && track.classList.contains('is-manual')) return;
     cancelAnimationFrame(inertiaFrame);
     drag = { id: event.pointerId, start: event.clientX, previous: event.clientX, time: performance.now(), velocity: 0, moved: false };
   });
@@ -162,7 +166,9 @@
     inertiaFrame = requestAnimationFrame(coast);
   }
   track.addEventListener('pointerup', release);
-  track.addEventListener('pointercancel', event => { if (drag?.id === event.pointerId) drag = null; });
+  track.addEventListener('pointercancel', event => { if (drag?.id === event.pointerId) drag = null; resumeLater(); });
+  track.addEventListener('touchend', () => resumeLater(), { passive: true });
+  track.addEventListener('scroll', () => { if (!automatic && !drag) resumeLater(); }, { passive: true });
   window.addEventListener('pointerup', release);
   window.addEventListener('resize', () => { if (automatic) paint(); });
   reduced.addEventListener('change', () => { if (reduced.matches) stopAuto(); });
@@ -277,6 +283,6 @@
       el.classList.add('is-in');
       observer.unobserve(el);
     });
-  }, { rootMargin: '0px 0px -6% 0px', threshold: 0 });
+  }, { rootMargin: '0px 0px -12% 0px', threshold: 0 });
   items.forEach(el => observer.observe(el));
 })();
