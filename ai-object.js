@@ -1,8 +1,7 @@
-// Gill-cap object beside the AI title, drawn on the GPU (WebGL fragment shader, no library).
-// After the reference clip: rounded translucent caps packed with fine fibres that gather into a dark stem,
-// dark at the stem, warm in the middle and pale with a thin rim at the edge, recoloured to the site palette.
-// Motion from the clip (30 fps, within shots): a steady turn of about 5 deg/s, the caps opening by roughly a
-// fifth over 2-3 s and a slow drift. Here it loops without cuts.
+// Single gill-cap body beside the AI title, drawn on the GPU (WebGL fragment shader, no library).
+// After the reference clip: one translucent cap flaring from one twisted dark throat, packed with fine fibres,
+// folded into an S at one side; dark at the throat, warm in the middle, pale with a thin edge line at the rim.
+// Motion from the clip: the cap spreads and gathers (about a third), the throat twists and the fold opens slowly.
 (() => {
   const canvas = document.querySelector('.ai-object');
   if (!canvas) return;
@@ -16,76 +15,74 @@ precision highp float;
 uniform vec2 res;
 uniform float t;
 uniform float dpr;
-uniform vec4 capA[3];   // stem x, stem y (0..1, y up), direction, size
-uniform vec4 capB[3];   // centre offset, phase, fibre count, how far the lobe swings as the body opens
-uniform vec3 cCore[3];
-uniform vec3 cDeep[3];
-uniform vec3 cWarm[3];
-uniform vec3 cRim[3];
 const float PI = 3.14159265;
-
 float wave(float time, float period, float phase){ return sin(6.2831853 * time / period + phase); }
 
-// thin bright line every 'step' radians along angle a, at radius r (px); returns 0..1 coverage
+// One body: a single cap flaring from one twisted throat, folded into an S at the lower right.
+// Colours follow the clip (dark throat -> deep -> warm -> pale rim with a thin edge line), in the site palette.
+vec3 cThroat = vec3(0.09, 0.12, 0.17);
+vec3 cDeep   = vec3(0.14, 0.28, 0.40);
+vec3 cMid    = vec3(0.30, 0.44, 0.42);
+vec3 cWarm   = vec3(0.93, 0.62, 0.45);
+vec3 cRim    = vec3(0.78, 0.74, 0.90);
+
 float fibres(float a, float r, float count){
   float step = 6.2831853 / count;
-  float d = abs(mod(a + step * 0.5, step) - step * 0.5) * r;   // pixel distance to the nearest fibre
-  float spacing = step * r;                                     // fade fibres where they crowd closer than a few pixels (no moire)
-  return (1.0 - smoothstep(0.25 * dpr, 1.15 * dpr, d)) * smoothstep(2.5 * dpr, 5.0 * dpr, spacing);
+  float d = abs(mod(a + step * 0.5, step) - step * 0.5) * r;
+  return (1.0 - smoothstep(0.25 * dpr, 1.1 * dpr, d)) * smoothstep(2.5 * dpr, 5.0 * dpr, step * r);
 }
 
 void main(){
   float unit = min(res.x, res.y);
   vec2 q = gl_FragCoord.xy;
-  vec2 drift = vec2(wave(t, 17.0, 0.0), wave(t, 17.0, 1.3)) * 8.0 * dpr;
-  float turn = 0.32 * wave(t, 13.0, 0.0);
-  vec4 acc = vec4(0.0);
+  float grow  = 1.0 + 0.20 * wave(t, 9.0, 0.0);              // the cap spreads and gathers (~35 % peak to peak)
+  float spin  = 0.18 * wave(t, 14.0, 0.0);                   // slow turn of the whole body
+  float curl  = 0.55 + 0.35 * wave(t, 11.0, 1.0);            // the S fold opens and closes
+  vec2 throat = vec2(0.46, 0.24) * res + vec2(wave(t, 17.0, 0.0), wave(t, 17.0, 1.3)) * 6.0 * dpr;
 
-  for (int i = 0; i < 3; i++) {
-    vec4 A = capA[i]; vec4 B = capB[i];
-    float breath = wave(t, 8.0, 0.0);                       // the whole body spreads and gathers together
-    float open = 1.0 + 0.17 * breath + 0.04 * wave(t, 3.1, B.y);
-    float dir = A.z + turn + B.w * breath;                 // lobes fan apart as the body opens
-    vec2 stem = A.xy * res + drift;
-    float R = A.w * unit * open;
-    float d = R * B.x * 1.6;
-    vec2 centre = stem + vec2(cos(dir), sin(dir)) * d;
+  vec2 d = q - throat;
+  float r = length(d);
+  float th = atan(d.y, d.x) - spin;                          // 0 = right, PI/2 = up
+  float R = 0.40 * unit * grow;
+  // outline seen from the throat: a large dome above, a narrower fold curling to the lower right, a notch between
+  float up = max(0.0, cos(th - 1.65));
+  float dome = 0.22 + 1.05 * pow(up, 0.55);                  // the dome rises above the throat, only a short skirt below
+  float fold = 0.62 * exp(-pow(th + 0.45, 2.0) / 0.20) * curl;
+  float notch = 0.30 * exp(-pow(th - 0.25, 2.0) / 0.05);
+  float edge = 1.0 + 0.04 * sin(th * 5.0 + t * 0.6) + 0.015 * sin(th * 17.0 - t * 1.2);
+  float rim = R * max(0.28, dome + fold - notch) * edge;
 
-    vec2 fromC = q - centre;
-    float ac = atan(fromC.y, fromC.x);
-    float wob = 1.0 + 0.045 * sin(ac * 3.0 + t * 0.7 + B.y) + 0.02 * sin(ac * 11.0 - t * 1.1);
-    float rim = R * wob;
-    float dc = length(fromC);
-    float inside = 1.0 - smoothstep(rim - 3.0 * dpr, rim + 0.5 * dpr, dc);
-    float rimLine = 0.7 * exp(-pow((dc - rim) / (1.1 * dpr), 2.0));
-    if (inside < 0.001 && rimLine < 0.01) continue;
+  float inside = 1.0 - smoothstep(rim - 3.0 * dpr, rim + 0.5 * dpr, r);
+  float rimLine = 0.75 * exp(-pow((r - rim) / (1.2 * dpr), 2.0));
+  float u = clamp(r / rim, 0.0, 1.0);
 
-    vec2 fromS = q - stem;
-    float r = length(fromS);
-    float reach = d + rim;
-    float u = clamp(r / reach, 0.0, 1.0);               // 0 at the stem, 1 at the far rim
-    float as = atan(fromS.y, fromS.x);
-    // fibres curl a little as they leave the stem; each band lags so the cap ripples open
-    float twist = (0.55 + 0.15 * wave(t - u * 1.8, 7.0, B.y)) * u * 0.9;
-    float a = as + twist + 0.06 * wave(t - u * 2.4, 9.0, B.y);
-    float line = max(fibres(a, r, B.z), 0.6 * fibres(a + 0.0137, r, B.z * 2.7));
+  // fibres leave the throat and bend as they spread; the twist sweeps through the cap over time
+  float twist = (0.35 + 0.25 * wave(t - u * 2.0, 8.0, 0.0)) * u + 0.25 * curl * u * u;
+  float a = th + twist;
+  float line = max(fibres(a, r, 260.0), 0.6 * fibres(a + 0.011, r, 620.0));
 
-    // colour along the fibre: dark stem -> deep -> warm -> pale rim
-    vec3 col = mix(cCore[i], cDeep[i], smoothstep(0.02, 0.42, u));
-    col = mix(col, cWarm[i], smoothstep(0.36, 0.76, u));
-    col = mix(col, cRim[i], smoothstep(0.72, 1.0, u));
-    // silky body: a dense coloured membrane with faint fibres over it, thick near the stem, thin at the edge
-    float membrane = mix(0.96, 0.16, smoothstep(0.0, 1.0, u));
-    float sheen = 0.5 + 0.5 * sin(a * 7.0 + t * 0.4 + B.y);
-    float alpha = inside * clamp(membrane * (0.68 + 0.08 * sheen) + line * mix(0.32, 0.14, u), 0.0, 1.0);
-    alpha = max(alpha, rimLine * 0.45);
-    col = mix(col, cRim[i] * 0.9, rimLine * (1.0 - inside));
+  vec3 col = mix(cThroat, cDeep, smoothstep(0.0, 0.25, u));
+  col = mix(col, cMid, smoothstep(0.18, 0.42, u));
+  col = mix(col, cWarm, smoothstep(0.32, 0.62, u));
+  col = mix(col, cRim, smoothstep(0.74, 1.0, u));
+  float membrane = mix(0.97, 0.34, smoothstep(0.0, 1.0, u));
+  col *= 1.0 - 0.28 * line * smoothstep(0.15, 0.6, u);            // fibres read as fine darker strands
+  float alpha = inside * clamp(membrane * 0.70 + line * mix(0.45, 0.22, u), 0.0, 1.0);
+  col = mix(col, vec3(0.50, 0.54, 0.76), rimLine);
+  alpha = max(alpha, rimLine * 0.5);
 
-    acc.rgb = col * alpha + acc.rgb * (1.0 - alpha);    // back-to-front over
-    acc.a = alpha + acc.a * (1.0 - alpha);
+  // twisted throat below the cap: tapered, soft-edged, fading in where it meets the cap
+  vec4 outCol = vec4(col * alpha, alpha);
+  float yy = throat.y - q.y;
+  if (yy > -0.04 * unit && yy < 0.24 * unit) {
+    float k = clamp(yy / (0.24 * unit), 0.0, 1.0);
+    float x = throat.x + unit * 0.04 * sin(k * PI * 1.3 + t * 0.5) * k;
+    float w = unit * mix(0.016, 0.004, k);
+    float m = (1.0 - smoothstep(w - 2.0 * dpr, w + 2.0 * dpr, abs(q.x - x))) * (1.0 - k) * smoothstep(-0.04 * unit, 0.02 * unit, yy) * 0.85;
+    vec3 sc = mix(cThroat, cDeep, k);
+    outCol = vec4(sc * m, m) + outCol * (1.0 - m);
   }
-
-  gl_FragColor = acc;
+  gl_FragColor = outCol;
 }`;
 
   const compile = (type, source) => {
@@ -110,16 +107,6 @@ void main(){
   gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
   const u = name => gl.getUniformLocation(program, name);
 
-  const rgb = hex => [parseInt(hex.slice(1, 3), 16) / 255, parseInt(hex.slice(3, 5), 16) / 255, parseInt(hex.slice(5, 7), 16) / 255];
-  // shared stem x, y (y from the bottom), lobe direction (rad), size | offset, phase, fibre count, swing
-  const caps = [
-    { a: [.48, .32, 1.45, .27], b: [.62, 0.0, 640, 0.10],  core: '#1b2330', deep: '#3a5f78', warm: '#e2a27c', rim: '#b4a8d2' },
-    { a: [.48, .32, .15, .20],  b: [.66, 0.7, 480, -0.22], core: '#1d2a24', deep: '#4f7a66', warm: '#e8c494', rim: '#bccab0' },
-    { a: [.48, .32, -1.95, .14], b: [.70, 1.4, 360, 0.26], core: '#2a2036', deep: '#6d5a96', warm: '#ecae8e', rim: '#cbb6da' }
-  ];
-  gl.uniform4fv(u('capA'), caps.flatMap(c => c.a));
-  gl.uniform4fv(u('capB'), caps.flatMap(c => c.b));
-  for (const key of ['core', 'deep', 'warm', 'rim']) gl.uniform3fv(u('c' + key[0].toUpperCase() + key.slice(1)), caps.flatMap(c => rgb(c[key])));
   const uRes = u('res'), uT = u('t'), uDpr = u('dpr');
 
   let visible = true, frame = 0, start = 0;

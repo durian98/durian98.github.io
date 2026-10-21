@@ -476,7 +476,7 @@ body { isolation: isolate; }
 
 /* Out-of-focus petal field: right half of the home hero and the top of the about page. */
 .hero, .about-hero { position: relative; }
-.petal-field { position: absolute; z-index: -1; pointer-events: none; overflow: hidden; background: url("assets/petal-field.webp") center / cover no-repeat;
+.petal-field { position: absolute; z-index: -1; pointer-events: none; overflow: hidden; background: radial-gradient(80% 90% at 75% 100%, #c6d2b6, #f1efe6 70%);
   -webkit-mask-image: radial-gradient(120% 95% at 70% 40%, #000 45%, transparent 100%); mask-image: radial-gradient(120% 95% at 70% 40%, #000 45%, transparent 100%); }
 .petal-field canvas { display: block; width: 100%; height: 100%; }
 .home .hero .petal-field { top: 0; bottom: 0; left: 50%; right: 0; }
