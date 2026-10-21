@@ -50,16 +50,24 @@
     panels[index].tabIndex = 0;
     panels[index].hidden = index !== 0;
   });
+  // The rail never switches to a finite scroll list: dragging, flicking and selecting all move the same looping
+  // offset, so the last icon is always followed by the first.
+  let glide = 0;
   function centerTab(index, smooth = false) {
-    const tab = tabs[index];
-    track.scrollTo({ left: tab.offsetLeft - (track.clientWidth - tab.offsetWidth) / 2, behavior: smooth && !reduced.matches ? 'smooth' : 'instant' });
+    measure();
+    const want = index * pitch - (track.clientWidth / 2 - (pitch - 20) / 2);
+    const target = want + Math.round((offset - want) / cycle) * cycle;
+    cancelAnimationFrame(glide);
+    if (!smooth || reduced.matches) { offset = target; paint(); return; }
+    const from = offset, begin = performance.now();
+    const step = now => {
+      const k = Math.min(1, (now - begin) / 420), e = 1 - Math.pow(1 - k, 3);
+      offset = from + (target - from) * e; paint();
+      if (k < 1) glide = requestAnimationFrame(step);
+    };
+    glide = requestAnimationFrame(step);
   }
-  function manualMode() {
-    if (track.classList.contains('is-manual')) return;
-    track.classList.add('is-manual');
-    tabs.forEach(tab => tab.style.removeProperty('transform'));
-    centerTab(selected);
-  }
+  function manualMode() { paint(); }
   function stopAuto() { clearTimeout(resumeTimer); automatic = false; manualMode(); }
   function resumeLater() {
     clearTimeout(resumeTimer);
@@ -100,10 +108,7 @@
     else { frame = 0; lastTime = 0; }
   }
   function start() {
-    cancelAnimationFrame(inertiaFrame);
-    if (track.classList.contains('is-manual')) offset = track.scrollLeft - 12;
-    track.classList.remove('is-manual');
-    track.scrollLeft = 0;
+    cancelAnimationFrame(inertiaFrame); cancelAnimationFrame(glide);
     automatic = true;
     paint();
     if (!frame) frame = requestAnimationFrame(tick);
@@ -131,9 +136,7 @@
   track.addEventListener('pointerdown', event => {
     if (event.button !== 0) return;
     clearTimeout(resumeTimer);
-    // Once in manual mode, touch uses the browser's own horizontal scrolling and momentum.
-    if (event.pointerType !== 'mouse' && track.classList.contains('is-manual')) return;
-    cancelAnimationFrame(inertiaFrame);
+    cancelAnimationFrame(inertiaFrame); cancelAnimationFrame(glide);
     drag = { id: event.pointerId, start: event.clientX, previous: event.clientX, time: performance.now(), velocity: 0, moved: false };
   });
   track.addEventListener('pointermove', event => {
@@ -144,7 +147,7 @@
     if (!drag.moved) return;
     const now = performance.now();
     const dx = event.clientX - drag.previous;
-    track.scrollLeft -= dx;
+    offset -= dx; paint();
     drag.velocity = -dx / Math.max(1, now - drag.time);
     drag.previous = event.clientX; drag.time = now;
   });
@@ -160,7 +163,7 @@
     let previous = performance.now();
     function coast(now) {
       const dt = Math.min(32, now - previous); previous = now;
-      track.scrollLeft += velocity * dt; velocity *= Math.pow(.91, dt / 16);
+      offset += velocity * dt; paint(); velocity *= Math.pow(.91, dt / 16);
       if (Math.abs(velocity) > .015) inertiaFrame = requestAnimationFrame(coast);
     }
     inertiaFrame = requestAnimationFrame(coast);
@@ -168,14 +171,13 @@
   track.addEventListener('pointerup', release);
   track.addEventListener('pointercancel', event => { if (drag?.id === event.pointerId) drag = null; resumeLater(); });
   track.addEventListener('touchend', () => resumeLater(), { passive: true });
-  track.addEventListener('scroll', () => { if (!automatic && !drag) resumeLater(); }, { passive: true });
   window.addEventListener('pointerup', release);
   window.addEventListener('resize', () => { if (automatic) paint(); });
   reduced.addEventListener('change', () => { if (reduced.matches) stopAuto(); });
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(entries => { visible = entries[0].isIntersecting; }, { threshold: .1 }).observe(track);
   } else visible = true;
-  if (automatic) start(); else manualMode();
+  if (automatic) start(); else { paint(); centerTab(selected); }
 })();
 
 

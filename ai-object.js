@@ -17,7 +17,7 @@ uniform vec2 res;
 uniform float t;
 uniform float dpr;
 uniform vec4 capA[3];   // stem x, stem y (0..1, y up), direction, size
-uniform vec4 capB[3];   // centre offset, phase, fibre count, unused
+uniform vec4 capB[3];   // centre offset, phase, fibre count, how far the lobe swings as the body opens
 uniform vec3 cCore[3];
 uniform vec3 cDeep[3];
 uniform vec3 cWarm[3];
@@ -43,8 +43,9 @@ void main(){
 
   for (int i = 0; i < 3; i++) {
     vec4 A = capA[i]; vec4 B = capB[i];
-    float open = 1.0 + 0.18 * wave(t, 9.0, B.y);
-    float dir = A.z + turn + 0.1 * wave(t, 11.0, B.y);
+    float breath = wave(t, 8.0, 0.0);                       // the whole body spreads and gathers together
+    float open = 1.0 + 0.17 * breath + 0.04 * wave(t, 3.1, B.y);
+    float dir = A.z + turn + B.w * breath;                 // lobes fan apart as the body opens
     vec2 stem = A.xy * res + drift;
     float R = A.w * unit * open;
     float d = R * B.x * 1.6;
@@ -110,11 +111,11 @@ void main(){
   const u = name => gl.getUniformLocation(program, name);
 
   const rgb = hex => [parseInt(hex.slice(1, 3), 16) / 255, parseInt(hex.slice(3, 5), 16) / 255, parseInt(hex.slice(5, 7), 16) / 255];
-  // stem x, y (y measured from the bottom), cap direction (rad), size | offset, phase, fibre count
+  // shared stem x, y (y from the bottom), lobe direction (rad), size | offset, phase, fibre count, swing
   const caps = [
-    { a: [.50, .42, 1.75, .30], b: [.55, 0, 520, 0], core: '#1b2330', deep: '#3a5f78', warm: '#e2a27c', rim: '#b4a8d2' },
-    { a: [.51, .41, .35, .23],  b: [.60, 2.1, 420, 0], core: '#1d2a24', deep: '#4f7a66', warm: '#e8c494', rim: '#bccab0' },
-    { a: [.49, .40, -2.35, .17], b: [.62, 4.0, 340, 0], core: '#2a2036', deep: '#6d5a96', warm: '#ecae8e', rim: '#cbb6da' }
+    { a: [.48, .32, 1.45, .27], b: [.62, 0.0, 640, 0.10],  core: '#1b2330', deep: '#3a5f78', warm: '#e2a27c', rim: '#b4a8d2' },
+    { a: [.48, .32, .15, .20],  b: [.66, 0.7, 480, -0.22], core: '#1d2a24', deep: '#4f7a66', warm: '#e8c494', rim: '#bccab0' },
+    { a: [.48, .32, -1.95, .14], b: [.70, 1.4, 360, 0.26], core: '#2a2036', deep: '#6d5a96', warm: '#ecae8e', rim: '#cbb6da' }
   ];
   gl.uniform4fv(u('capA'), caps.flatMap(c => c.a));
   gl.uniform4fv(u('capB'), caps.flatMap(c => c.b));

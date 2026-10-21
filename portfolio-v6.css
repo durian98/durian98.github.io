@@ -470,3 +470,19 @@ body { isolation: isolate; }
 .hero-card img { -webkit-user-drag: none; pointer-events: none; }
 @media (max-width:760px) { .hero-photos { touch-action: pan-y; } }
 .ai-object { mix-blend-mode: multiply; }
+
+/* Looping skill rail: horizontal drags are handled in script, vertical swipes still scroll the page. */
+.skill-track, .skill-track.is-manual { touch-action: pan-y; overflow: hidden; }
+
+/* Out-of-focus petal field: right half of the home hero and the top of the about page. */
+.hero, .about-hero { position: relative; }
+.petal-field { position: absolute; z-index: -1; pointer-events: none; overflow: hidden; background: url("assets/petal-field.webp") center / cover no-repeat;
+  -webkit-mask-image: radial-gradient(120% 95% at 70% 40%, #000 45%, transparent 100%); mask-image: radial-gradient(120% 95% at 70% 40%, #000 45%, transparent 100%); }
+.petal-field canvas { display: block; width: 100%; height: 100%; }
+.home .hero .petal-field { top: 0; bottom: 0; left: 50%; right: 0; }
+.about-hero .petal-field { top: -64px; left: calc(50% - 50vw); right: calc(50% - 50vw); height: calc(100% + 120px);
+  -webkit-mask-image: linear-gradient(#000 55%, transparent); mask-image: linear-gradient(#000 55%, transparent); }
+.home .hero-copy, .about-hero > :not(.petal-field) { position: relative; z-index: 1; }
+@media (max-width:760px) {
+  .home .hero .petal-field { left: 0; bottom: auto; height: 340px; -webkit-mask-image: linear-gradient(#000 50%, transparent); mask-image: linear-gradient(#000 50%, transparent); }
+}
