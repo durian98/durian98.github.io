@@ -438,3 +438,18 @@ body { background-image: url('assets/paper-grain.svg?v=7b'); }
   .ai-points h3 { font-size: 19px; }
   .ai-test-list { grid-template-columns: 1fr; }
 }
+
+/* Soft colour field behind the whole page, measured from the reference: a sage glow upper left,
+   a warm cream glow upper right, settling to the plain paper lower down. Static, like the reference. */
+body::before { content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(55% 60% at 8% 12%, rgba(184,205,160,.55), transparent 70%),
+    radial-gradient(45% 55% at 92% 8%, rgba(236,226,190,.6), transparent 70%),
+    radial-gradient(60% 50% at 70% 95%, rgba(196,183,212,.22), transparent 70%); }
+body { isolation: isolate; }
+.ai-hero-grid { display: grid; grid-template-columns: minmax(0,1fr) minmax(260px, 46%); align-items: center; gap: 24px; }
+.ai-object { display: block; width: 100%; aspect-ratio: 1/1; max-height: 520px; }
+@media (max-width:760px) {
+  .ai-hero-grid { grid-template-columns: 1fr; gap: 6px; }
+  .ai-object { max-width: 360px; margin: 0 auto; }
+}
