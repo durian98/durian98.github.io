@@ -486,3 +486,20 @@ body { isolation: isolate; }
 @media (max-width:760px) {
   .home .hero .petal-field { left: 0; bottom: auto; height: 340px; -webkit-mask-image: linear-gradient(#000 50%, transparent); mask-image: linear-gradient(#000 50%, transparent); }
 }
+
+/* The petal field runs under the whole home hero; the photo stack sits on top of it. */
+.home .hero .petal-field { left: 0; right: 0; top: 0; bottom: 0; -webkit-mask-image: linear-gradient(#000 80%, transparent); mask-image: linear-gradient(#000 80%, transparent); }
+.home .hero-photos { background: transparent; }
+@media (max-width:760px) {
+  .home .hero .petal-field { height: auto; bottom: 0; -webkit-mask-image: linear-gradient(#000 85%, transparent); mask-image: linear-gradient(#000 85%, transparent); }
+}
+/* Photos float on the field: the stack is inset so the petals show around it. */
+.home .hero-photos .hero-track { left: clamp(28px, 4vw, 64px); right: 74px; }
+.home .hero-photos .hero-dots { right: 40px; }
+.home .hero-card { box-shadow: 0 2px 4px rgba(37,43,36,.08), 0 30px 60px -30px rgba(37,43,36,.45); }
+@media (max-width:760px) {
+  .home .hero-photos .hero-track { left: 0; right: auto; }
+  .home .hero-photos .hero-dots { right: auto; }
+  .home .hero .petal-field { -webkit-mask-image: none; mask-image: none; }
+  .home .hero-art { padding-bottom: 26px; }
+}

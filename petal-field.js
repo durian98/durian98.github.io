@@ -11,10 +11,13 @@
 precision mediump float;
 uniform vec2 res;
 uniform float t;
-// one colour family: paper cream -> pale sage -> sage -> deep sage
+// sage family with nearby hues: warm cream, olive, sage, blue-sage and a hint of lavender
 vec3 tone(float k){
-  vec3 a = vec3(0.945, 0.937, 0.902), b = vec3(0.835, 0.866, 0.784), c = vec3(0.690, 0.757, 0.643), d = vec3(0.533, 0.627, 0.510);
-  return k < 0.5 ? mix(a, b, k * 2.0) : (k < 0.8 ? mix(b, c, (k - 0.5) / 0.3) : mix(c, d, (k - 0.8) / 0.2));
+  vec3 a = vec3(0.945, 0.930, 0.885), b = vec3(0.860, 0.850, 0.740), c = vec3(0.700, 0.770, 0.650), d = vec3(0.560, 0.660, 0.640), e = vec3(0.760, 0.730, 0.830);
+  if (k < 0.3) return mix(a, b, k / 0.3);
+  if (k < 0.55) return mix(b, c, (k - 0.3) / 0.25);
+  if (k < 0.8) return mix(c, d, (k - 0.55) / 0.25);
+  return mix(d, e, (k - 0.8) / 0.2);
 }
 float petal(vec2 p, vec2 origin, float angle, float len, float wid){
   vec2 d = p - origin;
@@ -39,9 +42,9 @@ void main(){
     float sway = 0.07 * sin(w + fi * 1.7) + 0.03 * sin(w * 2.0 + fi * 0.9);     // about 2 % of the width at the tips
     float len = (0.95 + 0.18 * fract(sin(fi * 12.9) * 43.7)) * (1.0 + 0.03 * sin(w + fi));
     float wid = 0.17 + 0.05 * fract(sin(fi * 7.3) * 91.1);
-    float k = 0.42 + 0.5 * fract(sin(fi * 3.1) * 51.3);
+    float k = 0.25 + 0.72 * fract(sin(fi * 3.1) * 51.3);
     float a = petal(p, origin, base + sway, len, wid);
-    col = mix(col, tone(k), a * 0.62);
+    col = mix(col, tone(k), a * 0.66);
   }
   // soft light falling across from the upper left, drifting slowly
   float glow = exp(-pow(length(p - vec2(aspect * 0.25 + 0.04 * sin(w), 0.85)), 2.0) / 0.10);
