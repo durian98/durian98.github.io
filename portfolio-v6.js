@@ -218,15 +218,17 @@
   };
   const layout = () => {
     if (phone.matches) {
-      const card = Math.round(root.clientWidth * .84);
+      // Equal side margins (the page gutter); the gap matches, so the next photo waits just off screen.
+      const gutter = parseFloat(getComputedStyle(root).paddingLeft) || 20;
+      const card = Math.round(root.clientWidth - gutter * 2);
       track.style.setProperty('--card-w', `${card}px`);
-      pitch = card + 10;
+      track.style.setProperty('--card-gap', `${gutter}px`);
+      pitch = card + gutter; base = gutter;
     } else {
       const card = Math.round(root.clientHeight * .88);
       track.style.setProperty('--card-h', `${card}px`);
-      pitch = card + 10;
+      pitch = card + 10; base = 0;
     }
-    base = 0;
     place(false);
   };
   track.addEventListener('transitionend', event => {

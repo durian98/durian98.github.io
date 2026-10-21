@@ -416,3 +416,9 @@ body { background-image: url('assets/paper-grain.svg?v=7b'); }
   .home .hero-dots button[aria-current] { width: 20px; height: 6px; }
   .hero-card figcaption { font-size: 12px; padding: 44px 14px 12px; }
 }
+@media (max-width:760px) {
+  .home .hero-photos { padding-inline: var(--gutter); }
+  .home .hero-photos .hero-track { left: 0; }
+  .home .hero-card { margin: 0 var(--card-gap, var(--gutter)) 0 0; }
+  .home .hero-card, .home .hero-card.is-front { border-radius: 6px; }
+}
