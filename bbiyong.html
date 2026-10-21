@@ -16,7 +16,9 @@
 <script src="app.js?v=99f0a8aa" defer>
 </script>
 <link rel="stylesheet" href="portfolio-v6.css?v=p4">
-<script src="portfolio-v6.js?v=g4" defer></script>
+<script src="portfolio-v6.js?v=3ddbc0c2" defer></script>
+<script src="ai-navigation.js?v=38b6ecfe"></script>
+<link rel="stylesheet" href="visual-refinement.css?v=7df0ea1d">
 </head>
 <body>
 <a class="skip-link" href="#main">본문으로 바로가기</a>
@@ -25,6 +27,7 @@
 <button class="menu-toggle" aria-expanded="false" aria-controls="site-nav">메뉴</button>
 <nav class="site-nav" id="site-nav" aria-label="주 메뉴">
 <a href="work.html" aria-current="page">프로젝트</a>
+<a href="ai.html">AI 활용</a>
 <a href="index.html#intro">소개</a>
 <a href="#contact">연락처</a>
 </nav>
@@ -82,7 +85,7 @@
 <article class="feature-entry">
 <div class="entry-number">01</div>
 <h3>로봇에서 동작하는 화재 탐지</h3>
-<p>화재를 놓치는 경우를 줄이기 위해 모델의 탐지 결과와 판정 기준을 비교하는 평가 도구를 만들었습니다. 모델 하나로만 탐지할 때와 결과를 한 번 더 판별할 때(Cascade), 이미지를 여러 형태로 바꿔 결과를 모을 때(TTA)를 비교했습니다. 실물에서는 탐지 기준을 조정하고, 움직이다 놓친 열원을 다시 찾는 로직을 수정했습니다.</p>
+<p>화재를 놓치는 경우를 줄이기 위해 모델의 탐지 결과와 판정 기준을 비교하는 평가 도구를 만들었습니다. 모델 하나로만 탐지할 때와 결과를 한 번 더 판별할 때(Cascade), 이미지를 여러 형태로 바꿔 결과를 모을 때(TTA)를 비교했습니다. 실제 로봇에서는 탐지 기준을 조정하고, 주행 중 놓친 열원을 다시 찾는 로직을 수정했습니다.</p>
 <div class="tech-line">Python · PyTorch · YOLO11n</div>
 </article>
 <article class="feature-entry">
@@ -155,7 +158,7 @@
 <article class="case">
 <span class="case-label">프로젝트 종료 후 로컬 검증</span>
 <h3>같은 경보가 동시에 도착해도 <br>저장은 한 번만</h3>
-<p>저장 전에 존재 여부를 확인해도 두 요청이 동시에 “없음”을 보면 중복으로 저장하려는 경쟁이 생깁니다. 경보 번호(messageId)의 DB unique 제약으로 최종 중복을 방어하고, 실제 MySQL에 동시에 저장하도록 시험했습니다.</p>
+<p>저장 전에 존재 여부를 조회해도 두 요청이 동시에 “없음”으로 판단하면 중복 저장을 시도할 수 있습니다. 경보 번호(messageId)의 DB unique 제약으로 중복 저장을 막고, 실제 MySQL에서 동시 저장을 시험했습니다.</p>
 <div class="metric-pair">
 <div>
 <div class="metric-number">24</div>
@@ -169,7 +172,7 @@
 <details>
 <summary>검증 조건과 확인 범위</summary>
 <div class="detail-body">
-<p>24개 작업이 모두 존재 여부 조회를 마치도록 맞춘 뒤 동시에 저장하게 했습니다. 3회 모두 DB에는 1행만 남았고, 뒤이은 후속 처리(모의)도 회마다 한 번만 실행됐습니다.</p>
+<p>24개 작업이 모두 존재 여부 조회를 마치도록 맞춘 뒤 동시에 저장하게 했습니다. 3회 모두 DB에는 1행만 남았고, 후속 처리(모의)도 회마다 한 번만 실행됐습니다.</p>
 <p>실제 로컬 MySQL을 사용했으며 로봇 회신, 관제와 외부 알림은 모의 처리로 분리했습니다. 기존 중복 방어 로직을 사후 검증한 결과입니다. 운영 환경의 개선 전후 비교는 수행하지 않았습니다.</p>
 </div>
 </details>
@@ -177,8 +180,8 @@
 <article class="case">
 <span class="case-label">개인 로컬 후속 실험</span>
 <h3>같은 로봇의 순서는 지키고, <br>다른 로봇은 함께 처리</h3>
-<p>대기열이 차면 일부 작업이 앞선 작업을 추월해 처리 순서가 바뀌었습니다. 빈자리를 기다리게 바꿔 순서는 지켰지만 시험용으로 만든 작업 400건의 총 시간은 약 4.7초에서 6.2초로 늘었습니다.</p>
-<p>이후 로봇 번호로 네 대기열을 나눴습니다. 같은 로봇의 작업은 들어온 순서대로 처리하고, 서로 다른 로봇은 함께 처리하는 구조를 실제 DB 저장 200건으로 비교했습니다.</p>
+<p>대기열이 차면 일부 작업이 앞선 작업을 추월해 처리 순서가 바뀌었습니다. 대기열에 빈자리가 생길 때까지 기다리도록 바꿔 순서는 지켰지만, 시험용 작업 400건의 총 처리 시간은 약 4.7초에서 6.2초로 늘었습니다.</p>
+<p>이후 로봇 번호를 기준으로 대기열을 네 개로 나눴습니다. 같은 로봇의 작업은 들어온 순서대로 처리하고, 서로 다른 로봇은 함께 처리하는 구조를 실제 DB 저장 200건으로 비교했습니다.</p>
 <div class="metric-pair">
 <div>
 <div class="metric-number">176.83 → 607.90</div>

@@ -16,7 +16,9 @@
 <script src="app.js?v=99f0a8aa" defer>
 </script>
 <link rel="stylesheet" href="portfolio-v6.css?v=p4">
-<script src="portfolio-v6.js?v=g4" defer></script>
+<script src="portfolio-v6.js?v=3ddbc0c2" defer></script>
+<script src="ai-navigation.js?v=38b6ecfe"></script>
+<link rel="stylesheet" href="visual-refinement.css?v=7df0ea1d">
 </head>
 <body>
 <a class="skip-link" href="#main">본문으로 바로가기</a>
@@ -25,6 +27,7 @@
 <button class="menu-toggle" aria-expanded="false" aria-controls="site-nav">메뉴</button>
 <nav class="site-nav" id="site-nav" aria-label="주 메뉴">
 <a href="work.html" aria-current="page">프로젝트</a>
+<a href="ai.html">AI 활용</a>
 <a href="index.html#intro">소개</a>
 <a href="#contact">연락처</a>
 </nav>
@@ -41,7 +44,7 @@
 <section class="project-summary wrap reveal">
 <div>
 <h2>프로젝트 개요</h2>
-<p style="margin-top:28px">부산 여행자의 취향, 이동, 식단과 접근성 조건으로 장소와 일정을 추천하고 여행 기록과 공유로 이어지는 서비스입니다.</p>
+<p style="margin-top:28px">부산 여행자의 취향과 이동·식단·접근성 조건에 맞춰 장소와 일정을 추천하고, 여행을 기록하고 공유할 수 있는 서비스입니다.</p>
 </div>
 <div>
 <dl class="project-facts">
@@ -176,7 +179,7 @@
 <p>앱을 출시해 서비스 중이며 회원은 약 80명입니다(2026.10.21 기준). FLY ASIA 창업박람회에 참가해 투자자와 사용자에게 서비스를 보여주고 피드백을 받았습니다.</p>
 <figure class="flyasia-photo"><img src="assets/gabolle-flyasia.webp" width="1440" height="1920" alt="GABOLLE 부스에서 출시한 앱과 서비스를 소개하는 박재현" loading="lazy"><figcaption class="image-caption">FLY ASIA 창업박람회 GABOLLE 부스</figcaption></figure>
 <div class="product-numbers"><div><strong>약 80명</strong><small>출시 후 회원 <br>2026.10.21 기준</small></div><div><strong>180명</strong><small>출시 전 직접 설문 <br>초기 추천 데이터 마련</small></div></div>
-<article class="reflection-entry"><h3>이용 이력이 없는 상태의 추천 준비</h3><p>이용 이력이 쌓이지 않은 신규 사용자에게도 추천할 수 있도록, 출시 전 180명에게 직접 설문을 받아 초기 추천에 필요한 정보를 확보했습니다.</p></article>
+<article class="reflection-entry"><h3>이용 이력이 없는 사용자를 위한 초기 추천</h3><p>이용 이력이 쌓이지 않은 신규 사용자에게도 추천할 수 있도록, 출시 전 180명에게 직접 설문을 받아 초기 추천에 필요한 정보를 확보했습니다.</p></article>
 <article class="reflection-entry"><h3>입력 절차를 줄이고 경로를 잘 보이게</h3><p>피드백을 반영해 지도에서 여행 경로가 더 잘 보이도록 수정했습니다. 여행 생성에 필요하지 않은 정보 수집을 없애고 절차를 간편하게 했습니다. 기능을 두 단계 안에서 찾을 수 있도록 동선도 검토했습니다.</p></article>
 <figure class="app-gallery"><div><div class="phone-frame phone-baked"><img src="assets/gabolle-create.jpg" width="560" height="1214" alt="여행 생성에 필요한 조건을 입력하는 앱 화면" loading="lazy"></div><p class="image-caption">여행 생성 화면</p></div><div><div class="phone-frame phone-raw"><img src="assets/gabolle-app-home.jpg" width="1082" height="2347" alt="여행 생성과 주요 기능에 접근하는 앱 홈 화면" loading="lazy"></div><p class="image-caption">앱 홈 화면</p></div></figure>
 </div></section>
@@ -189,7 +192,7 @@
 <article class="case">
 <span class="case-label">배포 환경의 소셜 로그인 오류</span>
 <h3>소셜 로그인 화면 전환 오류</h3>
-<p>서버 API를 직접 호출하면 응답이 나왔지만, 배포된 웹에서는 소셜 로그인 화면으로 이동하지 않거나 인증 후 돌아오는 화면을 찾지 못했습니다. 서버 설정, 앱·서버 간 연동, 빌드 결과물, 화면 전환으로 구간을 나눠 요청 흐름을 추적했습니다.</p>
+<p>서버 API는 직접 호출하면 응답했지만, 배포된 웹에서는 소셜 로그인 화면으로 이동하지 않거나 인증 후 돌아올 화면을 찾지 못했습니다. 서버 설정과 앱·서버 연동, 빌드 결과물, 화면 전환을 차례로 확인하며 요청 흐름을 추적했습니다.</p>
 <p>실행 컨테이너의 환경변수뿐 아니라 실제 배포 JavaScript 번들을 확인했습니다. 번들의 client ID가 비어 있고 API 주소가 localhost인 점을 확인했으며, 누락된 콜백 라우팅을 보완했습니다.</p>
 <details>
 <summary>확인한 경로와 남은 범위</summary>
@@ -201,7 +204,7 @@
 </article>
 <article class="case">
 <span class="case-label">개인 로컬 후속 실험</span>
-<h3>신규 후보의 존재 조회를 없애고, <br>여러 건을 묶어 저장했습니다.</h3>
+<h3>신규 후보의 존재 조회 제거와 묶음 저장</h3>
 <p>새 후보 200개를 저장하기 전에 존재 여부를 200번 조회하고 저장도 한 건씩 처리하고 있었습니다. ID를 미리 부여한 새 데이터라서, 기존 데이터인지 먼저 조회하는 경로(merge)로 처리됐기 때문입니다. 조회 없이 바로 저장하는 방식(persist)과 여기에 50개씩 묶어 저장하는 방식을 비교했습니다.</p>
 <div class="metric-pair">
 <div>
@@ -245,7 +248,7 @@
 </tbody>
 </table>
 </div>
-<p>방식별로 처음 3건은 예열로 제외하고 20건을 측정했습니다. 실제 저장은 모두 200행이며, 기존 트랜잭션과 후보·점수·코스 내용 보존 및 오류 롤백을 확인했습니다.</p>
+<p>방식별로 처음 3건은 예열로 제외하고 20건을 측정했습니다. 각 방식에서 실제로 200행이 저장됐고, 기존 트랜잭션과 후보·점수·코스 내용이 보존되는지, 오류 시 롤백되는지 확인했습니다.</p>
 <p>SQL 계측을 켠 저장 구간의 비교입니다. AI의 도움을 받은 개인 로컬 후속 실험이며 dev와 운영에는 반영하지 않았습니다.</p>
 <p>후보 저장 구간만 비교한 결과이며, 별도 부하 시험에서 첫 추천 결과를 받는 시간은 달라지지 않았습니다.</p>
 </div>

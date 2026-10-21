@@ -198,22 +198,28 @@
   // Dots beside the stack show which photo is in front and jump to one when pressed.
   const dots = document.createElement('div');
   dots.className = 'hero-dots';
+  dots.setAttribute('role','group');
   dots.setAttribute('aria-label', '사진 선택');
   const buttons = cards.map((card, i) => {
     const button = document.createElement('button');
     button.type = 'button';
     button.setAttribute('aria-label', `${i + 1}번째 사진: ${card.querySelector('figcaption')?.textContent || ''}`);
-    button.addEventListener('click', () => { index = i + 1; place(true); schedule(); });
+    button.addEventListener('click', event => { if(event.detail!==0&&dotGesture?.moved){dotGesture=null;return;} dotGesture=null;index = i + 1; place(true); schedule(); });
     dots.append(button);
     return button;
   });
   root.append(dots);
+  let dotGesture=null;
+  dots.addEventListener('pointerdown',event=>{event.stopPropagation();clearTimeout(timer);dotGesture={x:event.clientX,y:event.clientY,moved:false};});
+  dots.addEventListener('pointermove',event=>{if(dotGesture&&Math.hypot(event.clientX-dotGesture.x,event.clientY-dotGesture.y)>8)dotGesture.moved=true;});
+  dots.addEventListener('pointerup',()=>{schedule();});
+  dots.addEventListener('pointercancel',()=>{dotGesture=null;schedule();});
   // Only the card resting at the top loses its upper corners; peeking cards stay rounded.
   const markFront = () => [...track.children].forEach((card, i) => card.classList.toggle('is-front', i === index));
   const place = (animate, offset = 0) => {
     if (animate) track.querySelector('.is-front')?.classList.remove('is-front'); else markFront();
     const current = ((index - 1) % cards.length + cards.length) % cards.length;
-    buttons.forEach((button, i) => button.toggleAttribute('aria-current', i === current));
+    buttons.forEach((button, i) => { if(i===current)button.setAttribute('aria-current','true');else button.removeAttribute('aria-current'); });
     track.style.transition = animate ? 'transform 1.1s cubic-bezier(.6,0,.2,1.12)' : 'none';
     const shift = (base - index * pitch + offset).toFixed(1);
     track.style.transform = phone.matches ? `translate3d(${shift}px, 0, 0)` : `translate3d(0, ${shift}px, 0)`;
@@ -243,7 +249,9 @@
   let drag = null;
   const axis = event => phone.matches ? event.clientX : event.clientY;
   root.addEventListener('pointerdown', event => {
-    if (event.button !== 0 || event.target.closest('.hero-dots')) return;
+    const b=dots.getBoundingClientRect(),gap=18;
+    const nearDots=event.clientX>=b.left-gap&&event.clientX<=b.right+gap&&event.clientY>=b.top-gap&&event.clientY<=b.bottom+gap;
+    if (event.button !== 0 || nearDots || !event.target.closest('.hero-card')) return;
     drag = { id: event.pointerId, start: axis(event), cross: phone.matches ? event.clientY : event.clientX, time: performance.now(), delta: 0, active: false };
     clearTimeout(timer);
   });
@@ -271,7 +279,7 @@
     schedule();
   };
   root.addEventListener('pointerup', release);
-  root.addEventListener('pointercancel', release);
+  root.addEventListener('pointercancel', () => { if(!drag)return;drag=null;root.classList.remove('is-dragging');place(true);schedule(); });
   root.addEventListener('dragstart', event => event.preventDefault());
   const schedule = () => {
     clearTimeout(timer);
