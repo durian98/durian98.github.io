@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#ffffff">
+<meta name="theme-color" content="#f1efe6">
 <title>About — 박재현</title>
 <meta name="description" content="백엔드 개발자 박재현의 협업 경험, 사용 기술, 학력과 수상 내역.">
 <meta property="og:title" content="About — 박재현">
@@ -12,17 +12,20 @@
 <meta property="og:image" content="https://durian98.github.io/assets/portrait.webp">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="styles.css?v=cd72437c">
-<script src="app.js?v=df5a969a" defer>
+<link rel="stylesheet" href="theme.css?v=3e80aed1">
+<script src="app.js?v=99f0a8aa" defer>
 </script>
+<link rel="stylesheet" href="portfolio-v6.css?v=977b7340">
+<script src="portfolio-v6.js?v=e1287cd5" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#main">본문으로 바로가기</a>
+<div class="reading-progress" aria-hidden="true"></div>
 <header class="site-header">
-<a class="wordmark" href="index.html" aria-label="박재현 포트폴리오 홈">박재현</a>
 <button class="menu-toggle" aria-expanded="false" aria-controls="site-nav">메뉴</button>
 <nav class="site-nav" id="site-nav" aria-label="주 메뉴">
 <a href="work.html">프로젝트</a>
-<a href="about.html" aria-current="page">소개</a>
+<a href="index.html#intro">소개</a>
 <a href="#contact">연락처</a>
 </nav>
 </header>
@@ -30,15 +33,26 @@
 <section class="about-hero wrap">
 <div>
 <h1>소개</h1>
-<p class="about-lead">백엔드 개발자 박재현입니다.</p>
-<p>팀원들의 의견을 충분히 듣고, 해결 방법을 함께 정하는 편입니다. 받은 피드백을 다음 작업에 반영하면서 더 나은 결과를 만드는 과정을 좋아합니다.</p>
-<p>Spring Boot로 인증과 서비스 API를 개발했습니다. Python으로는 모델 학습·평가와 변환, Django와 FastAPI를 이용한 웹 개발을 경험했습니다.</p>
+<p class="about-lead">데이터 분석, AI와 웹서비스 개발을 경험한 신입 개발자 박재현입니다.</p>
+<p>배운 내용은 프로젝트에 직접 적용해 보며 실제로 어떻게 동작하는지 확인합니다. 기술 블로그로 개발 동향을 살피고, 작업에 적용할 수 있는 부분은 반영하려 합니다.</p>
+<p>팀원들의 의견을 잘 듣고 정리해 해결 방법을 함께 정합니다. 논의한 내용은 모두가 볼 수 있게 남기고, 함께 정한 일정에 맞춰 작업을 이어갑니다. 받은 피드백을 다음 작업에 반영하고, 저와 팀이 함께 성장하는 과정을 좋아합니다.</p>
 </div>
-<figure class="about-portrait">
-<img src="assets/portrait.webp" width="320" height="435" alt="박재현 프로필 사진">
-</figure>
+<figure class="about-portrait intro-portrait"><img src="assets/portrait.webp" width="320" height="435" alt="박재현 취업사진"></figure>
 </section>
-<section class="about-quote wrap"><h2>출시 후에도 <br>사용자의 입장에서</h2><div><p>가볼래를 출시한 뒤 FLY ASIA 창업박람회에서 투자자와 사용자에게 피드백을 받았습니다. 지도에서 루트가 더 잘 보이도록 수정하고, 여행 생성에 불필요한 입력을 덜어 절차를 간편하게 했습니다.</p><p>필요한 기능을 두 단계 안에서 찾도록 동선을 검토했습니다. 제가 만든 구조에 맞춰 설명하기보다, 처음 쓰는 사람이 어디서 막히는지 보려고 했습니다.</p><a class="text-link" href="gabolle.html">GABOLLE에서 한 일 <span aria-hidden="true">↗</span></a></div></section>
+<section class="about-blocks about-ways wrap">
+<div class="reveal">
+<h2>학습</h2>
+<p>배운 내용은 프로젝트에 적용한 뒤 실제로 의도한 대로 동작하는지 직접 확인하며 익힙니다.</p>
+<p>BBIYONG에서는 화재 탐지 기준과 놓친 열원을 다시 찾는 방식을 실제 로봇 주행에서 바꿔 보며 맞췄습니다. 프로젝트가 끝난 뒤에는 같은 경보가 동시에 들어와도 한 번만 저장되는지 실제 MySQL에서 다시 시험했습니다. GABOLLE에서는 추천 후보를 저장하는 방식별로 실행되는 SQL과 처리 시간을 직접 측정해 비교했습니다.</p>
+<p>기술 블로그에서 다른 팀이 비슷한 문제를 어떻게 풀었는지 살펴보고, 진행 중인 작업에 맞는 방법은 적용해 봅니다.</p>
+</div>
+<div class="reveal">
+<h2>협업</h2>
+<p>먼저 팀원들의 의견을 충분히 듣고, 논의한 내용을 정리해 모두가 같은 기준으로 작업할 수 있게 합니다.</p>
+<p>GABOLLE에서는 6명 팀의 팀장으로서 의견을 모아 작업을 나누고, 계획한 일정에 맞춰 진행 상황을 점검했습니다. BBIYONG에서는 작업을 Jira 티켓 단위로 나눠 진행 상태를 공유했고, 세 팀원이 로봇 한 대를 함께 써야 할 때는 작업 단위와 넘겨받는 순서를 정해 서로 언제 로봇을 쓸 수 있는지 예상할 수 있게 했습니다.</p>
+<p>Arctic에서는 병합 충돌이 반복되자 기능별 담당을 나누고, 병합 전에 거칠 절차와 서버 사이의 요청·응답 형식을 팀과 함께 정했습니다.</p>
+</div>
+</section>
 <section class="about-blocks wrap">
 <div class="reveal">
 <h2>사용 기술</h2>
@@ -119,6 +133,7 @@
 </div>
 </div>
 </section>
+<section class="about-quote wrap"><h2>출시 후 <br>사용자 피드백 반영</h2><div><p>가볼래를 출시한 뒤 FLY ASIA 창업박람회에서 투자자와 사용자에게 피드백을 받았습니다. 지도에서 여행 경로가 더 잘 보이도록 수정하고, 여행 생성에 불필요한 입력을 덜어 절차를 간편하게 했습니다.</p><p>필요한 기능을 두 단계 안에서 찾도록 동선을 검토했습니다.</p><a class="text-link" href="gabolle.html">GABOLLE에서 한 일 <span aria-hidden="true">↗</span></a></div></section>
 </main>
 <footer class="contact-section wrap" id="contact">
 <div class="contact-top">
@@ -128,6 +143,7 @@
 <div class="contact-links">
 <a class="email-link" href="mailto:masdf13@naver.com">masdf13@naver.com</a>
 <button class="copy-button" data-copy-email aria-label="이메일 주소 복사">⧉</button>
+<a class="phone-link" href="tel:01077694880">010-7769-4880</a>
 </div>
 <div class="copy-status" role="status" aria-live="polite">
 </div>

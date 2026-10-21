@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#ffffff">
+<meta name="theme-color" content="#f1efe6">
 <title>페이지를 찾을 수 없어요 — 박재현</title>
 <meta name="description" content="박재현의 웹 포트폴리오">
 <meta property="og:title" content="페이지를 찾을 수 없어요 — 박재현">
@@ -12,17 +12,20 @@
 <meta property="og:image" content="https://durian98.github.io/assets/portrait.webp">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="styles.css?v=cd72437c">
-<script src="app.js?v=df5a969a" defer>
+<link rel="stylesheet" href="theme.css?v=3e80aed1">
+<script src="app.js?v=99f0a8aa" defer>
 </script>
+<link rel="stylesheet" href="portfolio-v6.css?v=977b7340">
+<script src="portfolio-v6.js?v=e1287cd5" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#main">본문으로 바로가기</a>
+<div class="reading-progress" aria-hidden="true"></div>
 <header class="site-header">
-<a class="wordmark" href="index.html" aria-label="박재현 포트폴리오 홈">박재현</a>
 <button class="menu-toggle" aria-expanded="false" aria-controls="site-nav">메뉴</button>
 <nav class="site-nav" id="site-nav" aria-label="주 메뉴">
 <a href="work.html">프로젝트</a>
-<a href="about.html">소개</a>
+<a href="index.html#intro">소개</a>
 <a href="#contact">연락처</a>
 </nav>
 </header>
@@ -47,6 +50,7 @@
 <div class="contact-links">
 <a class="email-link" href="mailto:masdf13@naver.com">masdf13@naver.com</a>
 <button class="copy-button" data-copy-email aria-label="이메일 주소 복사">⧉</button>
+<a class="phone-link" href="tel:01077694880">010-7769-4880</a>
 </div>
 <div class="copy-status" role="status" aria-live="polite">
 </div>

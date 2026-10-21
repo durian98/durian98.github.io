@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#ffffff">
+<meta name="theme-color" content="#f1efe6">
 <title>BBIYONG — 박재현</title>
 <meta name="description" content="로봇 화재 탐지 평가, 사건·알림 백엔드와 CI/CD를 개발한 BBIYONG 프로젝트.">
 <meta property="og:title" content="BBIYONG — 박재현">
@@ -12,17 +12,20 @@
 <meta property="og:image" content="https://durian98.github.io/assets/portrait.webp">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="styles.css?v=cd72437c">
-<script src="app.js?v=df5a969a" defer>
+<link rel="stylesheet" href="theme.css?v=3e80aed1">
+<script src="app.js?v=99f0a8aa" defer>
 </script>
+<link rel="stylesheet" href="portfolio-v6.css?v=977b7340">
+<script src="portfolio-v6.js?v=e1287cd5" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#main">본문으로 바로가기</a>
+<div class="reading-progress" aria-hidden="true"></div>
 <header class="site-header">
-<a class="wordmark" href="index.html" aria-label="박재현 포트폴리오 홈">박재현</a>
 <button class="menu-toggle" aria-expanded="false" aria-controls="site-nav">메뉴</button>
 <nav class="site-nav" id="site-nav" aria-label="주 메뉴">
 <a href="work.html" aria-current="page">프로젝트</a>
-<a href="about.html">소개</a>
+<a href="index.html#intro">소개</a>
 <a href="#contact">연락처</a>
 </nav>
 </header>
@@ -34,10 +37,6 @@
 </div>
 <h1 class="project-title">BBIYONG</h1>
 <p class="project-subtitle">화재·과열 감지 로봇과 실시간 관제</p>
-<div class="project-cover">
-<img class="dashboard-image" src="assets/bbiyong-dashboard.webp" width="1440" height="810" alt="로봇 위치와 순찰 상태, 사건 로그가 표시된 BBIYONG 관제 화면" fetchpriority="high">
-</div>
-<p class="image-caption">로봇 위치, 순찰 상태와 사건 로그를 보여주는 팀 관제 화면입니다.</p>
 </section>
 <section class="project-summary wrap reveal">
 <div>
@@ -56,7 +55,7 @@
 </div>
 <div>
 <dt>담당</dt>
-<dd>화재 탐지 평가·탐지 기준·재포착 <br>사건·알림 백엔드 / 인프라·CI/CD</dd>
+<dd>화재 탐지 평가 도구·탐지 기준·재포착 로직 <br>사건·알림 백엔드 / 인프라·CI/CD</dd>
 </div>
 <div>
 <dt>수상</dt>
@@ -68,6 +67,13 @@
 </a>
 </div>
 </section>
+<section class="project-demo wrap reveal">
+<p class="demo-label">서비스 동작 · 팀 시연</p>
+<figure class="demo-card browser-frame"><div class="browser-chrome" aria-hidden="true"><i></i><i></i><i></i></div><div class="motion-media" data-motion="bbiyong-mapping">
+<img src="assets/bbiyong-mapping-poster.webp" data-gif-src="assets/bbiyong-mapping.gif" data-poster-src="assets/bbiyong-mapping-poster.webp" width="860" height="484" alt="BBIYONG 로봇 지도 작성 팀 시연" loading="lazy">
+<noscript><span class="motion-static-note">정지 화면</span></noscript>
+</div></figure>
+</section>
 <section class="content-section wrap">
 <div class="section-side reveal">
 <div class="eyebrow">01</div>
@@ -77,13 +83,13 @@
 <article class="feature-entry">
 <div class="entry-number">01</div>
 <h3>로봇에서 동작하는 화재 탐지</h3>
-<p>화재를 놓치는 경우를 줄이기 위해 모델의 탐지 결과와 판정 기준을 비교하는 평가 도구를 만들었습니다. 실물에서는 탐지 기준을 조정하고, 움직이다 놓친 열원을 다시 찾는 로직을 수정했습니다.</p>
+<p>화재를 놓치는 경우를 줄이기 위해 모델의 탐지 결과와 판정 기준을 비교하는 평가 도구를 만들었습니다. 모델 하나로 탐지하는 방식과 탐지 결과를 한 번 더 판별하는 방식(Cascade), 이미지를 여러 형태로 바꿔 결과를 모으는 방식(TTA)을 비교했습니다. 실물에서는 탐지 기준을 조정하고, 움직이다 놓친 열원을 다시 찾는 로직을 수정했습니다.</p>
 <div class="tech-line">Python · PyTorch · YOLO11n</div>
 </article>
 <article class="feature-entry">
 <div class="entry-number">02</div>
 <h3>사건 저장과 경보 재전송 처리</h3>
-<p>로봇이 경보를 재전송해도 한 번만 저장되도록 DB 제약으로 중복을 방어했습니다. 저장된 사건 번호(eventId)를 로봇 회신, 관제 전달과 사건 영상에 공통으로 사용했습니다. 외부 알림은 대기 상태와 최대 3회 재시도를 따로 관리했습니다.</p>
+<p>경보의 messageId와 DB unique 제약으로 중복 저장을 막았습니다. 저장한 사건 번호(eventId)를 로봇 회신, 관제 전달과 사건 영상에 공통으로 사용했습니다. 외부 알림은 대기 상태와 최대 3회 재시도를 따로 관리했습니다.</p>
 <div class="tech-line">Spring Boot · MySQL · messageId / eventId</div>
 </article>
 <article class="feature-entry">
@@ -131,10 +137,13 @@
 <div class="metric-label">공동 최적화 후 추론시간</div>
 </div>
 </div>
-<p class="scope">공동 결과의 발표 기록입니다. 전체 영상·주행 지연이나 실제 화재 정확도를 뜻하지 않습니다.</p>
+
 <figure class="large-figure demo">
-<img src="assets/bbiyong-demo.gif" width="860" height="484" alt="전열기와 열화상 영상, 위험 알림을 함께 확인하는 팀 시연" loading="lazy">
-<figcaption class="image-caption">시연용 열원의 과열 감지와 웹 경보. 센서 결합 시스템 전체와 관제 UI는 팀 구성입니다.</figcaption>
+<div class="browser-frame"><div class="browser-chrome" aria-hidden="true"><i></i><i></i><i></i></div><div class="motion-media" data-motion="bbiyong-demo">
+<img src="assets/bbiyong-demo-poster.webp" data-gif-src="assets/bbiyong-demo.gif" data-poster-src="assets/bbiyong-demo-poster.webp" width="860" height="484" alt="전열기 과열 감지와 관제 경보 팀 시연" loading="lazy">
+<noscript><span class="motion-static-note">정지 화면</span></noscript>
+</div></div>
+
 </figure>
 </div>
 </section>
@@ -161,7 +170,7 @@
 <details>
 <summary>검증 조건과 확인 범위</summary>
 <div class="detail-body">
-<p>24개 작업이 모두 선조회를 지난 뒤 저장을 경쟁하게 했습니다. 3회 모두 DB 1행, 저장 이후 모의 함수 호출은 각 1회였습니다.</p>
+<p>24개 작업이 모두 존재 여부 조회를 마치도록 맞춘 뒤 동시에 저장하게 했습니다. 3회 모두 DB에는 1행만 저장됐고, 저장 뒤 이어지는 후속 처리(모의)도 회마다 한 번만 실행됐습니다.</p>
 <p>실제 로컬 MySQL을 사용했으며 로봇 회신, 관제와 외부 알림은 모의 처리로 분리했습니다. 기존 중복 방어 로직을 사후 검증한 결과입니다. 운영 환경의 개선 전후 비교는 수행하지 않았습니다.</p>
 </div>
 </details>
@@ -169,7 +178,7 @@
 <article class="case">
 <span class="case-label">개인 로컬 후속 실험</span>
 <h3>같은 로봇의 순서는 지키고, <br>다른 로봇은 함께 처리</h3>
-<p>대기열이 차면 일부 작업이 앞선 작업을 추월해 처리 순서가 바뀌었습니다. 빈자리를 기다리게 바꿔 순서는 지켰지만 합성 작업 400건의 총 시간은 약 4.7초에서 6.2초로 늘었습니다.</p>
+<p>대기열이 차면 일부 작업이 앞선 작업을 추월해 처리 순서가 바뀌었습니다. 빈자리를 기다리게 바꿔 순서는 지켰지만 시험용으로 만든 작업 400건의 총 시간은 약 4.7초에서 6.2초로 늘었습니다.</p>
 <p>이후 로봇 번호로 네 대기열을 나눴습니다. 같은 로봇의 작업은 들어온 순서대로 처리하고, 서로 다른 로봇은 함께 처리하는 구조를 실제 DB 저장 200건으로 비교했습니다.</p>
 <div class="metric-pair">
 <div>
@@ -217,7 +226,7 @@
 </tbody>
 </table>
 </div>
-<p>네 로봇 번호에 각 50건, 구조별 3회 중앙값입니다. 후속 알림은 모의 처리이며, 합성 400건의 순서 시험과 실제 DB 200건의 처리량 시험은 서로 다른 실험입니다.</p>
+<p>네 로봇 번호에 각 50건, 구조별 3회 중앙값입니다. 후속 알림은 모의 처리이며, 시험용 작업 400건의 순서 시험과 실제 DB 200건의 처리량 시험은 서로 다른 실험입니다.</p>
 <p>프로그램 종료와 새 작업 접수가 겹치는 경우가 남아 운영에는 반영하지 않았습니다. 특정 로봇에 요청이 몰리는 조건과 로봇 수신부터 화면 표시까지의 실제 부하 시험도 추가 과제입니다.</p>
 </div>
 </details>
@@ -225,9 +234,14 @@
 </div>
 </section>
 <section class="content-section wrap"><div class="section-side"><div class="eyebrow">04</div><h2>회고</h2></div><div class="section-body">
-<article class="reflection-entry"><h3>속도를 바꾸기 전에 지킬 조건부터 정하기</h3><p>대기열이 찼을 때 처리 순서가 바뀌는 문제를 확인한 뒤, 기다리도록 바꾸자 순서는 지켰지만 전체 시간은 늘었습니다. 다음에는 같은 로봇의 처리 순서와 사건의 중복 저장 방지를 먼저 기준으로 정하고, 처리량을 바꿀 때 두 조건을 함께 검증하려 합니다.</p></article>
-<article class="reflection-entry"><h3>종료와 재시도를 처음 설계에 포함하기</h3><p>정상적으로 요청을 처리하는 경로를 확인한 뒤에도 프로그램 종료와 새 작업 접수가 겹치는 경우가 남았습니다. 다음에는 대기열 포화, 종료 시 남은 작업과 재시도 이후 중복 처리 기준을 설계 단계에서 함께 정하려 합니다.</p></article>
-<article class="reflection-entry"><h3>서버 준비 상태와 실제 경보 전달을 나눠 보기</h3><p>서버가 떠 있는지와 로봇의 경보가 관제까지 전달되는지는 따로 확인해야 합니다. 기기를 연동하는 작업에서는 로봇 송신, DB 저장, 관제 표시와 외부 알림을 구간별로 확인하고, 실패한 지점을 추적할 수 있게 검증하려 합니다.</p><p class="scope">로봇 수신부터 화면 표시까지의 실제 부하 시험과 실행기 종료 정책의 보완은 추가 과제입니다.</p></article>
+<article class="reflection-entry">
+<h3>모델 평가와 실기기 검증</h3>
+<p>실제 주행에서는 열원을 놓치거나 촬영 방향이 어긋나 탐지 기준과 재포착 방식을 조정했습니다. 다음에는 모델을 비교할 때부터 주행 조건과 경보 성공 기준을 정하고, 추론시간, 재포착 동작과 관제 경보를 함께 확인하려 합니다.</p>
+</article>
+<article class="reflection-entry">
+<h3>사건 처리 조건과 실패 상황의 설계</h3>
+<p>후속 부하 시험에서 대기열이 가득 차면 같은 로봇의 처리 순서가 바뀌는 문제를 확인했습니다. 다음에는 순서 유지와 중복 저장 방지를 처리량과 함께 검증하고, 대기열 포화와 종료 시 남은 작업의 처리 기준도 처음부터 정하려 합니다.</p>
+</article>
 </div></section>
 <a class="next-project wrap" href="gabolle.html">
 <div>
@@ -245,6 +259,7 @@
 <div class="contact-links">
 <a class="email-link" href="mailto:masdf13@naver.com">masdf13@naver.com</a>
 <button class="copy-button" data-copy-email aria-label="이메일 주소 복사">⧉</button>
+<a class="phone-link" href="tel:01077694880">010-7769-4880</a>
 </div>
 <div class="copy-status" role="status" aria-live="polite">
 </div>
