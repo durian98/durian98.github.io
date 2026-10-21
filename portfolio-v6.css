@@ -387,3 +387,6 @@ body { background-image: url('assets/paper-grain.svg?v=7b'); }
 }
 .app-gallery > div:nth-child(2) { margin-top: 0; }
 @media (max-width:760px) { .app-gallery > div:nth-child(2) { margin-top: 0; } }
+.hero-card { border-radius: 6px; transition: border-radius .25s ease; }
+.hero-card.is-front { border-radius: 0 0 6px 6px; }
+@media (max-width:760px) { .hero-card { border-radius: 5px; } .hero-card.is-front { border-radius: 0 0 5px 5px; } }

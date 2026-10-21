@@ -204,7 +204,10 @@
     return button;
   });
   root.append(dots);
+  // Only the card resting at the top loses its upper corners; peeking cards stay rounded.
+  const markFront = () => [...track.children].forEach((card, i) => card.classList.toggle('is-front', i === index));
   const place = animate => {
+    if (animate) track.querySelector('.is-front')?.classList.remove('is-front'); else markFront();
     const current = ((index - 1) % cards.length + cards.length) % cards.length;
     buttons.forEach((button, i) => button.toggleAttribute('aria-current', i === current));
     track.style.transition = animate ? 'transform 1.1s cubic-bezier(.6,0,.2,1.12)' : 'none';
@@ -216,7 +219,11 @@
     pitch = card + 10; base = 0;
     place(false);
   };
-  track.addEventListener('transitionend', () => { if (index === cards.length + 1) { index = 1; place(false); } });
+  track.addEventListener('transitionend', event => {
+    if (event.target !== track) return;
+    if (index === cards.length + 1) index = 1;
+    place(false);
+  });
   const schedule = () => {
     clearTimeout(timer);
     if (reduced.matches || !visible || document.hidden) return;
