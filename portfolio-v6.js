@@ -190,6 +190,8 @@
   const head = cards[cards.length - 1].cloneNode(true), tail = cards[0].cloneNode(true);
   for (const clone of [head, tail]) { clone.setAttribute('aria-hidden', 'true'); clone.querySelector('img').removeAttribute('loading'); }
   track.prepend(head); track.append(tail);
+  // Desktop stacks photos vertically; phones lay them out in a row that moves right to left.
+  const phone = matchMedia('(max-width: 760px)');
   let index = 1, pitch = 0, base = 0, timer = 0, visible = true;
   // Dots beside the stack show which photo is in front and jump to one when pressed.
   const dots = document.createElement('div');
@@ -211,12 +213,20 @@
     const current = ((index - 1) % cards.length + cards.length) % cards.length;
     buttons.forEach((button, i) => button.toggleAttribute('aria-current', i === current));
     track.style.transition = animate ? 'transform 1.1s cubic-bezier(.6,0,.2,1.12)' : 'none';
-    track.style.transform = `translate3d(0, ${(base - index * pitch).toFixed(1)}px, 0)`;
+    const shift = (base - index * pitch).toFixed(1);
+    track.style.transform = phone.matches ? `translate3d(${shift}px, 0, 0)` : `translate3d(0, ${shift}px, 0)`;
   };
   const layout = () => {
-    const height = root.clientHeight, card = Math.round(height * .88);
-    track.style.setProperty('--card-h', `${card}px`);
-    pitch = card + 10; base = 0;
+    if (phone.matches) {
+      const card = Math.round(root.clientWidth * .84);
+      track.style.setProperty('--card-w', `${card}px`);
+      pitch = card + 10;
+    } else {
+      const card = Math.round(root.clientHeight * .88);
+      track.style.setProperty('--card-h', `${card}px`);
+      pitch = card + 10;
+    }
+    base = 0;
     place(false);
   };
   track.addEventListener('transitionend', event => {
@@ -231,8 +241,11 @@
   };
   layout(); schedule();
   addEventListener('resize', layout);
+  phone.addEventListener('change', layout);
   document.addEventListener('visibilitychange', schedule);
-  if ('IntersectionObserver' in window) new IntersectionObserver(entries => { visible = entries[0].isIntersecting; schedule(); }).observe(root);
+  // Coming back into view re-places the stack, so a browser that dropped the offscreen layer repaints it.
+  if ('IntersectionObserver' in window) new IntersectionObserver(entries => { visible = entries[0].isIntersecting; if (visible) place(false); schedule(); }).observe(root);
+  addEventListener('pageshow', () => place(false));
 })();
 
 // Mouse-wheel scrolling glides to a stop (about half a second), like the reference; touch, keyboard and reduced motion keep native scrolling.

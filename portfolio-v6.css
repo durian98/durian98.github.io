@@ -390,3 +390,29 @@ body { background-image: url('assets/paper-grain.svg?v=7b'); }
 .hero-card { border-radius: 6px; transition: border-radius .25s ease; }
 .hero-card.is-front { border-radius: 0 0 6px 6px; }
 @media (max-width:760px) { .hero-card { border-radius: 5px; } .hero-card.is-front { border-radius: 0 0 5px 5px; } }
+
+/* Lighter photo stack (no permanent compositing layer) and a shorter phone hero. */
+.hero-track { will-change: auto; }
+.hero-card img { object-position: center 30%; }
+@media (max-width:760px) {
+  .home .hero { height: min(58svh, 470px); }
+  .home .hero-art { margin-top: 0; }
+  .home .hero-photos .hero-track { right: 16px; }
+  .home .hero-name { font-size: clamp(38px, 12vw, 54px); }
+}
+
+/* Phone hero: name across the top, a wide photo row below that slides right to left. */
+@media (max-width:760px) {
+  .home .hero { display: flex; flex-direction: column; height: auto; padding: 0; gap: 0; }
+  .home .hero-copy { order: 0; grid-column: auto; grid-row: auto; padding: 84px var(--gutter) 26px; align-self: stretch; }
+  .home .hero-name { font-size: clamp(56px, 17vw, 76px); }
+  .home .hero-name-en { font-size: clamp(20px, 6vw, 26px); margin-top: 10px; }
+  .home .hero-art { order: 1; grid-column: auto; grid-row: auto; width: 100%; height: auto; aspect-ratio: 4/3; margin: 0; padding-bottom: 22px; }
+  .home .hero-photos .hero-track { display: flex; top: 0; bottom: 22px; left: 0; right: auto; }
+  .home .hero-card { flex: 0 0 var(--card-w, 84vw); height: 100%; margin: 0 10px 0 0; border-radius: 6px; }
+  .home .hero-card.is-front { border-radius: 0 6px 6px 0; }
+  .home .hero-dots { top: auto; bottom: 4px; right: auto; left: 50%; transform: translateX(-50%); flex-direction: row; gap: 7px; }
+  .home .hero-dots button { width: 6px; height: 6px; transition: width .45s var(--ease), background .3s; }
+  .home .hero-dots button[aria-current] { width: 20px; height: 6px; }
+  .hero-card figcaption { font-size: 12px; padding: 44px 14px 12px; }
+}
