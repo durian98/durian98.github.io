@@ -1,19 +1,18 @@
-// Fibre fan beside the AI title, in the site palette. Motion values come from the reference clip
-// (30 fps, measured within shots): a steady turn of about 5°/s, the fan opening by roughly a fifth
-// over 2–3 s, a core drift of a few pixels, and gently rising speed. Here they loop without cuts.
+// Gill-cap object beside the AI title, after the reference clip: rounded translucent caps filled with fine
+// fibres that gather into a dark stem, warm in the middle and pale at the rim, recoloured to the site palette.
+// Motion from the clip (30 fps, within shots): a steady turn of about 5 deg/s, the caps opening by roughly
+// a fifth over 2-3 s and a slow drift. Here it loops without cuts.
 (() => {
   const canvas = document.querySelector('.ai-object');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  const lobes = [
-    { cx: .47, cy: .66, r: .46, start: -2.35, sweep: 2.0, n: 190, tip: '196,183,212', mid: '120,104,160', core: '30,34,44', phase: 0 },
-    { cx: .52, cy: .61, r: .40, start: -.75, sweep: 1.75, n: 160, tip: '226,214,176', mid: '128,156,110', core: '34,48,36', phase: 2.1 },
-    { cx: .44, cy: .70, r: .24, start: .45, sweep: 1.5, n: 100, tip: '232,200,178', mid: '190,132,104', core: '52,40,60', phase: 4.2 }
+  // stem point, cap direction, cap size, how far the cap centre sits from the stem, colours
+  const caps = [
+    { sx: .50, sy: .58, dir: -1.75, size: .30, off: .55, n: 420, ph: 0,   core: [26, 34, 44], deep: [52, 84, 104],  warm: [222, 160, 120], rim: [176, 164, 206] },
+    { sx: .50, sy: .60, dir: -.35,  size: .23, off: .60, n: 330, ph: 2.1, core: [28, 40, 34], deep: [74, 110, 92],  warm: [232, 196, 150], rim: [184, 200, 168] },
+    { sx: .46, sy: .64, dir: 2.35,  size: .17, off: .62, n: 260, ph: 4.0, core: [40, 30, 52], deep: [118, 92, 150], warm: [236, 168, 140], rim: [200, 178, 214] }
   ];
-  const TURN = 18 * Math.PI / 180, TURN_PERIOD = 13;   // ±18° swing, peak ≈ 8.7°/s, average near the measured 5°/s
-  const OPEN = .18, OPEN_PERIOD = 9;                   // fan opens and closes by about 18 %
-  const DRIFT = 6, DRIFT_PERIOD = 17;                  // core drifts a few pixels
   let width = 0, height = 0, visible = true, frame = 0, start = 0;
   const size = () => {
     const box = canvas.getBoundingClientRect(), dpr = Math.min(2, devicePixelRatio || 1);
@@ -22,35 +21,62 @@
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   };
   const wave = (t, period, phase = 0) => Math.sin(2 * Math.PI * t / period + phase);
+  const rgba = (c, a) => `rgba(${c[0]},${c[1]},${c[2]},${a})`;
+  function drawCap(cap, t, unit, turn, ox, oy) {
+    const open = 1 + .18 * wave(t, 9, cap.ph);                        // caps open and close by about 18 %
+    const dir = cap.dir + turn + .1 * wave(t, 11, cap.ph);
+    const sx = cap.sx * width + ox, sy = cap.sy * height + oy;
+    const R = cap.size * unit * open, d = R * cap.off * 1.6;
+    const cx = sx + Math.cos(dir) * d, cy = sy + Math.sin(dir) * d;    // cap centre, offset from the stem
+    const outline = a => {                                             // rounded, slightly scalloped rim
+      const wob = 1 + .045 * Math.sin(a * 3 + t * .7 + cap.ph) + .02 * Math.sin(a * 11 - t * 1.1);
+      return [cx + Math.cos(a) * R * wob, cy + Math.sin(a) * R * wob];
+    };
+    const body = ctx.createRadialGradient(sx, sy, 0, sx, sy, d + R);
+    body.addColorStop(0, rgba(cap.core, .95));
+    body.addColorStop(.42, rgba(cap.deep, .8));
+    body.addColorStop(.74, rgba(cap.warm, .6));
+    body.addColorStop(1, rgba(cap.rim, .18));
+    const trace = steps => {
+      ctx.beginPath();
+      for (let i = 0; i <= steps; i++) { const p = outline(i / steps * Math.PI * 2); if (i) ctx.lineTo(p[0], p[1]); else ctx.moveTo(p[0], p[1]); }
+    };
+    ctx.globalCompositeOperation = 'multiply';
+    ctx.fillStyle = body; ctx.globalAlpha = .38;                       // translucent membrane
+    trace(96); ctx.fill();
+    // fibres from the stem to the rim; each lags a little so the cap ripples open
+    ctx.globalAlpha = .55; ctx.strokeStyle = body; ctx.lineWidth = .55;
+    ctx.beginPath();
+    for (let i = 0; i < cap.n; i++) {
+      const k = i / cap.n, a = dir + Math.PI + (k - .5) * 2 * Math.PI * .97;
+      const [ex, ey] = outline(a + .06 * wave(t - k * 2.4, 9, cap.ph));
+      const twist = .55 + .15 * wave(t - k * 1.8, 7, cap.ph);
+      const mx = (sx + ex) / 2 + Math.cos(a + Math.PI / 2) * R * .25 * twist;
+      const my = (sy + ey) / 2 + Math.sin(a + Math.PI / 2) * R * .25 * twist;
+      ctx.moveTo(sx, sy); ctx.quadraticCurveTo(mx, my, ex, ey);
+    }
+    ctx.stroke();
+    ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = .5;  // thin rim line
+    ctx.strokeStyle = rgba(cap.rim, .9); ctx.lineWidth = 1;
+    trace(120); ctx.stroke();
+    ctx.globalAlpha = 1;
+  }
   const draw = t => {
     ctx.clearRect(0, 0, width, height);
     const unit = Math.min(width, height);
-    const turn = TURN * wave(t, TURN_PERIOD);
-    const ox = DRIFT * wave(t, DRIFT_PERIOD), oy = DRIFT * wave(t, DRIFT_PERIOD, 1.3);
-    ctx.lineWidth = .7;
-    for (const lobe of lobes) {
-      const cx = lobe.cx * width + ox, cy = lobe.cy * height + oy, reachMax = lobe.r * unit * (1 + OPEN * .5);
-      const shade = ctx.createRadialGradient(cx, cy, 0, cx, cy, reachMax);
-      shade.addColorStop(0, `rgba(${lobe.core},.9)`);
-      shade.addColorStop(.35, `rgba(${lobe.mid},.55)`);
-      shade.addColorStop(.85, `rgba(${lobe.tip},.42)`);
-      shade.addColorStop(1, `rgba(${lobe.tip},.12)`);
-      ctx.strokeStyle = shade;
-      const open = 1 + OPEN * wave(t, OPEN_PERIOD, lobe.phase);
-      ctx.beginPath();
-      for (let i = 0; i < lobe.n; i++) {
-        const k = i / (lobe.n - 1);
-        // each fibre trails its neighbour slightly, so the fan unfurls like a wave instead of moving as one sheet
-        const lag = wave(t - k * 1.6, OPEN_PERIOD, lobe.phase);
-        const angle = lobe.start + turn + lobe.sweep * k * (1 + OPEN * .6 * lag);
-        const reach = lobe.r * unit * open * (.8 + .2 * Math.sin(k * Math.PI));
-        const curl = .32 + .12 * wave(t - k * 2.2, 7, lobe.phase);
-        ctx.moveTo(cx, cy);
-        ctx.quadraticCurveTo(cx + Math.cos(angle - curl) * reach * .55, cy + Math.sin(angle - curl) * reach * .55,
-          cx + Math.cos(angle) * reach, cy + Math.sin(angle) * reach);
-      }
-      ctx.stroke();
-    }
+    const turn = .32 * wave(t, 13);                                    // about +-18 deg, near the measured 5 deg/s
+    const ox = 8 * wave(t, 17), oy = 8 * wave(t, 17, 1.3);
+    for (const cap of caps) drawCap(cap, t, unit, turn, ox, oy);
+    // stem: a short dark twist under the caps
+    ctx.globalCompositeOperation = 'multiply';
+    const sx = .49 * width + ox, sy = .62 * height + oy;
+    const stem = ctx.createLinearGradient(sx, sy - unit * .05, sx, sy + unit * .22);
+    stem.addColorStop(0, 'rgba(26,34,44,.9)'); stem.addColorStop(1, 'rgba(118,92,150,0)');
+    ctx.strokeStyle = stem; ctx.lineWidth = unit * .03; ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(sx, sy);
+    ctx.bezierCurveTo(sx + unit * .05 * wave(t, 8), sy + unit * .08, sx - unit * .04, sy + unit * .14, sx + unit * .02 * wave(t, 10, 1), sy + unit * .22);
+    ctx.stroke();
+    ctx.globalCompositeOperation = 'source-over';
   };
   const tick = time => {
     if (!start) start = time - 2000;

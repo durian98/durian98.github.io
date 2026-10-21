@@ -453,3 +453,13 @@ body { isolation: isolate; }
   .ai-hero-grid { grid-template-columns: 1fr; gap: 6px; }
   .ai-object { max-width: 360px; margin: 0 auto; }
 }
+
+/* The AI object may run behind the title text. */
+.ai-hero-grid { position: relative; display: block; }
+.ai-hero-grid > div { position: relative; z-index: 1; }
+.ai-object { position: absolute; top: -140px; right: -6%; width: min(760px, 62vw); height: min(760px, 62vw); max-height: none; aspect-ratio: auto; z-index: 0; pointer-events: none; }
+.project-hero:has(.ai-object) { min-height: min(560px, 62vw); }
+@media (max-width:760px) {
+  .ai-object { position: relative; top: auto; right: auto; width: 100%; height: 380px; margin: -40px auto -30px; }
+  .project-hero:has(.ai-object) { min-height: 0; }
+}
