@@ -1,0 +1,32 @@
+/* Minimal landing: a quiet text column with the moving surface kept to one side. */
+.home .hero.wrap:has(.hero-film){background:#fff7ee;}
+.home .hero .hero-film{inset:0 0 0 34%;opacity:.67;mask-image:radial-gradient(ellipse 92% 100% at 100% 48%,#000 36%,transparent 86%);-webkit-mask-image:radial-gradient(ellipse 92% 100% at 100% 48%,#000 36%,transparent 86%);}
+.home .hero-film::after{background:radial-gradient(ellipse at 55% 20%,#fff2d936,transparent 70%);}
+.home .hero:has(.hero-film) .hero-name{font-size:clamp(76px,8vw,112px);font-weight:500;letter-spacing:-.07em;}
+.home .hero:has(.hero-film) .hero-name-en{font-size:18px;margin-top:18px;letter-spacing:.035em;}
+.home .hero:has(.hero-film) .hero-disciplines{font-size:clamp(27px,3vw,38px);margin-top:40px;}
+.home .hero:has(.hero-film) .hero-cta{margin-top:32px;font-size:15px;gap:16px;}
+.home .hero:has(.hero-film) .hero-cta span{width:32px;height:32px;font-size:18px;border:0;}
+@media(max-width:760px){
+ .home .hero.wrap:has(.hero-film){justify-content:center;padding-block:120px 100px;}
+ .home .hero .hero-film{inset:28% -15% 0 10%;opacity:.35;mask-image:radial-gradient(ellipse at 85% 85%,#000 12%,transparent 74%);-webkit-mask-image:radial-gradient(ellipse at 85% 85%,#000 12%,transparent 74%);}
+ .home .hero:has(.hero-film) .hero-name{font-size:clamp(66px,19vw,90px);}
+ .home .hero:has(.hero-film) .hero-name-en{font-size:17px;}
+ .home .hero:has(.hero-film) .hero-disciplines{font-size:28px;margin-top:32px;}
+}
+
+/* Keep the latest typography and navigation while applying the requested warm palette. */
+:root{--ed-sage:#f9e9da;--ed-olive:#27282a;--paper:#fff;--rust:#f47732;--section-wash:radial-gradient(ellipse at 88% 12%,#ffd8bcad 0%,#ffe9db18 48%,transparent 66%),radial-gradient(ellipse at 7% 80%,#ffd3b48a 0%,transparent 57%),radial-gradient(ellipse at 52% 46%,#fffdfa 0%,#fff9f4 60%,#fff3e9 100%);}
+body{background-color:#fff;}
+.ai-flow{filter:none;}
+.home:has(.hero-film) .site-header,.home:has(.hero-film) .site-nav a,.home:has(.hero-film) .menu-toggle{color:#33271f;}
+.home .hero:has(.hero-film) .hero-name{color:#33271f;}
+.home .hero:has(.hero-film) .hero-name-en{color:#493427;}
+.home .hero:has(.hero-film) .hero-disciplines,.home .hero:has(.hero-film) .discipline-reel span{color:#33271f;}
+.home .hero:has(.hero-film) .hero-cta{color:#33271f;border-bottom:1px solid currentColor;padding-bottom:6px;min-height:0;gap:12px;font-weight:500;}
+.home .hero-copy .hero-cta span,.home .hero:has(.hero-film) .hero-cta span{width:auto;height:auto;border:0;border-radius:0;background:none;color:inherit;}
+.home .hero:has(.hero-film) .hero-cta:hover span{background:none;color:inherit;transform:translateY(3px);}
+.photo-prev,.photo-next{border:0!important;background:none!important;box-shadow:none!important;}
+.intro-photo-stage .intro-slide img{max-width:none;width:100%;height:100%;}
+.return-nav,.return-nav a,.return-nav button{border:0!important;}
+.return-nav{background:rgba(255,251,245,.92);box-shadow:0 10px 30px -10px rgba(39,40,42,.35),0 2px 6px rgba(39,40,42,.08);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);}
