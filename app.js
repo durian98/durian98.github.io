@@ -81,3 +81,87 @@
     document.documentElement.classList.add('motion-ready');
   }
 })();
+/* Original petal texture, deformed continuously without replacing its silhouette. */
+(() => {
+  const field = document.querySelector('.home .hero .petal-field');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  if (!field || reduced.matches) return;
+  const canvas = document.createElement('canvas');
+  canvas.className = 'hero-motion-canvas';
+  canvas.setAttribute('aria-hidden', 'true');
+  const gl = canvas.getContext('webgl', {alpha: false, antialias: false});
+  if (!gl) return;
+  const shader = (kind, source) => {
+    const result = gl.createShader(kind);
+    gl.shaderSource(result, source); gl.compileShader(result);
+    if (!gl.getShaderParameter(result, gl.COMPILE_STATUS)) throw new Error('Petal shader compilation failed');
+    return result;
+  };
+  const program = gl.createProgram();
+  try {
+    gl.attachShader(program, shader(gl.VERTEX_SHADER, 'attribute vec2 position; varying vec2 uv; void main(){uv=position*.5+.5;gl_Position=vec4(position,0.,1.);}'));
+    gl.attachShader(program, shader(gl.FRAGMENT_SHADER, `
+      precision mediump float;
+      varying vec2 uv;
+      uniform sampler2D image;
+      uniform float time;
+      uniform vec2 fit;
+      void main(){
+        vec2 p=(uv-.5)*fit;
+        float t=time;
+        // Different phases let the broad petals open, curl and settle independently.
+        float opening=sin(t*.42);
+        float curl=sin(t*.31+1.3);
+        p.x+=.033*sin(p.y*5.5+t*.42)+.014*curl*cos(p.x*4.);
+        p.y+=.028*sin(p.x*5.-t*.36)+.012*opening*cos(p.y*3.);
+        float angle=.035*sin(t*.27);
+        p=mat2(cos(angle),-sin(angle),sin(angle),cos(angle))*p;
+        p/=(1.10+.025*sin(t*.38));
+        vec3 color=texture2D(image,clamp(p+.5, .001,.999)).rgb;
+        color=mix(color,vec3(1.,.94,.89),.08);
+        gl_FragColor=vec4(color,1.);
+      }`));
+    gl.linkProgram(program);
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) return;
+  } catch (_) { return; }
+  gl.useProgram(program);
+  const buffer=gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER,buffer);
+  gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);
+  const position=gl.getAttribLocation(program,'position');
+  gl.enableVertexAttribArray(position); gl.vertexAttribPointer(position,2,gl.FLOAT,false,0,0);
+  const time=gl.getUniformLocation(program,'time'), fit=gl.getUniformLocation(program,'fit');
+  const texture=gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D,texture);
+  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
+  const image=new Image(); let active=false,request=0,elapsed=0,last=0;
+  const draw = now => {
+    request=0;
+    if (!active || document.hidden || reduced.matches) { last=0; return; }
+    if (last) elapsed+=Math.min(now-last,60)/1000;
+    last=now; gl.uniform1f(time,elapsed); gl.drawArrays(gl.TRIANGLES,0,6);
+    request=requestAnimationFrame(draw);
+  };
+  const resume=()=>{if(active&&!document.hidden&&!reduced.matches&&!request)request=requestAnimationFrame(draw);};
+  image.onload=()=>{
+    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,true);
+    gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB,gl.RGB,gl.UNSIGNED_BYTE,image);
+    field.append(canvas); field.classList.add('has-liquid-motion');
+    const resize=()=>{
+      const box=field.getBoundingClientRect(), ratio=box.width/box.height, imageRatio=image.width/image.height;
+      const dpr=Math.min(devicePixelRatio||1,1.5);
+      canvas.width=Math.round(box.width*dpr);canvas.height=Math.round(box.height*dpr);
+      gl.viewport(0,0,canvas.width,canvas.height);
+      gl.uniform2f(fit,Math.min(1,ratio/imageRatio),Math.min(1,imageRatio/ratio));
+      gl.uniform1f(time,elapsed);gl.drawArrays(gl.TRIANGLES,0,6);
+    };
+    new ResizeObserver(resize).observe(field);resize();
+    new IntersectionObserver(entries=>{active=entries[0].isIntersecting;resume();},{threshold:0}).observe(field);
+    document.addEventListener('visibilitychange',resume);
+    reduced.addEventListener('change',()=>{
+      canvas.hidden=reduced.matches;field.classList.toggle('has-liquid-motion',!reduced.matches);resume();
+    });
+  };
+  image.src='assets/hero-floral-reference.webp';
+})();
