@@ -1,7 +1,7 @@
 (() => {
   document.documentElement.classList.add('portfolio-ready');
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const players = [...document.querySelectorAll('[data-motion]')].map(root => {
+  const players = [...document.querySelectorAll('.motion-media[data-motion]')].map(root => {
     const img = root.querySelector('img');
     const state = { root, img, paused: reduced.matches, visible: false, playing: false };
     const update = () => {
@@ -34,6 +34,7 @@
   if (!root) return;
   const track = root.querySelector('.skill-track');
   const tabs = [...track.querySelectorAll('.skill-tab')];
+  let copies = [], copyCycles = 0;
   const panels = [...root.querySelectorAll('.skill-panel')];
   let selected = 0, automatic = !reduced.matches, hover = false, focus = false, visible = false;
   let offset = -30, lastTime = 0, frame = 0, drag = null, suppressClickUntil = 0, inertiaFrame = 0, resumeTimer = 0;
@@ -89,12 +90,32 @@
   const paint = () => {
     measure();
     const width = track.clientWidth;
+    const needed=Math.ceil(width/cycle);
+    if(needed!==copyCycles){
+      copies.forEach(({node})=>node.remove());copies=[];copyCycles=needed;
+      for(let lap=1;lap<=needed;lap++)tabs.forEach((tab,index)=>{
+        const node=tab.cloneNode(true);
+        node.removeAttribute('id');node.removeAttribute('aria-controls');node.removeAttribute('aria-selected');
+        node.setAttribute('aria-hidden','true');node.setAttribute('tabindex','-1');node.dataset.visualCopy='true';
+        node.addEventListener('click',()=>tab.click());
+        track.append(node);copies.push({node,index,lap});
+      });
+    }
+    const position=(node,x)=>{
+      const distance=Math.min(1,Math.abs(x+(pitch-20)/2-width/2)/Math.max(1,width/2));
+      const scale=.7+.3*(1-distance*distance);
+      node.style.transform=`translateX(${x.toFixed(2)}px) scale(${scale.toFixed(3)})`;
+      node.style.visibility=(x < -pitch || x > width+pitch)?'hidden':'visible';
+    };
     tabs.forEach((tab, i) => {
       let x = ((i * pitch - offset) % cycle + cycle) % cycle;
       if (x > cycle - pitch) x -= cycle;
-      const distance = Math.min(1, Math.abs(x + (pitch - 20) / 2 - width / 2) / Math.max(1, width / 2));
-      const scale = .7 + .3 * (1 - distance * distance);
-      tab.style.transform = `translateX(${x.toFixed(2)}px) scale(${scale.toFixed(3)})`;
+      position(tab,x);
+    });
+    copies.forEach(({node,index,lap})=>{
+      let x=((index*pitch-offset)%cycle+cycle)%cycle;
+      if(x>cycle-pitch)x-=cycle;
+      position(node,x+lap*cycle);
     });
   };
   function tick(time) {
@@ -172,7 +193,7 @@
   track.addEventListener('pointercancel', event => { if (drag?.id === event.pointerId) drag = null; resumeLater(); });
   track.addEventListener('touchend', () => resumeLater(), { passive: true });
   window.addEventListener('pointerup', release);
-  window.addEventListener('resize', () => { if (automatic) paint(); });
+  window.addEventListener('resize', () => { paint(); });
   reduced.addEventListener('change', () => { if (reduced.matches) stopAuto(); });
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(entries => { visible = entries[0].isIntersecting; }, { threshold: .1 }).observe(track);

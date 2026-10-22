@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#f1efe6">
+<meta name="theme-color" content="#FFFDF9">
 <title>AI 활용 — 박재현</title>
-<meta name="description" content="AI에 맡길 일과 직접 판단할 일을 나누고, 결과를 테스트로 확인하는 개발 방식.">
+<meta name="description" content="직접 만든 AI 스킬과 개발·문서 작업에 적용한 사례.">
 <meta property="og:title" content="AI 활용 — 박재현">
-<meta property="og:description" content="AI에 맡길 일과 직접 판단할 일을 나누고, 결과를 테스트로 확인하는 개발 방식.">
+<meta property="og:description" content="직접 만든 AI 스킬과 개발·문서 작업에 적용한 사례.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://durian98.github.io/assets/portrait.webp">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -16,12 +16,14 @@
 <script src="app.js?v=99f0a8aa" defer>
 </script>
 <link rel="stylesheet" href="portfolio-v6.css?v=p4">
-<script src="ai-object.js?v=102de467" defer></script>
-<script src="portfolio-v6.js?v=3ddbc0c2" defer></script>
+<script src="liquid-media.js?v=ed74532c" defer></script>
+<script src="portfolio-v6.js?v=d3cd446b" defer></script>
 <link rel="stylesheet" href="visual-refinement.css?v=7df0ea1d">
-<script src="ai-navigation.js?v=38b6ecfe"></script>
+<script src="page-navigation.js?v=c9741584"></script>
+<link rel="stylesheet" href="sky-preview.css?v=9e9cb6b2">
+<link rel="stylesheet" href="palette-study.css?v=19be9857">
 </head>
-<body>
+<body class="ai-page">
 <a class="skip-link" href="#main">본문으로 바로가기</a>
 <div class="reading-progress" aria-hidden="true"></div>
 <header class="site-header">
@@ -37,50 +39,52 @@
 <section class="project-hero wrap">
 <div class="project-topline">
 <a href="index.html#ai">← 메인으로</a>
-<span>AI 활용 · 개발과 학습</span>
+
 </div>
 <div class="ai-hero-grid">
 <div>
 <h1 class="project-title">AI 활용</h1>
-<p class="project-subtitle">맡길 일과 직접 판단할 일을 나누고, 결과는 테스트로 확인합니다</p>
+<p class="project-subtitle">개발과 문서 작업에서 반복하던 설명과 확인 절차를 스킬로 묶었습니다</p>
 </div>
-<canvas class="ai-object" aria-hidden="true"></canvas>
+<figure class="ai-flow liquid-field" aria-hidden="true"><video class="liquid-video" autoplay muted loop playsinline preload="auto" poster="assets/study-liquid.webp" aria-hidden="true" tabindex="-1"><source src="assets/study-liquid.mp4" type="video/mp4"></video></figure>
 </div>
 </section>
 <section class="project-summary wrap reveal">
 <div>
 <h2>개요</h2>
-<p style="margin-top:28px">Claude Code와 Codex를 개발과 학습에 씁니다. 반복되는 구현은 AI에 맡기고 API 계약, 보안 경계, 실패 처리는 직접 정합니다. AI가 만든 코드는 변경 내용을 읽고 테스트와 측정으로 확인한 뒤 반영합니다.</p>
+<p style="margin-top:28px">Claude Code와 Codex를 개발, 검증과 문서 정리에 씁니다. 작업할 때마다 같은 조건을 다시 설명하지 않도록 개발 순서와 글쓰기 기준을 재사용할 수 있는 작업 지침(스킬)으로 정리했습니다. 기능의 요청·응답, 공개할 정보와 실패 처리 조건은 직접 정하고, AI가 만든 변경은 확인한 뒤 반영합니다.</p>
 </div>
 <div>
 <dl class="project-facts">
 <div><dt>도구</dt><dd>Claude Code · Codex</dd></div>
 <div><dt>적용</dt><dd>GABOLLE · Arctic · 이 포트폴리오</dd></div>
-<div><dt>직접 만든 작업 규칙</dt><dd>스킬 3개 · 개인 지침</dd></div>
-<div><dt>공개 자료</dt><dd><a class="text-link" href="https://github.com/durian98/developer-playbook/blob/main/mindset/ai-workflow.md" target="_blank" rel="noopener noreferrer">AI 작업 원칙 ↗</a><br><a class="text-link" href="https://github.com/durian98/developer-playbook/tree/main/prompts" target="_blank" rel="noopener noreferrer">프롬프트 모음 ↗</a></dd></div>
+<div><dt>작업 규칙</dt><dd>개발 검토 · 문장 편집 · 작업 준비 자동화</dd></div>
+
 </dl>
 </div>
 </section>
-<section class="content-section wrap">
-<div class="section-side reveal">
-<div class="eyebrow">01</div>
-<h2>작업 방식</h2>
-</div>
+<section class="content-section wrap" id="my-skills">
+<div class="section-side reveal"><div class="eyebrow">01</div><h2>직접 만든 <br>스킬</h2></div>
 <div class="section-body reveal">
-<article class="feature-entry">
-<div class="entry-number">01</div>
-<h3>구현 전에 가설부터 확인</h3>
-<p>AI에 작업을 맡길 때는 제 가설을 먼저 검토받습니다. 코드는 작은 단위로 수정하고 변경 내용을 설명하게 한 뒤, 실패할 수 있는 상황과 그에 맞는 테스트를 제안받습니다. 이 순서를 스킬로 만들어 Claude Code와 Codex에서 같이 씁니다.</p>
-<div class="tech-line">learning-first-development · AGENTS.md</div>
+<article class="skill-use">
+<div class="skill-file">learning-first-development</div>
+<h3>개발할 때 검토 순서를 정해 두기</h3>
+<p>가설 검토, 작은 범위의 수정, 변경 내용 설명과 실패 상황 확인을 하나의 스킬로 묶었습니다. 작업을 맡길 때마다 이 순서를 길게 설명하는 대신, 같은 규칙을 불러와 적용합니다. 반복되는 코드와 실행은 AI에 맡기고, 변경 이유와 검증 조건을 살핍니다.</p>
+<div class="skill-example"><div class="example-label">관련 작업 · GABOLLE 추천 성능 검토</div><p>추천 코드 분석과 k6 부하 시나리오 작성을 AI와 진행했습니다. 요청을 접수했다는 응답에서 측정을 끝내지 않고, 첫 코스를 조회할 때까지 확인했습니다. 대기 중인 작업과 시작하지 못한 요청도 함께 기록했고, 결과는 운영과 분리한 로컬 실험으로 남겼습니다.</p></div>
 </article>
-<article class="feature-entry">
-<div class="entry-number">02</div>
-<h3>AI의 답을 근거로 쓰지 않기</h3>
-<p>AI의 제안 가운데 테스트, 로그, 측정, 공식 문서로 확인한 것만 정리해 둡니다. 단위 테스트 통과를 DB나 배포 환경에서 동작한다는 근거로 쓰지 않는다는 원칙도 지침에 넣었습니다.</p>
-<div class="tech-line">개인 지침 · 프롬프트 7종</div>
+<article class="skill-use">
+<div class="skill-file">korean-writing-editor</div>
+<h3>문서가 바뀌어도 같은 편집 기준 쓰기</h3>
+<p>자소서, 포트폴리오와 기술 문서에서 사실과 기여 범위를 지키며 표현을 다듬도록 만들었습니다. 글의 목적과 독자를 먼저 확인하고, 바뀐 문장을 원문과 대조하게 했습니다. Codex와 Claude Code에서 같은 원본을 쓰도록 연결해 기준을 한 곳에서 관리합니다.</p>
+<div class="skill-example"><div class="example-label">사용 예시 · 웹과 제출용 포트폴리오 편집</div><p>웹의 AI 활용 내용을 PPT·PDF로 옮길 때 적용했습니다. 서로 다른 시점의 테스트 건수가 한 문장에 섞인 부분을 바로잡고, 로컬 성능 시험을 운영 성과로 쓰지 않도록 수정했습니다. 문장을 줄이는 과정에서도 수치와 담당 역할이 달라지지 않았는지 대조했습니다.</p></div>
 </article>
-</div>
-</section>
+<article class="skill-use">
+<div class="skill-file">bbiyong-delivery</div>
+<h3>티켓부터 MR 초안까지 준비 절차 묶기</h3>
+<p>Jira 티켓 확인, 기능 브랜치 준비, 구현·검증과 MR 초안을 같은 순서로 진행하도록 BBIYONG 작업용 스킬을 만들었습니다. 매번 파트별 dev 브랜치와 팀 규칙을 다시 설명하는 대신, 저장소 지침과 티켓 정보를 먼저 읽게 합니다.</p>
+<div class="skill-example"><div class="example-label">스킬에 구성한 작업 흐름</div><p>작업 시작을 요청하면 기존 티켓과 연결된 Story를 확인하고, 필요한 티켓 초안과 브랜치 기준을 정리하도록 했습니다. 이후 변경 내용과 검증 결과를 연결해 MR 초안까지 준비합니다. 티켓 본문, 커밋 형식과 MR 설명을 각각 다시 지시하던 절차를 하나로 모았습니다.</p></div>
+</article>
+</div></section>
 <section class="content-section wrap">
 <div class="section-side reveal">
 <div class="eyebrow">02</div>
@@ -90,7 +94,7 @@
 <article class="feature-entry">
 <div class="entry-number">01</div>
 <h3>API 설계와 병렬 구현</h3>
-<p>GABOLLE의 여행 기록·피드와 동행 초대·공유 API를 만들 때는 테이블, 저장소 인터페이스, 테스트 틀을 먼저 정해 커밋했습니다. 업로드 처리와 초대·공유 구현은 서브에이전트 둘에 나눠 맡기고, 각자 다른 폴더와 테스트 DB 스키마를 쓰게 했습니다. 공개 응답에서 개인정보를 제외하는 정책은 직접 정했습니다. 생성된 코드는 변경 내용을 읽고 테스트한 뒤 팀 브랜치에 반영했습니다.</p>
+<p>GABOLLE의 여행 기록·피드와 동행 초대·공유 API를 만들 때는 테이블, 저장소 인터페이스, 테스트 틀을 먼저 정해 커밋했습니다. 업로드 처리와 초대·공유 구현은 서브에이전트 둘에 나눠 맡기고, 각자 다른 폴더와 테스트 DB 스키마를 쓰게 했습니다. 공개 응답에서 개인정보를 제외하는 정책은 직접 정했습니다. 생성된 코드는 변경 내용을 읽고 테스트한 뒤 팀 브랜치에 반영했습니다. 여러 사람과 AI가 동시에 작업할 때는 팀의 MCP 도구로 파일을 먼저 선점했습니다.</p>
 <div class="tech-line">Claude Code 서브에이전트 · Spring Boot · PostgreSQL</div>
 </article>
 <article class="feature-entry">
@@ -110,20 +114,6 @@
 <section class="content-section wrap">
 <div class="section-side reveal">
 <div class="eyebrow">03</div>
-<h2>성능 개선</h2>
-</div>
-<div class="section-body reveal">
-<article class="feature-entry">
-<div class="entry-number">01</div>
-<h3>추천 첫 결과를 기다리는 시간 줄이기</h3>
-<p>AI 보조로 추천 코드를 분석하고 k6 부하 시나리오를 작성해, 같은 로컬 환경에서 수정 전후를 비교했습니다. 측정 구간의 첫 코스 응답 p95는 13.5초에서 1.1초로, 시작하지 못한 작업은 27건에서 0건으로 줄었습니다. 다만 준비 부하 구간에서는 수정 후에도 11건이 실행되지 않았고, 마지막 60초의 p95는 두 방식 모두 약 1.1초였습니다. 초기 대기와 구간별 지연을 나눠 기록했으며, 운영에는 반영하지 않은 로컬 실험입니다.</p>
-<div class="tech-line">k6 · PostgreSQL · 로컬 비교</div>
-</article>
-</div>
-</section>
-<section class="content-section wrap">
-<div class="section-side reveal">
-<div class="eyebrow">04</div>
 <h2>테스트와 검증</h2>
 </div>
 <div class="section-body reveal">
@@ -148,26 +138,6 @@
 <h3>건너뛴 DB 테스트 확인</h3>
 <p>초기에는 PostgreSQL 통합 테스트 51개가 건너뛰어졌는데도 전체 검사는 통과로 표시됐습니다. 실제 DB를 연결해 다시 실행하고, 이후에는 성공·실패뿐 아니라 건너뛴 테스트 수와 이유도 함께 확인합니다.</p>
 <div class="tech-line">JUnit · PostgreSQL</div>
-</article>
-</div>
-</section>
-<section class="content-section wrap">
-<div class="section-side reveal">
-<div class="eyebrow">05</div>
-<h2>참고 자료와 <br>협업</h2>
-</div>
-<div class="section-body reveal">
-<article class="feature-entry">
-<div class="entry-number">01</div>
-<h3>참고한 글을 작업에 옮기기</h3>
-<p>토스 기술 블로그의 디자인 시스템, AI 기반 UI 테스트 자동화, 프롬프트 설계 글을 참고했습니다. 이 포트폴리오도 AI와 함께 참고 영상을 프레임으로 나눠 형태와 움직임을 살펴보고, 웹 화면에 맞게 재구성했습니다.</p>
-<div class="tech-line"><a href="https://toss.tech/article/removing_designers_in_ai_era" target="_blank" rel="noopener noreferrer">AI 시대에 디자이너로 살아남기</a> · <a href="https://toss.tech/article/ai-driven-ui-test-automation" target="_blank" rel="noopener noreferrer">AI-driven UI 테스트 자동화</a> · <a href="https://toss.tech/article/ai-prompting" target="_blank" rel="noopener noreferrer">프롬프트 설계</a></div>
-</article>
-<article class="feature-entry">
-<div class="entry-number">02</div>
-<h3>Jira와 MR 정리, 작업 파일 선점</h3>
-<p>Jira 티켓 정리와 MR 설명은 코드와 커밋 근거를 확인하게 한 뒤 AI에 맡겼습니다. 여러 사람과 AI 에이전트가 같은 파일을 동시에 고치지 않도록 팀의 MCP 도구로 작업 파일을 먼저 선점했습니다.</p>
-<div class="tech-line">Jira · GitLab MR · MCP</div>
 </article>
 </div>
 </section>
