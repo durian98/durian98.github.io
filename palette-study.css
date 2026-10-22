@@ -59,14 +59,15 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline-color:#B54C19
 }
 
 /* Reading layout: section headings precede their content. */
-:root{--paper:#fff;--surface:#fff6ef;--line:#e9e4df;--muted:#706a65;--gutter:clamp(24px,2.8vw,40px);}
-body{background-color:#fff;background-image:none;}
+:root{--paper:#fff;--surface:#fff6ef;--line:#e9e4df;--muted:#706a65;--gutter:clamp(24px,2.8vw,40px);--page-wash:linear-gradient(110deg,#fff7f0 0%,#fffdfb 38%,#fffaf5 64%,#fff0e4 100%);}
+/* One continuous page background, including the margins outside the reading column. */
+body{background-color:#fffaf6;background-image:var(--page-wash);background-attachment:fixed;}
 body::before{background:none;}
-.intro-section,.content-section:nth-of-type(even){background-image:radial-gradient(ellipse at 100% 0%,#fff5ee,transparent 58%);}
+.intro-section,.content-section:nth-of-type(even){background-image:none;}
 /* Background spans the viewport; the introduction keeps a readable text width. */
-.home{--intro-wash:linear-gradient(105deg,#fff 20%,#fff8f2 70%,#fff0e3 100%);}
-.home .intro-section.wrap{width:100%;border-top:0;background-image:linear-gradient(180deg,transparent,#fff 94%),var(--intro-wash);}
-.home .hero .petal-field::after{content:"";position:absolute;inset:auto 0 0;height:clamp(100px,18svh,200px);background:var(--intro-wash);mask-image:linear-gradient(transparent,#000);-webkit-mask-image:linear-gradient(transparent,#000);pointer-events:none;}
+.home{--intro-wash:var(--page-wash);}
+.home .intro-section.wrap{width:100%;border-top:0;background:none;}
+.home .hero .petal-field::after,.about-hero .petal-field::after,.ai-flow::after{content:"";position:absolute;inset:auto 0 0;height:clamp(100px,18svh,200px);background:var(--page-wash);mask-image:linear-gradient(transparent,#000);-webkit-mask-image:linear-gradient(transparent,#000);pointer-events:none;}
 .home .hero .petal-field.green-hero-field,.about-hero .petal-field.green-hero-field{background:linear-gradient(132deg,#fff5ee 0%,#fff 48%,#ffe3ce 100%);}
 .content-section{display:block;padding-block:50px;}
 .section-side{display:flex;align-items:baseline;gap:18px;margin-bottom:30px;}
