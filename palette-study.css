@@ -28,6 +28,11 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline-color:#B54C19
 .liquid-contrast,.liquid-contrast[data-tone]{color:inherit!important;transition:none;text-shadow:none;}
 .footer{background:#27282a;color:#fff5e6;}
 
+.stage-tabs.has-stage-indicator{position:relative;isolation:isolate;}
+.stage-tabs.has-stage-indicator::before{content:"";position:absolute;left:0;top:0;width:var(--stage-width);height:var(--stage-height);background:var(--ink);transform:translate3d(var(--stage-x),var(--stage-y),0);transition:transform .34s cubic-bezier(.22,.8,.3,1),width .34s,height .34s;pointer-events:none;z-index:0;}
+.stage-tabs.has-stage-indicator .stage-button{position:relative;z-index:1;background:transparent;transition:color .22s ease;}
+.stage-tabs.has-stage-indicator .stage-button[aria-pressed="true"]{background:transparent;}
+@media(prefers-reduced-motion:reduce){.stage-tabs.has-stage-indicator::before,.stage-tabs.has-stage-indicator .stage-button{transition:none;}}
 .skill-tab{background:#F8ECE0;}
 .skill-tab:hover{background:#F2BB8C;}
 .skill-tab[aria-selected="true"]{background:#F2BB8C;border-color:#B54C19;}

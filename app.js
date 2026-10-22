@@ -20,10 +20,28 @@
   ];
   const stageButtons = [...document.querySelectorAll('.stage-button')];
   const panel = document.querySelector('.stage-panel');
+  const stageTabs = stageButtons[0]?.closest('.stage-tabs');
+  const moveStageIndicator = () => {
+    if (!stageTabs) return;
+    const selected = stageTabs.querySelector('[aria-pressed="true"]');
+    if (!selected) return;
+    const tabRect = stageTabs.getBoundingClientRect();
+    const buttonRect = selected.getBoundingClientRect();
+    stageTabs.style.setProperty('--stage-x', `${buttonRect.left - tabRect.left - stageTabs.clientLeft}px`);
+    stageTabs.style.setProperty('--stage-y', `${buttonRect.top - tabRect.top - stageTabs.clientTop}px`);
+    stageTabs.style.setProperty('--stage-width', `${buttonRect.width}px`);
+    stageTabs.style.setProperty('--stage-height', `${buttonRect.height}px`);
+    stageTabs.classList.add('has-stage-indicator');
+  };
   stageButtons.forEach((button, index) => button.addEventListener('click', () => {
     stageButtons.forEach((item, i) => item.setAttribute('aria-pressed', String(i === index)));
+    moveStageIndicator();
     if (panel) { panel.querySelector('.eyebrow').textContent = stages[index][0]; panel.querySelector('h3').textContent = stages[index][1]; panel.querySelector('p').textContent = stages[index][2]; }
   }));
+  if (stageTabs) {
+    moveStageIndicator();
+    new ResizeObserver(moveStageIndicator).observe(stageTabs);
+  }
 
   const progress = document.querySelector('.reading-progress');
   if (progress) {
