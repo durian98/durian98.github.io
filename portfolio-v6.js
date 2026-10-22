@@ -38,8 +38,8 @@
   const panels = [...root.querySelectorAll('.skill-panel')];
   let selected = 0, automatic = !reduced.matches, hover = false, focus = false, visible = false;
   let offset = -30, lastTime = 0, frame = 0, drag = null, suppressClickUntil = 0, inertiaFrame = 0, resumeTimer = 0;
-  let pitch = 108, cycle = pitch * tabs.length;
-  const measure = () => { pitch = (tabs[0].offsetWidth || 88) + 20; cycle = pitch * tabs.length; };
+  let pitch = 108, cycle = pitch * tabs.length, railWidth = track.clientWidth;
+  const measure = () => { pitch = (tabs[0].offsetWidth || 88) + 20; cycle = pitch * tabs.length; railWidth = track.clientWidth; };
   measure();
   root.classList.add('is-enhanced');
   track.setAttribute('role', 'tablist');
@@ -88,8 +88,7 @@
     centerTab(index, true);
   }
   const paint = () => {
-    measure();
-    const width = track.clientWidth;
+    const width = railWidth;
     const needed=Math.ceil(width/cycle);
     if(needed!==copyCycles){
       copies.forEach(({node})=>node.remove());copies=[];copyCycles=needed;
@@ -125,14 +124,14 @@
       offset += 14 * dt / 1000;
       paint();
     }
-    if (automatic) frame = requestAnimationFrame(tick);
+    if (automatic && visible && !document.hidden && !hover && !focus && !drag) frame = requestAnimationFrame(tick);
     else { frame = 0; lastTime = 0; }
   }
   function start() {
     cancelAnimationFrame(inertiaFrame); cancelAnimationFrame(glide);
     automatic = true;
     paint();
-    if (!frame) frame = requestAnimationFrame(tick);
+    if (!frame && visible && !document.hidden && !hover && !focus && !drag && !reduced.matches) frame = requestAnimationFrame(tick);
   }
   tabs.forEach((tab, index) => {
     tab.addEventListener('click', () => {
@@ -193,10 +192,11 @@
   track.addEventListener('pointercancel', event => { if (drag?.id === event.pointerId) drag = null; resumeLater(); });
   track.addEventListener('touchend', () => resumeLater(), { passive: true });
   window.addEventListener('pointerup', release);
-  window.addEventListener('resize', () => { paint(); });
+  window.addEventListener('resize', () => { measure(); paint(); });
   reduced.addEventListener('change', () => { if (reduced.matches) stopAuto(); });
   if ('IntersectionObserver' in window) {
-    new IntersectionObserver(entries => { visible = entries[0].isIntersecting; }, { threshold: .1 }).observe(track);
+    new IntersectionObserver(entries => { visible = entries[0].isIntersecting; if (visible && automatic) start(); }, { threshold: .1 }).observe(track);
+    document.addEventListener('visibilitychange', () => { if (!document.hidden && automatic) start(); });
   } else visible = true;
   if (automatic) start(); else { paint(); centerTab(selected); }
 })();
@@ -211,7 +211,7 @@
   if (cards.length < 2) return;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const head = cards[cards.length - 1].cloneNode(true), tail = cards[0].cloneNode(true);
-  for (const clone of [head, tail]) { clone.setAttribute('aria-hidden', 'true'); clone.querySelector('img').removeAttribute('loading'); }
+  for (const clone of [head, tail]) { clone.setAttribute('aria-hidden', 'true'); clone.querySelector('img').loading='lazy'; clone.querySelector('img').fetchPriority='low'; }
   track.prepend(head); track.append(tail);
   // Desktop stacks photos vertically; phones lay them out in a row that moves right to left.
   const phone = matchMedia('(max-width: 760px)');
@@ -362,7 +362,7 @@
   });
   if (!items.length) return;
   document.documentElement.classList.add('rv-ready');
-  items.forEach(el => el.classList.add('rv-item'));
+  items.forEach(el => { if (el.getBoundingClientRect().top < innerHeight) el.classList.add('is-in'); el.classList.add('rv-item'); });
   const observer = new IntersectionObserver(entries => {
     const shown = entries.filter(entry => entry.isIntersecting).map(entry => entry.target)
       .sort((a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top || a.getBoundingClientRect().left - b.getBoundingClientRect().left);
