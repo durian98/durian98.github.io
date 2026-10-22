@@ -250,3 +250,16 @@ body::before{background:none;}
 }
 .home .hero-copy .hero-cta,.home .hero-copy .hero-cta:hover{color:#fffaf4;}
 .petal-piece{will-change:transform;}
+/* Keep orange at the edges; reading areas fade to white without panel boundaries. */
+:root{--section-wash:linear-gradient(100deg,#fff2e7 0%,#fffdfb 18%,#fff 38%,#fff 64%,#fffaf5 82%,#ffebda 100%);}
+.content-section.section-tint::before{background:linear-gradient(90deg,#ffffff26,#ffffff80 22%,#ffffffa6 67%,#ffffff1a),var(--section-wash);}
+.home .hero .petal-field::before{content:"";position:absolute;inset:0;z-index:1;background:radial-gradient(ellipse 48% 78% at 60% 46%,#ffffffa6 0%,#ffffff70 34%,#ffffff00 82%);opacity:1;filter:none;transform:none;animation:none;will-change:auto;}
+.home .hero .petal-field::after,.ai-flow::after{z-index:2;}
+.hero-pointer-light{z-index:2;}
+.ai-flow::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse 65% 83% at 26% 44%,#ffffffe0 0%,#ffffffa6 27%,#ffffff3d 61%,#ffffff00 86%);}
+.data-table th,.stage-panel{background:linear-gradient(115deg,#fffaf5,#fff 52%,#fff5eb);}
+@media(max-width:760px){
+ :root{--section-wash:linear-gradient(100deg,#fff5ed,#fff 28%,#fff 72%,#fff1e5);}
+ .home .hero .petal-field::before{background:radial-gradient(ellipse 100% 57% at 50% 18%,#ffffffb8,#ffffff6b 48%,#ffffff00 87%);}
+ .ai-flow::before{background:radial-gradient(ellipse 130% 75% at 40% 35%,#ffffffdc,#ffffff8c 40%,#ffffff00 86%);}
+}
