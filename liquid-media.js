@@ -19,9 +19,10 @@
     prepare(video);
     video.play().then(()=>{video.dataset.motion='playing';}).catch(()=>{video.dataset.motion='poster';});
   }
-  new IntersectionObserver(entries=>entries.forEach(entry=>{
+  const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{
     visible.set(entry.target,entry.isIntersecting);update(entry.target);
-  }),{threshold:.01}).observe(videos[0]);
+  }),{threshold:.01});
+  videos.forEach(video=>observer.observe(video));
   function resize(){
     const width=document.documentElement.clientWidth;
     document.documentElement.style.setProperty('--page-width',width+'px');

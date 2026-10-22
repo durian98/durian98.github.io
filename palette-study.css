@@ -291,3 +291,48 @@ body::before{background:none;}
  .media-copy h3{font-size:25px;}
  .media-copy p{font-size:17px;}
 }
+/* A full-bleed rendered surface, followed by a manually browsed portrait gallery. */
+.home:has(.hero-film) .site-header{position:absolute;top:0;left:50%;transform:translateX(-50%);color:#fff3e5;border-bottom-color:#fff3e533;}
+.home:has(.hero-film) .site-nav a{color:#fff3e5;}
+.home:has(.hero-film) .menu-toggle{color:inherit;}
+.home .hero.wrap:has(.hero-film){display:flex;align-items:center;isolation:isolate;width:100%;max-width:none;height:auto;min-height:100svh;margin:0;padding:110px var(--gutter) 80px;overflow:hidden;background:#914b31;}
+.hero-film{position:absolute;inset:0;z-index:-2;overflow:hidden;}
+.hero-film::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#40261c60,transparent 72%);pointer-events:none;}
+.home .hero-film .hero-folds-video{width:100%;height:100%;opacity:1;object-fit:cover;object-position:center;}
+.home .hero:has(.hero-film) .hero-copy{width:min(1200px,100%);margin-inline:auto;padding:0;align-self:center;}
+.home .hero:has(.hero-film) .hero-name{font-size:clamp(88px,12.5vw,180px);color:#fff3e5;line-height:1.08;letter-spacing:-.07em;text-shadow:0 2px 28px #442b1d18;}
+.home .hero:has(.hero-film) .hero-name-en{color:#fff3e5d9;font-size:clamp(21px,2.4vw,32px);font-weight:400;letter-spacing:.015em;margin-top:22px;}
+.home .hero:has(.hero-film) .hero-cta{color:#fff3e5;font-size:17px;gap:24px;margin-top:54px;}
+.home .hero:has(.hero-film) .hero-cta span{color:inherit;border-color:#fff3e570;background:transparent;}
+.home .hero:has(.hero-film) .hero-cta:hover span{background:#fff3e5;color:#6b3826;}
+.home #intro .intro-inner{grid-template-columns:minmax(260px,.85fr) minmax(0,1.15fr);gap:clamp(40px,7vw,108px);}
+.intro-gallery{width:min(100%,360px);justify-self:center;outline-offset:10px;}
+.intro-photo-stage{position:relative;width:100%;aspect-ratio:4/5;border:7px solid #fff;border-radius:12px;background:#f1ebe4;box-shadow:0 3px 8px #4f322510,0 24px 55px -22px #563b3b4a;overflow:hidden;touch-action:pan-y;}
+.intro-slide{width:100%;height:100%;margin:0;position:relative;}
+.intro-slide[hidden]{display:none;}
+.intro-slide img{display:block;width:100%;height:100%;object-fit:contain;object-position:center;user-select:none;-webkit-user-drag:none;}
+.intro-slide figcaption{position:absolute;bottom:0;left:0;right:0;padding:32px 14px 12px;background:linear-gradient(transparent,#30271c8c);color:#fff;font-size:12px;line-height:1.4;letter-spacing:0;}
+.intro-slide:first-child figcaption{display:none;}
+.intro-photo-controls{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:20px;}
+.intro-photo-controls>button{display:grid;place-items:center;min-width:44px;min-height:44px;border:1px solid #d6c5b7;background:transparent;color:#4e4035;border-radius:50%;font-size:21px;transition:background .2s;}
+.intro-photo-controls>button:hover{background:#fff8f1;}
+.intro-photo-dots{display:flex;align-items:center;gap:0;}
+.intro-photo-dots button{display:grid;place-items:center;width:22px;min-height:44px;border:0;padding:0;background:transparent;}
+.intro-photo-dots span{display:block;width:5px;height:5px;border-radius:8px;background:#cdb7a7;transition:width .25s,background .25s;}
+.intro-photo-dots button[aria-current] span{width:14px;background:#8c4d31;}
+.intro-photo-count{text-align:center;font-variant-numeric:tabular-nums;font-size:11px;letter-spacing:.12em;margin:0;color:#9d8c7e;}
+.intro-photo-count span{color:#574637;}
+@media(max-width:760px){
+ .home .hero.wrap:has(.hero-film){min-height:100svh;padding:130px var(--gutter) 72px;}
+ .home .hero:has(.hero-film) .hero-name{font-size:clamp(74px,22vw,128px);}
+ .home .hero:has(.hero-film) .hero-name-en{font-size:22px;margin-top:18px;}
+ .home .hero:has(.hero-film) .hero-cta{margin-top:40px;font-size:16px;}
+ .home .hero:has(.hero-film) .hero-copy{padding:0;}
+ .home .hero-film .hero-folds-video{object-position:left center;}
+ .home #intro .intro-inner{grid-template-columns:1fr;gap:36px;}
+ .intro-gallery{width:min(100%,310px);justify-self:start;}
+ .intro-photo-stage{border-width:6px;}
+ .intro-photo-controls{margin-top:12px;}
+ .home:has(.hero-film) .site-nav.is-open{color:#27282a;background:#fff8f0;}
+ .home:has(.hero-film) .site-nav.is-open a{color:#27282a;}
+}

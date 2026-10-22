@@ -81,28 +81,3 @@
     document.documentElement.classList.add('motion-ready');
   }
 })();
-(() => {
-  const field=document.querySelector('.home .hero .petal-field');
-  if(!field) return;
-  let visible=false;
-  const update=()=>field.classList.toggle('is-background-visible',visible&&!document.hidden);
-  new IntersectionObserver(entries=>{visible=entries[0].intersectionRatio>.01;update();},{threshold:.01}).observe(field);
-  document.addEventListener('visibilitychange',update);
-})();
-
-// Pointer light updates only on pointer movement; no idle animation loop.
-(() => {
-  const hero=document.querySelector('.home .hero'),light=hero?.querySelector('.hero-pointer-light');
-  if(!light||!matchMedia('(hover:hover) and (pointer:fine)').matches||matchMedia('(prefers-reduced-motion:reduce)').matches)return;
-  let pending=0,x=0,y=0,box;
-  hero.addEventListener('pointerenter',()=>{box=hero.getBoundingClientRect();light.classList.add('is-active');});
-  hero.addEventListener('pointermove',event=>{
-    if(event.pointerType!=='mouse')return;
-    x=event.clientX;y=event.clientY;
-    if(!pending)pending=requestAnimationFrame(()=>{
-      pending=0;box=hero.getBoundingClientRect();
-      light.style.transform=`translate3d(${x-box.left}px,${y-box.top}px,0)`;
-    });
-  },{passive:true});
-  hero.addEventListener('pointerleave',()=>{light.classList.remove('is-active');if(pending)cancelAnimationFrame(pending);pending=0;});
-})();
