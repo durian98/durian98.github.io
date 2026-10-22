@@ -263,3 +263,37 @@ body::before{background:none;}
  .home .hero .petal-field::before{background:radial-gradient(ellipse 100% 57% at 50% 18%,#ffffffb8,#ffffff6b 48%,#ffffff00 87%);}
  .ai-flow::before{background:radial-gradient(ellipse 130% 75% at 40% 35%,#ffffffdc,#ffffff8c 40%,#ffffff00 86%);}
 }
+
+/* Portrait crops have their own focus; a shared top crop hid the trekking photo's subject. */
+.home .hero-card[data-photo="trek"] img{object-position:50% 92%;}
+@media(max-width:760px){
+ .home .hero-art.hero-photos{height:clamp(290px,88vw,380px);aspect-ratio:auto;padding-bottom:34px;}
+ .home .hero-photos .hero-track{bottom:34px;}
+ .home .hero-card[data-photo="trek"] img{object-position:50% 96%;}
+ .menu-toggle{min-width:44px;min-height:44px;}
+ .site-nav a{min-height:44px;display:flex;align-items:center;}
+ .project-title{font-size:clamp(48px,13.8vw,88px);line-height:1.12;}
+ .project-subtitle{font-size:20px;line-height:1.65;}
+ .section-side{align-items:flex-start;}
+ .section-side .eyebrow{margin-top:8px;margin-bottom:0;}
+ .flow-list li{padding-block:18px;}
+ .stage-tabs .stage-button{min-height:56px;}
+ .stage-panel{min-height:0;}
+ .media-feature .demo-card,.detection-demo .large-figure{max-width:100%;}
+}
+@media(max-width:380px){
+ :root{--gutter:20px;}
+ .hero-identity{padding:22px;}
+ .home .hero-copy{padding-top:78px;padding-bottom:22px;}
+ .intro-copy .intro-lead{font-size:24px;}
+ .section-side h2{font-size:25px;}
+ .feature-entry h3,.case h3,.reflection-entry h3,.ai-use-entry h3{font-size:22px;}
+ .project-facts{column-gap:16px;}
+ .project-facts dd{font-size:15px;}
+}
+@media(min-width:761px) and (max-width:1000px){
+ .media-feature,.detection-demo{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;}
+ .media-copy h2{font-size:27px;}
+ .media-copy h3{font-size:25px;}
+ .media-copy p{font-size:17px;}
+}

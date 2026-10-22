@@ -304,9 +304,11 @@
   root.addEventListener('dragstart', event => event.preventDefault());
   const schedule = () => {
     clearTimeout(timer);
-    if (reduced.matches || !visible || document.hidden) return;
+    if (reduced.matches || !visible || document.hidden || root.matches(':focus-within')) return;
     timer = setTimeout(() => { index += 1; place(true); schedule(); }, 3600);
   };
+  root.addEventListener('focusin', () => clearTimeout(timer));
+  root.addEventListener('focusout', event => { if (!root.contains(event.relatedTarget)) schedule(); });
   layout(); schedule();
   addEventListener('resize', layout);
   phone.addEventListener('change', layout);
