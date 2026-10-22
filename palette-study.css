@@ -346,3 +346,12 @@ body::before{background:none;}
  .home:has(.hero-film) .site-nav.is-open{color:#27282a;background:#fff8f0;}
  .home:has(.hero-film) .site-nav.is-open a{color:#27282a;}
 }
+
+/* Final touch: no ring on arrows, sharper portrait, floating nav without outlines. */
+.home .hero-copy .hero-cta span, .home .hero:has(.hero-film) .hero-cta span { width: auto; height: auto; border: 0; border-radius: 0; background: none; }
+.home .hero-copy .hero-cta { border-bottom: 1px solid currentColor; padding-bottom: 6px; min-height: 0; gap: 12px; font-weight: 600; }
+.home .hero-copy .hero-cta:hover span, .home .hero:has(.hero-film) .hero-cta:hover span { background: none; color: inherit; transform: translateY(3px); }
+.photo-prev, .photo-next { border: 0 !important; background: none !important; box-shadow: none !important; }
+.intro-photo-stage img, .about-portrait img { image-rendering: auto; max-width: 320px; }
+.return-nav, .return-nav a, .return-nav button { border: 0 !important; }
+.return-nav { background: rgba(255,251,245,.92); box-shadow: 0 10px 30px -10px rgba(39,40,42,.35), 0 2px 6px rgba(39,40,42,.08); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
