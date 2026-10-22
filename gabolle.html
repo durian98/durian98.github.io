@@ -14,7 +14,7 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="styles.css?v=caad4c23">
 <link rel="stylesheet" href="theme.css?v=3e80aed1">
-<script src="app.js?v=e26f5504" defer>
+<script src="app.js?v=2703a8df" defer>
 </script>
 <link rel="stylesheet" href="portfolio-v6.css?v=a70a477b">
 <script src="portfolio-v6.js?v=d60f922f" defer></script>
@@ -23,7 +23,7 @@
 <link rel="stylesheet" href="sky-preview.css?v=9e9cb6b2">
 <link rel="stylesheet" href="palette-study.css?v=35c14085">
 <link rel="stylesheet" href="editorial.css?v=54a3d43d">
-<link rel="stylesheet" href="final-refinement.css?v=76d6930b">
+<link rel="stylesheet" href="final-refinement.css?v=029750e5">
 </head>
 <body>
 <a class="skip-link" href="#main">본문으로 바로가기</a>
@@ -181,7 +181,7 @@
 <small>사용자·여행·작업 상태·추천 결과</small>
 </div>
 </div>
-<p class="map-caption">일반 API도 PostgreSQL에 데이터를 저장하고 조회합니다. 별도 실행기는 Spring 내부에서 비동기 계산을 처리합니다.</p>
+
 </div>
 </section>
 <section class="content-section wrap" id="product-feedback"><div class="section-side"><div class="eyebrow">03</div><h2>출시와 사용자 피드백</h2></div><div class="section-body">
@@ -278,16 +278,16 @@
 </section>
 <section class="content-section wrap"><div class="section-side"><div class="eyebrow">05</div><h2>회고</h2></div><div class="section-body">
 <article class="reflection-entry">
-<h3>필요한 입력과 화면 동선을 먼저 정하기</h3>
-<p>출시 후 피드백으로 여행 생성에 필요하지 않은 입력을 덜었습니다. 다음에는 새 기능을 넣기 전에 각 입력이 꼭 필요한지, 추천 결과까지 몇 단계를 거치는지 확인하고, 처음 쓰는 사람이 일정을 만들 수 있는지부터 점검하려 합니다.</p>
+<h3>입력 항목과 화면 동선</h3>
+<p>출시 후 피드백으로 여행 생성에 필요하지 않은 입력을 덜었습니다. 기능을 추가하기 전에 각 입력이 꼭 필요한지, 처음 쓰는 사람이 추천 결과까지 쉽게 도달하는지 확인할 필요가 있었습니다.</p>
 </article>
 <article class="reflection-entry">
-<h3>초기 추천 이후의 선택과 수정도 살피기</h3>
-<p>180명 설문으로 이용 이력이 부족한 사용자에게 추천할 초기 데이터를 마련했습니다. 앞으로는 사용자가 어떤 추천을 선택하고 바꾸고 싶어 하는지 살피고, 계산 시간과 함께 추천 이유와 결과의 적합성을 확인하려 합니다.</p>
+<h3>초기 추천 이후의 사용자 선택</h3>
+<p>180명 설문으로 이용 이력이 부족한 사용자에게 추천할 초기 데이터를 마련했습니다. 이후 개선 과제로는 사용자가 어떤 추천을 선택하고 바꾸는지 살피고, 계산 시간과 함께 추천 결과의 적합성을 확인하는 일을 남겼습니다.</p>
 </article>
 <article class="reflection-entry">
-<h3>최종 배포 환경에서 핵심 동선 확인하기</h3>
-<p>서버 API가 정상 응답해도 배포된 웹에서는 로그인 화면 전환에 문제가 있었습니다. 다음에는 로그인부터 여행 생성과 추천 결과 확인까지 한 흐름으로 점검하고, 재시작 시 진행 중인 작업을 다시 처리하거나 실패로 전환하는 기준도 설계에 포함하려 합니다.</p>
+<h3>배포 환경의 핵심 동선 점검</h3>
+<p>서버 API가 정상 응답해도 배포된 웹에서는 로그인 화면 전환에 문제가 있었습니다. 최종 배포 환경에서 로그인부터 여행 생성과 추천 결과 확인까지 이어서 점검해야 했습니다. 재시작 시 진행 중인 작업을 다시 처리하거나 실패로 바꾸는 기준도 설계에 포함할 항목으로 정리했습니다.</p>
 </article>
 </div></section>
 <a class="next-project wrap" href="bbiyong.html">

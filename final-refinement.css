@@ -30,3 +30,42 @@ body{background-color:#fff;}
 .intro-photo-stage .intro-slide img{max-width:none;width:100%;height:100%;}
 .return-nav,.return-nav a,.return-nav button{border:0!important;}
 .return-nav{background:rgba(255,251,245,.92);box-shadow:0 10px 30px -10px rgba(39,40,42,.35),0 2px 6px rgba(39,40,42,.08);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);}
+
+/* Keep the reading column independent from full-width section backgrounds. */
+.about-hero .petal-field.green-hero-field{left:50%;right:auto;width:var(--page-width,100vw);max-width:none;transform:translateX(-50%);}
+.section-tint{background:transparent;}
+.section-tint::before{max-width:none;}
+.ai-page .ai-flow{background:#fff9f2;}
+.ai-page .ai-flow .liquid-video{opacity:1;}
+.ai-page .ai-flow::after{content:none;}
+.ai-page .ai-hero-grid:has(.ai-flow)>div{mix-blend-mode:normal;color:#292321;}
+.ai-page .ai-hero-grid:has(.ai-flow) [data-video-tone="light"]{color:#fff9f4;text-shadow:0 2px 14px #20162440;}
+.ai-page .ai-hero-grid:has(.ai-flow) [data-video-tone="dark"]{color:#292321;text-shadow:0 1px 12px #fff9f430;}
+.ai-page .project-hero:has(.ai-flow) .project-topline{mix-blend-mode:difference;color:#fff;}
+.ai-page .project-hero:has(.ai-flow) .project-topline a{color:inherit;}
+@media(max-width:760px){
+ .about-hero .about-lead{font-size:26px!important;line-height:1.5;}
+ .about-hero p,.about-ways p,.about-quote p{font-size:17px;line-height:1.8;}
+ .section-side{align-items:flex-start;gap:12px;}
+ .section-side .eyebrow{padding-top:7px;}
+ .section-side h2{font-size:26px;line-height:1.4;}
+ .section-body p,.ai-use-entry p{font-size:17px;line-height:1.8;}
+ .project-facts dd,.history-row>div{overflow-wrap:anywhere;}
+ .project-facts>div:nth-child(n+3){grid-column:1 / -1;}
+ .project-facts dd{font-size:15px;word-break:keep-all;overflow-wrap:normal;}
+ .project-facts>div:nth-child(n+3) dd{font-size:16px;}
+ .ai-use-entry h3{font-size:23px;line-height:1.45;}
+ .ai-use-entry .skill-file{font-size:12px;overflow-wrap:anywhere;}
+ .data-table{font-size:14px;}
+ .data-table th,.data-table td{padding:14px 10px;line-height:1.6;}
+ .contact-section{padding-bottom:calc(108px + env(safe-area-inset-bottom,0px));}
+}
+@media(max-width:360px){
+ :root{--gutter:20px;}
+ .project-title{font-size:clamp(42px,15vw,64px);}
+ .section-side h2{font-size:24px;}
+ .data-table{font-size:13px;}
+ .data-table th,.data-table td{padding:12px 7px;}
+ .return-nav a,.return-nav button{padding-inline:12px;font-size:13px;}
+ .contact-links .email-link{font-size:clamp(19px,6.5vw,28px);}
+}
