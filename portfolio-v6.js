@@ -42,6 +42,8 @@
   const measure = () => { pitch = (tabs[0].offsetWidth || 88) + 20; cycle = pitch * tabs.length; railWidth = track.clientWidth; };
   measure();
   root.classList.add('is-enhanced');
+  // The dock becomes measurable only after enhancement makes it visible.
+  measure();
   track.setAttribute('role', 'tablist');
   tabs.forEach((tab, index) => {
     tab.setAttribute('role', 'tab');
@@ -192,13 +194,14 @@
   track.addEventListener('pointercancel', event => { if (drag?.id === event.pointerId) drag = null; resumeLater(); });
   track.addEventListener('touchend', () => resumeLater(), { passive: true });
   window.addEventListener('pointerup', release);
-  window.addEventListener('resize', () => { measure(); paint(); });
+  new ResizeObserver(() => { measure(); paint(); }).observe(track);
   reduced.addEventListener('change', () => { if (reduced.matches) stopAuto(); });
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(entries => { visible = entries[0].isIntersecting; if (visible && automatic) start(); }, { threshold: .1 }).observe(track);
     document.addEventListener('visibilitychange', () => { if (!document.hidden && automatic) start(); });
   } else visible = true;
-  if (automatic) start(); else { paint(); centerTab(selected); }
+  centerTab(selected);
+  if (automatic) start(); else paint();
 })();
 
 
