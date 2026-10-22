@@ -1,0 +1,26 @@
+/* One sculptural focal point, with type carrying the other half of the composition. */
+.home .hero.wrap.sculpture-hero{min-height:100svh;padding:120px var(--gutter) 88px;background:#fff6ed;}
+.home .sculpture-hero .hero-film{inset:0 -5% 0 43%;opacity:1;mask-image:none;-webkit-mask-image:none;overflow:visible;}
+.home .sculpture-hero .hero-film::after{content:none;}
+.home .sculpture-hero .hero-film .hero-folds-video{object-fit:contain;object-position:center;transform:scale(1.1);}
+.home .hero.sculpture-hero:has(.hero-film) .hero-copy{position:relative;z-index:1;}
+.sculpture-hero .hero-identity{width:46%;}
+.home .hero.sculpture-hero:has(.hero-film) .hero-name{font-size:clamp(102px,12vw,166px);font-weight:500;line-height:1.08;letter-spacing:-.075em;}
+.home .hero.sculpture-hero:has(.hero-film) .hero-name-en{font-size:21px;margin-top:18px;letter-spacing:.025em;}
+.home .hero.sculpture-hero:has(.hero-film) .hero-disciplines{font-size:clamp(30px,3.3vw,44px);margin-top:24px;}
+.home .hero.sculpture-hero:has(.hero-film) .hero-cta{margin-top:36px;font-size:15px;}
+@media(min-width:761px) and (max-width:1000px){
+ .home .hero.sculpture-hero:has(.hero-film) .hero-name{font-size:clamp(100px,13vw,132px);}
+ .home .sculpture-hero .hero-film{inset:8% -12% 0 40%;}
+}
+@media(max-width:760px){
+ .home .hero.wrap.sculpture-hero{min-height:max(100svh,760px);justify-content:flex-start;padding:118px var(--gutter) 380px;}
+ .sculpture-hero .hero-identity{width:100%;}
+ .home .hero.sculpture-hero:has(.hero-film) .hero-name{font-size:clamp(76px,23vw,120px);}
+ .home .hero.sculpture-hero:has(.hero-film) .hero-name-en{font-size:18px;margin-top:14px;}
+ .home .hero.sculpture-hero:has(.hero-film) .hero-disciplines{font-size:29px;margin-top:22px;}
+ .home .hero.sculpture-hero:has(.hero-film) .hero-cta{margin-top:24px;}
+ .home .sculpture-hero .hero-film{inset:41% -18% -3% 9%;opacity:1;mask-image:none;-webkit-mask-image:none;}
+ .home .sculpture-hero .hero-film .hero-folds-video{object-position:center;transform:scale(1.05);}
+}
+@media(prefers-reduced-motion:reduce){.home .sculpture-hero .hero-film .hero-folds-video{transform:none;}}
