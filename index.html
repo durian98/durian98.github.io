@@ -15,7 +15,7 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="styles.css?v=7b1fc67f">
 <link rel="stylesheet" href="theme.css?v=3e80aed1">
-<script src="app.js?v=7f3764ae" defer>
+<script src="app.js?v=b8145e1c" defer>
 </script>
 <link rel="stylesheet" href="portfolio-v6.css?v=a70a477b">
 <script src="liquid-media.js?v=36576a5e" defer></script>
@@ -23,7 +23,7 @@
 <link rel="stylesheet" href="visual-refinement.css?v=7df0ea1d">
 <script src="page-navigation.js?v=c9741584"></script>
 <link rel="stylesheet" href="sky-preview.css?v=9e9cb6b2">
-<link rel="stylesheet" href="palette-study.css?v=8020bddd">
+<link rel="stylesheet" href="palette-study.css?v=0b67340a">
 </head>
 <body class="home">
 <a class="skip-link" href="#main">본문으로 바로가기</a>
@@ -43,7 +43,28 @@
 </nav>
 <main id="main">
 <section class="hero wrap">
-<div class="petal-field green-hero-field" aria-hidden="true"></div>
+<div class="petal-field green-hero-field" aria-hidden="true"><svg class="petal-scene" viewBox="0 0 1704 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<linearGradient id="petal-paper" x2="1" y2=".3"><stop stop-color="#eedb88"/><stop offset=".42" stop-color="#f4e7cf"/><stop offset="1" stop-color="#edb09a"/></linearGradient>
+<radialGradient id="petal-glow"><stop stop-color="#fff6de" stop-opacity=".7"/><stop offset="1" stop-color="#fff6de" stop-opacity="0"/></radialGradient>
+<filter id="paper-texture"><feTurbulence type="fractalNoise" baseFrequency=".55" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter>
+<filter id="petal-edge" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="8"/></filter>
+<image id="petal-source" href="assets/hero-floral-reference.webp" width="1704" height="1000"/>
+<mask id="petal-left" maskUnits="userSpaceOnUse" x="0" y="0" width="1704" height="1000"><path fill="white" filter="url(#petal-edge)" d="M1220 870 C1050 850 1000 920 790 915 C595 915 430 835 390 740 C370 700 358 652 374 630 C420 598 523 687 710 706 C900 737 1030 670 1220 870Z"/></mask>
+<mask id="petal-middle" maskUnits="userSpaceOnUse" x="0" y="0" width="1704" height="1000"><path fill="white" filter="url(#petal-edge)" d="M1280 875 C1110 800 976 710 910 610 C856 547 782 455 754 391 C706 313 764 318 820 362 C767 293 799 251 837 252 C929 225 1008 355 1047 444 C1104 466 1164 492 1201 563 C1234 646 1218 756 1280 875Z"/></mask>
+<mask id="petal-upper" maskUnits="userSpaceOnUse" x="0" y="0" width="1704" height="1000"><path fill="white" filter="url(#petal-edge)" d="M1290 910 C1268 732 1182 601 1159 414 C1112 194 1200 14 1330 -80 C1450 -160 1550 -50 1533 152 C1538 337 1475 497 1421 654 C1384 767 1358 861 1290 910Z"/></mask>
+<mask id="petal-right" maskUnits="userSpaceOnUse" x="0" y="0" width="1704" height="1000"><path fill="white" filter="url(#petal-edge)" d="M1275 880 C1427 660 1450 562 1590 420 C1709 301 1840 275 1870 379 C1903 487 1782 646 1622 752 C1473 853 1414 851 1275 880Z"/></mask>
+<radialGradient id="petal-heart"><stop stop-color="#dc754d" stop-opacity=".8"/><stop offset="1" stop-color="#e6a17d" stop-opacity="0"/></radialGradient>
+</defs>
+<rect width="1704" height="1000" fill="url(#petal-paper)"/>
+<ellipse cx="720" cy="420" rx="1050" ry="720" fill="url(#petal-glow)"/>
+<rect width="1704" height="1000" filter="url(#paper-texture)" opacity=".10" style="mix-blend-mode:multiply"/>
+<g class="petal-piece petal-piece-upper"><use href="#petal-source" mask="url(#petal-upper)"/></g>
+<g class="petal-piece petal-piece-right"><use href="#petal-source" mask="url(#petal-right)"/></g>
+<g class="petal-piece petal-piece-left"><use href="#petal-source" mask="url(#petal-left)"/></g>
+<g class="petal-piece petal-piece-middle"><use href="#petal-source" mask="url(#petal-middle)"/></g>
+<ellipse cx="1300" cy="920" rx="300" ry="310" fill="url(#petal-heart)"/>
+</svg><div class="hero-pointer-light" aria-hidden="true"></div></div>
 <div class="hero-art hero-photos" role="region" aria-roledescription="carousel" aria-label="프로젝트와 활동 사진">
 <div class="hero-track">
 <figure class="hero-card"><img fetchpriority="high" loading="eager" src="assets/hero-gabolle-stand.webp" srcset="assets/hero-gabolle-stand-800.webp 600w, assets/hero-gabolle-stand.webp 1050w" sizes="(max-width: 760px) 44vw, 50vw" width="1050" height="1400" decoding="async" alt="FLY ASIA 창업박람회 GABOLLE 부스에서 서비스를 소개하는 박재현"><figcaption>FLY ASIA 창업박람회</figcaption></figure>
@@ -53,9 +74,9 @@
 <figure class="hero-card"><img fetchpriority="low" loading="lazy" src="assets/hero-gabolle-qr.webp" srcset="assets/hero-gabolle-qr-800.webp 600w, assets/hero-gabolle-qr.webp 1050w" sizes="(max-width: 760px) 44vw, 50vw" width="1050" height="1400" decoding="async" alt="GABOLLE 앱 QR 안내판을 든 박재현"><figcaption>GABOLLE 앱 출시</figcaption></figure>
 </div>
 </div>
-<div class="hero-copy"><p class="hero-role">신입 개발자</p>
+<div class="hero-copy"><div class="hero-identity">
 <h1 class="hero-name">박재현<span class="hero-name-en">Park Jaehyeon</span></h1>
-<a class="text-link hero-cta" href="#intro">소개 보기 <span aria-hidden="true">↓</span></a></div>
+<a class="text-link hero-cta" href="#intro">소개 보기 <span aria-hidden="true">↓</span></a></div></div>
 </section>
 <section class="intro-section wrap" id="intro" aria-label="박재현 소개"><div class="intro-inner">
 <figure class="intro-portrait"><img src="assets/portrait.webp" width="320" height="435" alt="박재현 취업사진" loading="lazy"></figure>
