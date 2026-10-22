@@ -1,5 +1,8 @@
 (() => {
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const updatePageWidth = () => document.documentElement.style.setProperty('--page-width', `${document.documentElement.clientWidth}px`);
+  updatePageWidth();
+  window.addEventListener('resize', updatePageWidth, {passive:true});
   const toggle = document.querySelector('.menu-toggle');
   const nav = document.querySelector('.site-nav');
   const closeMenu = () => { if (!toggle || !nav) return; nav.classList.remove('is-open'); toggle.setAttribute('aria-expanded', 'false'); toggle.textContent = '메뉴'; };
