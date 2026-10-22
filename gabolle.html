@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#FFFDF9">
+<meta name="theme-color" content="#FFFFFF">
 <title>GABOLLE — 박재현</title>
 <meta name="description" content="인증부터 여행과 추천 작업, 기록·공유까지 REST API 전반을 구현한 여행 서비스 GABOLLE.">
 <meta property="og:title" content="GABOLLE — 박재현">
@@ -20,7 +20,8 @@
 <script src="page-navigation.js?v=c9741584"></script>
 <link rel="stylesheet" href="visual-refinement.css?v=7df0ea1d">
 <link rel="stylesheet" href="sky-preview.css?v=9e9cb6b2">
-<link rel="stylesheet" href="palette-study.css?v=19be9857">
+<link rel="stylesheet" href="palette-study.css?v=4692bd20">
+<script src="phone-story.js?v=6225142d" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#main">본문으로 바로가기</a>
@@ -79,7 +80,7 @@
 <section class="content-section wrap">
 <div class="section-side reveal">
 <div class="eyebrow">01</div>
-<h2>구현한 API와 <br>기술 선택</h2>
+<h2>구현한 API와 기술 선택</h2>
 </div>
 <div class="section-body reveal">
 <div class="table-scroll">
@@ -137,7 +138,7 @@
 <section class="content-section wrap">
 <div class="section-side reveal">
 <div class="eyebrow">02</div>
-<h2>추천 작업 <br>처리 흐름</h2>
+<h2>추천 작업 처리 흐름</h2>
 </div>
 <div class="section-body reveal">
 <p>Spring API는 여행과 작업 상태를 DB에 저장·조회합니다. 긴 추천 계산은 같은 백엔드 내부의 별도 실행기로 넘기고, 화면은 진행 상태와 결과를 확인합니다.</p>
@@ -177,18 +178,18 @@
 <p class="map-caption">일반 API도 PostgreSQL에 데이터를 저장하고 조회합니다. 별도 실행기는 Spring 내부에서 비동기 계산을 처리합니다.</p>
 </div>
 </section>
-<section class="content-section wrap" id="product-feedback"><div class="section-side"><div class="eyebrow">03</div><h2>출시와 <br>사용자 피드백</h2></div><div class="section-body">
+<section class="content-section wrap" id="product-feedback"><div class="section-side"><div class="eyebrow">03</div><h2>출시와 사용자 피드백</h2></div><div class="section-body">
 <p>앱을 출시해 서비스 중이며 회원은 약 80명입니다(2026.10.21 기준). FLY ASIA 창업박람회에 참가해 투자자와 사용자에게 서비스를 보여주고 피드백을 받았습니다.</p>
 <figure class="flyasia-photo"><img src="assets/gabolle-flyasia.webp" width="1440" height="1920" alt="GABOLLE 부스에서 출시한 앱과 서비스를 소개하는 박재현" loading="lazy"><figcaption class="image-caption">FLY ASIA 창업박람회 GABOLLE 부스</figcaption></figure>
 <div class="product-numbers"><div><strong>약 80명</strong><small>출시 후 회원 <br>2026.10.21 기준</small></div><div><strong>180명</strong><small>출시 전 직접 설문 <br>초기 추천 데이터 마련</small></div></div>
-<article class="reflection-entry"><h3>이용 이력이 없는 사용자를 위한 초기 추천</h3><p>이용 이력이 쌓이지 않은 신규 사용자에게도 추천할 수 있도록, 출시 전 180명에게 직접 설문을 받아 초기 추천에 필요한 정보를 확보했습니다.</p></article>
+<div class="phone-story"><div class="phone-story-visual"><figure class="app-gallery"><div><div class="phone-frame phone-baked"><img src="assets/gabolle-create.jpg" width="560" height="1214" alt="여행 생성에 필요한 조건을 입력하는 앱 화면" loading="lazy"></div><p class="image-caption">여행 생성 화면</p></div><div><div class="phone-frame phone-raw"><img src="assets/gabolle-app-home.jpg" width="1082" height="2347" alt="여행 생성과 주요 기능에 접근하는 앱 홈 화면" loading="lazy"></div><p class="image-caption">앱 홈 화면</p></div></figure></div><div class="phone-story-copy"><article class="reflection-entry"><h3>이용 이력이 없는 사용자를 위한 초기 추천</h3><p>이용 이력이 쌓이지 않은 신규 사용자에게도 추천할 수 있도록, 출시 전 180명에게 직접 설문을 받아 초기 추천에 필요한 정보를 확보했습니다.</p></article>
 <article class="reflection-entry"><h3>입력 절차를 줄이고 경로를 잘 보이게</h3><p>피드백을 반영해 지도에서 여행 경로가 더 잘 보이도록 수정했습니다. 여행 생성에 필요하지 않은 정보 수집을 없애고 절차를 간편하게 했습니다. 기능을 두 단계 안에서 찾을 수 있도록 동선도 검토했습니다.</p></article>
-<figure class="app-gallery"><div><div class="phone-frame phone-baked"><img src="assets/gabolle-create.jpg" width="560" height="1214" alt="여행 생성에 필요한 조건을 입력하는 앱 화면" loading="lazy"></div><p class="image-caption">여행 생성 화면</p></div><div><div class="phone-frame phone-raw"><img src="assets/gabolle-app-home.jpg" width="1082" height="2347" alt="여행 생성과 주요 기능에 접근하는 앱 홈 화면" loading="lazy"></div><p class="image-caption">앱 홈 화면</p></div></figure>
+</div></div>
 </div></section>
 <section class="content-section wrap">
 <div class="section-side reveal">
 <div class="eyebrow">04</div>
-<h2>로그인 오류 수정과 <br>저장 방식 비교</h2>
+<h2>로그인 오류 수정과 저장 방식 비교</h2>
 </div>
 <div class="section-body reveal">
 <article class="case">
@@ -197,10 +198,10 @@
 <p>서버 API는 직접 호출하면 응답했지만, 배포된 웹에서는 소셜 로그인 화면으로 이동하지 않거나 인증 후 돌아올 화면을 찾지 못했습니다. 서버 설정과 앱·서버 연동, 빌드 결과물, 화면 전환을 차례로 확인하며 요청 흐름을 추적했습니다.</p>
 <p>실행 컨테이너의 환경변수뿐 아니라 실제 배포 JavaScript 번들을 확인했습니다. 번들의 client ID가 비어 있고 API 주소가 localhost인 점을 확인했으며, 누락된 콜백 라우팅을 보완했습니다.</p>
 <details>
-<summary>확인한 경로와 남은 범위</summary>
+<summary>설정과 화면 전환 확인</summary>
 <div class="detail-body">
-<p>Jenkinsfile·Dockerfile의 설정 전달 경로, 앱과 서버의 redirect URI, 실제 번들과 콜백 화면을 대조했습니다. 네이버 동의 화면부터 토큰 교환 단계까지 확인했고, 이후 계정 연결 정책은 별도 검토로 남겼습니다.</p>
-<p>소셜 공급자·브라우저·기기 조합 전체가 검증됐다는 뜻은 아닙니다.</p>
+<p>Jenkinsfile·Dockerfile의 설정 전달 경로, 앱과 서버의 redirect URI, 실제 번들과 콜백 화면을 대조했습니다. 네이버 동의 화면부터 토큰 교환 단계까지 확인하고 콜백 라우팅을 보완했습니다.</p>
+
 </div>
 </details>
 </article>
@@ -251,8 +252,8 @@
 </table>
 </div>
 <p>방식별로 처음 3건은 예열로 제외하고 20건을 측정했습니다. 각 방식에서 실제로 200행이 저장됐고, 기존 트랜잭션과 후보·점수·코스 내용이 보존되는지, 오류 시 롤백되는지 확인했습니다.</p>
-<p>SQL 계측을 켠 저장 구간의 비교입니다. AI의 도움을 받은 개인 로컬 후속 실험이며 dev와 운영에는 반영하지 않았습니다.</p>
-<p>후보 저장 구간만 비교한 결과이며, 별도 부하 시험에서 첫 추천 결과를 받는 시간은 달라지지 않았습니다.</p>
+<p>SQL 계측을 켠 로컬 저장 구간의 비교입니다.</p>
+
 </div>
 </details>
 </article>

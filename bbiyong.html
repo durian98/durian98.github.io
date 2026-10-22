@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#FFFDF9">
+<meta name="theme-color" content="#FFFFFF">
 <title>BBIYONG — 박재현</title>
 <meta name="description" content="로봇 화재 탐지 평가, 사건·알림 백엔드와 CI/CD를 개발한 BBIYONG 프로젝트.">
 <meta property="og:title" content="BBIYONG — 박재현">
@@ -20,7 +20,7 @@
 <script src="page-navigation.js?v=c9741584"></script>
 <link rel="stylesheet" href="visual-refinement.css?v=7df0ea1d">
 <link rel="stylesheet" href="sky-preview.css?v=9e9cb6b2">
-<link rel="stylesheet" href="palette-study.css?v=19be9857">
+<link rel="stylesheet" href="palette-study.css?v=4692bd20">
 </head>
 <body>
 <a class="skip-link" href="#main">본문으로 바로가기</a>
@@ -81,7 +81,7 @@
 <section class="content-section wrap">
 <div class="section-side reveal">
 <div class="eyebrow">01</div>
-<h2>화재 탐지와 <br>사건 처리</h2>
+<h2>화재 탐지와 사건 처리</h2>
 </div>
 <div class="section-body reveal">
 <article class="feature-entry">
@@ -107,7 +107,7 @@
 <section class="content-section wrap">
 <div class="section-side reveal">
 <div class="eyebrow">02</div>
-<h2>모델 변환과 <br>로봇 시험</h2>
+<h2>모델 변환과 로봇 시험</h2>
 </div>
 <div class="section-body reveal">
 <p>학습 모델을 로봇 GPU에서 실행하도록 ONNX로 변환하고 TensorRT FP16으로 추론했습니다. 전열기를 시험용 열원으로 사용해 위험 감지부터 관제 경보까지 공동 시험했습니다.</p>
@@ -154,7 +154,7 @@
 <section class="content-section wrap">
 <div class="section-side reveal">
 <div class="eyebrow">03</div>
-<h2>중복 저장과 <br>처리 순서 검증</h2>
+<h2>중복 저장과 처리 순서 검증</h2>
 </div>
 <div class="section-body reveal">
 <article class="case">
@@ -175,7 +175,7 @@
 <summary>검증 조건과 확인 범위</summary>
 <div class="detail-body">
 <p>24개 작업이 모두 존재 여부 조회를 마치도록 맞춘 뒤 동시에 저장하게 했습니다. 3회 모두 DB에는 1행만 남았고, 후속 처리(모의)도 회마다 한 번만 실행됐습니다.</p>
-<p>실제 로컬 MySQL을 사용했으며 로봇 회신, 관제와 외부 알림은 모의 처리로 분리했습니다. 기존 중복 방어 로직을 사후 검증한 결과입니다. 운영 환경의 개선 전후 비교는 수행하지 않았습니다.</p>
+<p>로컬 MySQL에서 기존 중복 방어 로직을 검증했습니다. 로봇 회신, 관제와 외부 알림은 모의 처리로 분리했습니다.</p>
 </div>
 </details>
 </article>
@@ -231,7 +231,7 @@
 </table>
 </div>
 <p>네 로봇 번호에 각 50건, 구조별 3회 중앙값입니다. 후속 알림은 모의 처리이며, 시험용 작업 400건의 순서 시험과 실제 DB 200건의 처리량 시험은 서로 다른 실험입니다.</p>
-<p>프로그램 종료와 새 작업 접수가 겹치는 경우가 남아 운영에는 반영하지 않았습니다. 특정 로봇에 요청이 몰리는 조건과 로봇 수신부터 화면 표시까지의 실제 부하 시험도 추가 과제입니다.</p>
+
 </div>
 </details>
 </article>
