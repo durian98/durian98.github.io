@@ -7,6 +7,16 @@
   nav?.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
   document.addEventListener('keydown', event => { if (event.key === 'Escape' && nav?.classList.contains('is-open')) { closeMenu(); toggle.focus(); } });
   document.querySelectorAll('.back-top').forEach(el => el.addEventListener('click', () => window.scrollTo({ top: 0, behavior: reducedMotion ? 'instant' : 'smooth' })));
+  document.querySelectorAll('[data-page-back]').forEach(button => button.addEventListener('click', () => {
+    const fromPortfolio = document.referrer && new URL(document.referrer).origin === location.origin;
+    if (fromPortfolio && history.length > 1) {
+      history.back();
+    } else if (document.body.classList.contains('home')) {
+      window.scrollTo({ top: 0, behavior: reducedMotion ? 'instant' : 'smooth' });
+    } else {
+      location.assign('index.html');
+    }
+  }));
   document.querySelectorAll('[data-copy-email]').forEach(button => button.addEventListener('click', async () => {
     const status = document.querySelector('.copy-status');
     try { await navigator.clipboard.writeText('masdf13@naver.com'); status.textContent = '이메일 주소를 복사했습니다.'; }
