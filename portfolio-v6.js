@@ -152,7 +152,15 @@
   });
   // Hover pauses only for a mouse; a finger leaves no hover state behind, so auto movement can resume after touch.
   track.addEventListener('pointerenter', event => { if (event.pointerType === 'mouse') { hover = true; clearTimeout(resumeTimer); } });
-  track.addEventListener('pointerleave', event => { if (event.pointerType === 'mouse') { hover = false; resumeLater(); } });
+  track.addEventListener('pointerleave', event => {
+    if (event.pointerType !== 'mouse') return;
+    hover = false;
+    clearTimeout(resumeTimer);
+    if (!reduced.matches && !drag && !tabs.some(tab => tab.matches(':focus-visible'))) {
+      focus = false;
+      start();
+    }
+  });
   track.addEventListener('focusin', event => { focus = event.target.matches(':focus-visible'); if (!drag) stopAuto(); });
   track.addEventListener('focusout', event => { if (!track.contains(event.relatedTarget)) { focus = false; resumeLater(); } });
   track.addEventListener('pointerdown', event => {
