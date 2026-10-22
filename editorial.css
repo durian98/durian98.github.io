@@ -1,50 +1,9 @@
-/* Editorial pass after yohanan.design (measured 2026-10-22): deep olive folds behind cream type in the hero,
-   warm cream pages (#F8EBD8) with dark brown text (#241915), light-weight large headings, quiet sage panels.
-   Manrope carries Latin text; Pretendard stays for Korean. */
+/* Typography and media framing only. Colors come from the orange / charcoal palette. */
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&display=swap');
-:root { --ed-cream: #f8ebd8; --ed-ink: #241915; --ed-ink-soft: #4a3d35; --ed-olive: #2c3a1f; --ed-sage: #b9c39a; }
-body { background-color: var(--ed-cream); color: var(--ed-ink); }
-body::before { display: none; }
-p, li, dd { color: var(--ed-ink-soft); }
-h1, h2, h3, .section-heading h2, .project-title { color: var(--ed-ink); }
-
-/* hero: cream text on the olive film */
-.home:has(.hero-film) .site-header { color: var(--ed-cream); border-bottom-color: #f8ebd833; }
-.home:has(.hero-film) .site-nav a, .home:has(.hero-film) .menu-toggle { color: var(--ed-cream); }
-.hero-film::after { background: linear-gradient(90deg, rgba(20,28,14,.55), rgba(20,28,14,.15) 60%, transparent); }
-.home .hero:has(.hero-film) .hero-name { color: var(--ed-cream); font-weight: 500; letter-spacing: -.055em; font-size: clamp(76px, 10.2vw, 156px); }
-.home .hero:has(.hero-film) .hero-name-en { color: #f8ebd8d9; font-family: Manrope, Pretendard, sans-serif; font-weight: 300; letter-spacing: -.01em; font-size: clamp(22px, 2.3vw, 34px); }
-.home .hero:has(.hero-film) .hero-disciplines, .home .hero:has(.hero-film) .discipline-reel span { color: var(--ed-cream); font-weight: 400; }
-.home .hero:has(.hero-film) .hero-cta { color: var(--ed-cream); border-bottom-color: #f8ebd899; font-family: Manrope, Pretendard, sans-serif; font-weight: 500; }
-.home .hero:has(.hero-film) .hero-cta span, .home .hero:has(.hero-film) .hero-cta:hover span { color: inherit; }
-
-/* section headings: light and large, like the reference's "Films & ads" */
-.section-heading h2, .project-title { font-weight: 400; letter-spacing: -.035em; }
-.project-subtitle, .work-subtitle { color: var(--ed-ink-soft); }
-.section-heading h2 { font-size: clamp(40px, 4.2vw, 58px); }
-
-/* project media sit on a sage panel */
-.work-visual { background: var(--ed-sage); padding: clamp(14px, 1.8vw, 26px); }
-.work-visual .browser-frame { box-shadow: 0 24px 50px -28px rgba(36,25,21,.5); }
-
-/* links and buttons read clearly on cream */
-.text-link { color: var(--ed-ink); }
-.pill-link { background: var(--ed-ink); border-color: var(--ed-ink); color: var(--ed-cream); }
-.pill-link.outline { background: transparent; color: var(--ed-ink); border-color: var(--ed-ink); }
-.contact-section { background: var(--ed-olive); }
-.contact-section, .contact-section p, .contact-section a, .contact-section h2 { color: var(--ed-cream); }
-
-@media (max-width: 760px) {
-  .home .hero:has(.hero-film) .hero-name { font-size: clamp(64px, 19vw, 104px); }
-  .home .hero:has(.hero-film) .hero-name-en { font-size: 22px; }
-  .section-heading h2 { font-size: 36px; }
-}
-
-/* Replace the earlier apricot washes with cream and sage so every page shares one palette. */
-:root { --paper: var(--ed-cream); --surface: #f3e2ca; --rust: var(--ed-olive);
-  --section-wash: radial-gradient(ellipse at 88% 12%, #dfe3c7aa 0%, transparent 62%), radial-gradient(ellipse at 6% 82%, #efe0c6 0%, transparent 58%); }
-.section-tint::before, .content-section.section-tint::before { background: var(--section-wash); }
-.reading-progress { background: var(--ed-olive); }
-.ai-flow { filter: hue-rotate(55deg) saturate(.55) brightness(.98); opacity: .8; }
-.hero-pointer-light { display: none; }
-.work-feature .work-visual { background: var(--ed-sage); border-radius: 10px; padding: clamp(14px, 1.8vw, 26px); }
+.home .hero:has(.hero-film) .hero-name-en,
+.home .hero:has(.hero-film) .hero-cta{font-family:Manrope,Pretendard,sans-serif;}
+.section-heading h2,.project-title{font-weight:400;letter-spacing:-.035em;}
+.section-heading h2{font-size:clamp(40px,4.2vw,58px);}
+.work-feature .work-visual{background:var(--surface);border-radius:10px;padding:clamp(14px,1.8vw,26px);}
+.work-visual .browser-frame{box-shadow:0 24px 50px -28px rgba(39,40,42,.5);}
+@media(max-width:760px){.section-heading h2{font-size:36px;}}

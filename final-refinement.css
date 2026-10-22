@@ -16,7 +16,7 @@
 }
 
 /* Keep the latest typography and navigation while applying the requested warm palette. */
-:root{--ed-sage:#f9e9da;--ed-olive:#27282a;--paper:#fff;--rust:#f47732;--section-wash:radial-gradient(ellipse at 88% 12%,#ffd8bcad 0%,#ffe9db18 48%,transparent 66%),radial-gradient(ellipse at 7% 80%,#ffd3b48a 0%,transparent 57%),radial-gradient(ellipse at 52% 46%,#fffdfa 0%,#fff9f4 60%,#fff3e9 100%);}
+:root{--paper:#fff;--surface:#fff6ef;--ink:#27282a;--muted:#706a65;--sage:#f2bb8c;--lavender:#f7ddc6;--rust:#f47732;--section-wash:radial-gradient(ellipse at 88% 12%,#ffd8bcad 0%,#ffe9db18 48%,transparent 66%),radial-gradient(ellipse at 7% 80%,#ffd3b48a 0%,transparent 57%),radial-gradient(ellipse at 52% 46%,#fffdfa 0%,#fff9f4 60%,#fff3e9 100%);}
 body{background-color:#fff;}
 .ai-flow{filter:none;}
 .home:has(.hero-film) .site-header,.home:has(.hero-film) .site-nav a,.home:has(.hero-film) .menu-toggle{color:#33271f;}
