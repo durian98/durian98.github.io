@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#FFFFFF">
 <title>About — 박재현</title>
-<meta name="description" content="백엔드 개발자 박재현의 협업 경험, 사용 기술, 학력과 수상 내역.">
+<meta name="description" content="개발자 박재현의 소통과 협업 방식, 프로젝트 경험, 기술과 이력.">
 <meta property="og:title" content="About — 박재현">
-<meta property="og:description" content="백엔드 개발자 박재현의 협업 경험, 사용 기술, 학력과 수상 내역.">
+<meta property="og:description" content="개발자 박재현의 소통과 협업 방식, 프로젝트 경험, 기술과 이력.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://durian98.github.io/assets/portrait.webp">
 <link rel="preload" href="assets/fonts/Pretendard-Regular.woff2?v=44839da8" as="font" type="font/woff2" crossorigin>
@@ -24,7 +24,7 @@
 <link rel="stylesheet" href="sky-preview.css?v=9e9cb6b2">
 <link rel="stylesheet" href="palette-study.css?v=35c14085">
 <link rel="stylesheet" href="editorial.css?v=54a3d43d">
-<link rel="stylesheet" href="final-refinement.css?v=029750e5">
+<link rel="stylesheet" href="final-refinement.css?v=e92d580d">
 </head>
 <body>
 <a class="skip-link" href="#main">본문으로 바로가기</a>
@@ -34,7 +34,7 @@
 <nav class="site-nav" id="site-nav" aria-label="주 메뉴">
 <a href="work.html">프로젝트</a>
 <a href="ai.html">AI 활용</a>
-<a href="index.html#intro">소개</a>
+<a href="about.html" aria-current="page">소개</a>
 <a href="#contact">연락처</a>
 </nav>
 </header>
@@ -46,26 +46,35 @@
 <section class="about-hero wrap">
 <div class="petal-field green-hero-field" aria-hidden="true"></div>
 <div>
-<h1>소개</h1>
-<p class="about-lead">데이터 분석, AI와 웹서비스 개발을 경험한 신입 개발자 박재현입니다.</p>
-<p>배운 내용은 프로젝트에 직접 적용하며 동작을 확인합니다. 기술 블로그로 개발 동향을 살피고, 작업에 적용할 부분을 찾습니다.</p>
-<p>팀원들의 의견을 잘 듣고 정리해 해결 방법을 함께 정합니다. 논의한 내용은 모두가 볼 수 있게 남기고, 정한 일정에 맞춰 작업을 이어갑니다. 받은 피드백을 다음 작업에 반영하고, 저와 팀이 함께 성장하는 과정을 좋아합니다.</p>
+<h1 class="about-lead">데이터 분석, AI와 웹서비스 개발을 경험한 신입 개발자 박재현입니다.</h1>
+<p>사람들과 편하게 소통하고, 함께 의견을 나누며 일하는 것을 좋아합니다. 의견이 갈릴 때는 각자의 입장을 듣고 정리해 서로 이해할 수 있는 지점을 찾습니다.</p>
+<p>진행 상황과 논의한 내용을 공유하고, 받은 피드백을 다음 작업에 반영합니다.</p>
 </div>
 <figure class="about-portrait intro-portrait"><img src="assets/portrait.png" width="320" height="435" alt="박재현 취업사진"></figure>
 </section>
-<section class="about-blocks about-ways wrap">
-<div class="reveal">
-<h2>학습</h2>
-<p>새로운 기술은 공식 문서와 기술 블로그, AI로 개념을 파악한 뒤 프로젝트에서 어디에 어떻게 쓸지 정합니다. 적용할 곳이 정해지면 직접 구현하며 익힙니다.</p>
-<p>GABOLLE 화면을 만들 때는 토스 기술 블로그의 사용자 리서치 글을 참고했습니다. 메뉴와 기능 구성을 정리하고, 주요 기능은 두 단계 안에서 찾을 수 있도록 구성했습니다.</p>
-<p>BBIYONG에서는 탐지 기준과 놓친 열원을 다시 찾는 방식을 실제 로봇을 움직이며 고쳐 나갔습니다. 프로젝트가 끝난 뒤에는 같은 경보가 동시에 들어와도 한 번만 저장되는지 실제 MySQL로 다시 시험했고, GABOLLE에서는 추천 후보를 저장하는 방식별로 실행되는 SQL과 처리 시간을 재서 비교했습니다.</p>
-</div>
-<div class="reveal">
-<h2>협업</h2>
-<p>GABOLLE에서는 6명 팀의 팀장으로서 의견을 모아 작업을 나누고, 계획한 일정에 맞춰 진행 상황을 점검했습니다.</p>
-<p>BBIYONG에서는 Jira 티켓으로 진행 상태를 공유했습니다. 세 팀원이 로봇 한 대를 같이 써야 했을 때는 로봇을 넘겨받는 순서와 시점을 정해, 각자 언제 로봇을 쓸 수 있는지 미리 알 수 있게 했습니다.</p>
-<p>Arctic에서는 병합 충돌이 반복되자 기능별로 담당을 나누고, 병합 전 절차와 서버 사이의 요청·응답 형식을 팀과 같이 정했습니다.</p>
-</div>
+<section class="about-collaboration wrap" aria-labelledby="working-together">
+<h2 id="working-together">함께 일하는 방식</h2>
+<article class="collaboration-entry reveal">
+<h3>경청과 의견 조율</h3>
+<div><p class="collaboration-context">GABOLLE · 6명 팀의 팀장</p>
+<p>팀장으로서 작업을 나누고 진행 상황을 점검했습니다. 일정과 아이디어를 정할 때 의견이 갈리면 팀원들의 입장을 다시 정리해 공유했습니다. 서로 이해할 수 있는 지점을 찾고, 공동의 목표를 기준으로 논의를 이어갔습니다.</p></div>
+</article>
+<article class="collaboration-entry reveal">
+<h3>함께 일할 기준 정하기</h3>
+<div><p class="collaboration-context">Arctic · 웹 API와 AI 서버 연동</p>
+<p>병합 충돌이 반복되자 기능별로 담당을 나누고, 병합 전 절차를 팀과 같이 정했습니다. 웹 API와 AI 서버를 연결할 때도 요청·응답 형식을 함께 맞췄습니다.</p></div>
+</article>
+<article class="collaboration-entry reveal">
+<h3>피드백 수용과 반영</h3>
+<div><p class="collaboration-context">GABOLLE · FLY ASIA 창업박람회</p>
+<p>앱 출시 후 투자자와 사용자에게 서비스를 보여주고 피드백을 받았습니다. 지도에서 여행 경로가 더 잘 보이도록 수정하고, 여행 생성에 불필요한 입력을 덜었습니다. 필요한 기능을 두 단계 안에서 찾도록 화면 동선도 검토했습니다.</p>
+<a class="text-link" href="gabolle.html">프로젝트에서 한 일 <span aria-hidden="true">↗</span></a></div>
+</article>
+</section>
+<section class="about-learning wrap" aria-labelledby="learning-method">
+<h2 id="learning-method">학습과 검증</h2>
+<div><p>새로운 기술은 공식 문서와 기술 블로그, AI로 개념을 파악한 뒤 프로젝트에서 어디에 어떻게 쓸지 정합니다. 적용할 곳이 정해지면 직접 구현하며 익힙니다.</p>
+<p>BBIYONG에서는 실제 로봇을 움직이며 탐지 기준과 재포착 방식을 조정했습니다. 프로젝트가 끝난 뒤에도 MySQL 동시 저장 시험과 GABOLLE 후보 저장 성능 비교로 구현을 다시 점검했습니다.</p></div>
 </section>
 <section class="about-blocks wrap section-tint">
 <div class="reveal">
@@ -147,7 +156,6 @@
 </div>
 </div>
 </section>
-<section class="about-quote wrap section-tint"><h2>출시 후 <br>사용자 피드백 반영</h2><div><p>가볼래를 출시한 뒤 FLY ASIA 창업박람회에서 투자자와 사용자에게 피드백을 받았습니다. 지도에서 여행 경로가 더 잘 보이도록 수정하고, 여행 생성에 불필요한 입력을 덜어 절차를 간편하게 했습니다.</p><p>필요한 기능을 두 단계 안에서 찾도록 동선을 검토했습니다.</p><a class="text-link" href="gabolle.html">GABOLLE에서 한 일 <span aria-hidden="true">↗</span></a></div></section>
 </main>
 <footer class="contact-section wrap" id="contact">
 <div class="contact-top">

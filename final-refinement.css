@@ -35,6 +35,22 @@ body{background-color:#fff;}
 .about-hero .petal-field.green-hero-field{left:50%;right:auto;width:var(--page-width,100vw);max-width:none;transform:translateX(-50%);}
 .section-tint{background:transparent;}
 .section-tint::before{max-width:none;}
+.home #selected-work{scroll-margin-top:-38px;}
+.home .intro-links{display:flex;flex-wrap:wrap;align-items:center;gap:20px 34px;}
+.home .intro-links .text-link{display:inline-flex;align-items:center;gap:16px;font-size:16px;padding:0 0 7px;}
+.home .intro-links .text-link span{font-size:18px;}
+.about-hero h1.about-lead{font-size:34px;line-height:1.55;font-weight:400;letter-spacing:-.04em;margin:0 0 26px;}
+.about-collaboration{padding-block:56px 28px;border-top:1px solid var(--line);}
+.about-collaboration>h2,.about-learning>h2{font-size:34px;font-weight:500;line-height:1.4;letter-spacing:-.04em;}
+.about-collaboration>h2{margin-bottom:34px;}
+.collaboration-entry,.about-learning{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,2fr);gap:clamp(28px,4vw,60px);}
+.collaboration-entry{padding-block:32px;border-top:1px solid var(--line);}
+.collaboration-entry h3{font-size:25px;font-weight:500;line-height:1.5;margin:0;letter-spacing:-.035em;}
+.collaboration-entry p,.about-learning p{font-size:19px;line-height:1.85;}
+.collaboration-entry .collaboration-context{font-size:14px;line-height:1.7;color:var(--muted);margin-bottom:12px;}
+.collaboration-entry p:last-child,.about-learning p:last-child{margin-bottom:0;}
+.collaboration-entry .text-link{font-size:15px;margin-top:8px;}
+.about-learning{padding-block:56px 64px;border-top:1px solid var(--line);}
 .ai-page .ai-flow{background:#fff9f2;}
 .ai-page .ai-flow .liquid-video{opacity:1;}
 .ai-page .ai-flow::after{content:none;}
@@ -44,6 +60,18 @@ body{background-color:#fff;}
 .ai-page .project-hero:has(.ai-flow) .project-topline{mix-blend-mode:difference;color:#fff;}
 .ai-page .project-hero:has(.ai-flow) .project-topline a{color:inherit;}
 @media(max-width:760px){
+ .home .intro-links{gap:20px 28px;}
+ .home .intro-links .text-link{font-size:15px;gap:12px;}
+ .about-hero h1.about-lead{font-size:26px!important;line-height:1.5;}
+ .about-collaboration{padding-block:38px 16px;}
+ .about-collaboration>h2,.about-learning>h2{font-size:27px;}
+ .about-collaboration>h2{margin-bottom:24px;}
+ .collaboration-entry,.about-learning{grid-template-columns:1fr;gap:14px;}
+ .collaboration-entry{padding-block:28px;}
+ .collaboration-entry h3{font-size:23px;}
+ .collaboration-entry p,.about-learning p{font-size:17px;line-height:1.85;}
+ .collaboration-entry .collaboration-context{font-size:13px;}
+ .about-learning{padding-block:38px 44px;}
  .about-hero .about-lead{font-size:26px!important;line-height:1.5;}
  .about-hero p,.about-ways p,.about-quote p{font-size:17px;line-height:1.8;}
  .section-side{align-items:flex-start;gap:12px;}
