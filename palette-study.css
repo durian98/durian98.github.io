@@ -229,41 +229,35 @@ body::before{background:none;}
 @keyframes petal-middle-turn{from{transform:rotate(-1.6deg);}to{transform:rotate(1deg);}}
 @media(prefers-reduced-motion:reduce){.petal-piece{animation:none!important;transform:none!important;}}
 
+/* Editorial hero: type on a quiet, continuous apricot field. */
+:root{--section-wash:linear-gradient(120deg,#fff5ed 0%,#fceee3 52%,#f7e3d3 100%);}
+.content-section.section-tint::before{background:var(--section-wash);}
+.home .hero .petal-field.green-hero-field{background:#f4e9dd;}
+.home .hero .petal-field::before,.ai-flow::before{content:none;}
+.home .hero .petal-field::after,.ai-flow::after{z-index:2;}
+.petal-scene{opacity:.46;filter:saturate(.6) contrast(.9);}
+.petal-piece{will-change:transform;}
 .home .hero-copy{padding:44px 32px 44px clamp(36px,5vw,80px);}
-.hero-identity{display:flex;flex-direction:column;align-items:flex-start;width:fit-content;max-width:100%;padding:32px;border:1px solid #fffaf2c9;border-radius:24px;background:linear-gradient(135deg,#fffdf9dc,#fff5e9bb);box-shadow:0 8px 40px -30px #66391433;}
-.home .hero-name{font-size:clamp(72px,7.8vw,118px);letter-spacing:-.06em;line-height:1.16;color:#27282a;}
-.home .hero-name-en{font-size:clamp(23px,2.2vw,32px);line-height:1.4;letter-spacing:-.015em;margin-top:12px;color:#48423c;}
-.home .hero-cta{display:inline-flex;align-items:center;justify-content:center;gap:24px;min-height:48px;margin-top:32px;padding:12px 20px;border:0;border-radius:12px;background:#27282a;color:#fffaf4;font-size:16px;font-weight:700;line-height:1.5;transition:background .2s,transform .2s;}
-.home .hero-cta span{font-size:21px;color:#fffaf4;}
-.home .hero-cta:hover{color:#fff;background:#46413c;transform:translateY(-2px);}
-.home .hero-cta:focus-visible{outline-offset:5px;}
-.petal-scene{opacity:.8;}
-.hero-pointer-light{position:absolute;left:-320px;top:-320px;width:640px;height:640px;pointer-events:none;opacity:0;background:radial-gradient(closest-side,#fff8eaa6,#ffe3ba3d 48%,transparent 100%);transition:opacity .35s;will-change:transform;}
-.hero-pointer-light.is-active{opacity:.65;}
+.hero-identity{display:flex;flex-direction:column;align-items:flex-start;width:100%;max-width:100%;padding:0;border:0;border-radius:0;background:none;box-shadow:none;}
+.home .hero-name{font-size:clamp(92px,11.3vw,174px);font-weight:700;letter-spacing:-.075em;line-height:1.06;color:#27282a;}
+.home .hero-name-en{font-size:clamp(21px,2.15vw,30px);font-weight:400;line-height:1.4;letter-spacing:.01em;margin-top:22px;color:#48423c;}
+.home .hero-copy .hero-cta{display:inline-flex;align-items:center;justify-content:flex-start;gap:24px;min-height:48px;margin-top:54px;padding:0;border:0;border-radius:0;background:none;color:#27282a;font-size:16px;font-weight:400;line-height:1.5;box-shadow:none;transform:none;transition:gap .2s;}
+.home .hero-copy .hero-cta span{display:grid;place-items:center;width:44px;height:44px;border:1px solid #27282a66;border-radius:50%;font-size:21px;font-weight:400;color:#27282a;background:none;transition:background .2s,color .2s,border-color .2s;}
+.home .hero-copy .hero-cta:hover{color:#27282a;background:none;gap:30px;transform:none;}
+.home .hero-copy .hero-cta:hover span{background:#27282a;border-color:#27282a;color:#fff5eb;}
+.home .hero-copy .hero-cta:focus-visible{outline-offset:6px;}
+.ai-flow{background:#f5e7dc;background-image:none;}
+.ai-flow .liquid-video{opacity:.68;}
+.data-table th,.stage-panel{background:#fbf0e6;}
+.hero-pointer-light{position:absolute;left:-320px;top:-320px;width:640px;height:640px;z-index:2;pointer-events:none;opacity:0;background:radial-gradient(closest-side,#fff5dfa6,#ffe3ba3d 48%,transparent 100%);transition:opacity .35s;will-change:transform;}
+.hero-pointer-light.is-active{opacity:.3;}
 @media(max-width:760px){
- .home .hero-copy{padding:84px var(--gutter) 26px;}
- .hero-identity{width:100%;padding:24px;border-radius:20px;}
- .home .hero-name{font-size:clamp(54px,15vw,72px);}
- .home .hero-name-en{font-size:23px;margin-top:8px;}
- .home .hero-cta{font-size:15px;margin-top:24px;}
+ .home .hero-copy{padding:92px var(--gutter) 34px;}
+ .home .hero-name{font-size:clamp(72px,22vw,102px);}
+ .home .hero-name-en{font-size:22px;margin-top:14px;}
+ .home .hero-copy .hero-cta{margin-top:28px;font-size:15px;gap:20px;}
  .hero-pointer-light{display:none;}
 }
-.home .hero-copy .hero-cta,.home .hero-copy .hero-cta:hover{color:#fffaf4;}
-.petal-piece{will-change:transform;}
-/* Keep orange at the edges; reading areas fade to white without panel boundaries. */
-:root{--section-wash:linear-gradient(100deg,#fff2e7 0%,#fffdfb 18%,#fff 38%,#fff 64%,#fffaf5 82%,#ffebda 100%);}
-.content-section.section-tint::before{background:linear-gradient(90deg,#ffffff26,#ffffff80 22%,#ffffffa6 67%,#ffffff1a),var(--section-wash);}
-.home .hero .petal-field::before{content:"";position:absolute;inset:0;z-index:1;background:radial-gradient(ellipse 48% 78% at 60% 46%,#ffffffa6 0%,#ffffff70 34%,#ffffff00 82%);opacity:1;filter:none;transform:none;animation:none;will-change:auto;}
-.home .hero .petal-field::after,.ai-flow::after{z-index:2;}
-.hero-pointer-light{z-index:2;}
-.ai-flow::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse 65% 83% at 26% 44%,#ffffffe0 0%,#ffffffa6 27%,#ffffff3d 61%,#ffffff00 86%);}
-.data-table th,.stage-panel{background:linear-gradient(115deg,#fffaf5,#fff 52%,#fff5eb);}
-@media(max-width:760px){
- :root{--section-wash:linear-gradient(100deg,#fff5ed,#fff 28%,#fff 72%,#fff1e5);}
- .home .hero .petal-field::before{background:radial-gradient(ellipse 100% 57% at 50% 18%,#ffffffb8,#ffffff6b 48%,#ffffff00 87%);}
- .ai-flow::before{background:radial-gradient(ellipse 130% 75% at 40% 35%,#ffffffdc,#ffffff8c 40%,#ffffff00 86%);}
-}
-
 /* Portrait crops have their own focus; a shared top crop hid the trekking photo's subject. */
 .home .hero-card[data-photo="trek"] img{object-position:50% 92%;}
 @media(max-width:760px){
@@ -283,8 +277,8 @@ body::before{background:none;}
 }
 @media(max-width:380px){
  :root{--gutter:20px;}
- .hero-identity{padding:22px;}
- .home .hero-copy{padding-top:78px;padding-bottom:22px;}
+ .hero-identity{padding:0;}
+ .home .hero-copy{padding-top:84px;padding-bottom:30px;}
  .intro-copy .intro-lead{font-size:24px;}
  .section-side h2{font-size:25px;}
  .feature-entry h3,.case h3,.reflection-entry h3,.ai-use-entry h3{font-size:22px;}
