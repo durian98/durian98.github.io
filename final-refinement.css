@@ -123,3 +123,9 @@ body{background-color:#fff;}
 .chapter-band--profile{--section-wash:radial-gradient(ellipse 110% 80% at 50% 0%,#ffc78a45,transparent 84%),radial-gradient(ellipse 80% 80% at 100% 100%,#ffb79240,transparent 84%),linear-gradient(#fff1e6,#fff1e6);}
 
 .project-resource-links{display:flex;flex-wrap:wrap;align-items:center;gap:16px 28px;}
+
+/* Home belongs to the shared menu; keep the desktop and mobile trigger at the right. */
+.site-header .site-nav{margin-left:auto;}
+.site-nav .header-home{margin-right:0;min-width:44px;justify-content:center;}
+.project-topline:has(>span:only-child){justify-content:flex-end;}
+@media(max-width:760px){.site-header .menu-toggle{margin-left:auto;}.site-nav .header-home{font-size:inherit;justify-content:flex-start;}}
