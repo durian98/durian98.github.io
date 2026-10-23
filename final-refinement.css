@@ -121,3 +121,5 @@ body{background-color:#fff;}
 .chapter-band--product{--section-wash:radial-gradient(ellipse 115% 110% at 105% 80%,transparent 25%,#ffbd9240 52%,transparent 80%),radial-gradient(ellipse 95% 70% at 10% 100%,#ffda9340,transparent 88%),linear-gradient(#fff1e6,#fff1e6);}
 .chapter-band--tools{--section-wash:radial-gradient(ellipse 60% 90% at 48% 48%,#ffbe8b45,transparent 90%),radial-gradient(ellipse 70% 80% at 0% 80%,#ffdc9b38,transparent 86%),linear-gradient(#fff1e6,#fff1e6);}
 .chapter-band--profile{--section-wash:radial-gradient(ellipse 110% 80% at 50% 0%,#ffc78a45,transparent 84%),radial-gradient(ellipse 80% 80% at 100% 100%,#ffb79240,transparent 84%),linear-gradient(#fff1e6,#fff1e6);}
+
+.project-resource-links{display:flex;flex-wrap:wrap;align-items:center;gap:16px 28px;}
