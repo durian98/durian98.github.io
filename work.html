@@ -5,19 +5,19 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#FFFFFF">
 <title>Work — 박재현</title>
-<meta name="description" content="BBIYONG, GABOLLE, Arctic에서 개발한 기능과 데이터 분석 프로젝트를 소개합니다.">
+<meta name="description" content="BBIYONG, GABOLLE, Arctic의 개발 경험과 진행 중인 조리 영상의 동작 구간 경계 검출 파이프라인 개발을 소개합니다.">
 <meta property="og:title" content="Work — 박재현">
-<meta property="og:description" content="BBIYONG, GABOLLE, Arctic에서 개발한 기능과 데이터 분석 프로젝트를 소개합니다.">
+<meta property="og:description" content="BBIYONG, GABOLLE, Arctic의 개발 경험과 진행 중인 조리 영상의 동작 구간 경계 검출 파이프라인 개발을 소개합니다.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://durian98.github.io/assets/portrait.webp">
-<link rel="preload" href="assets/fonts/Pretendard-Regular.woff2?v=7d5e3991" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/Pretendard-Regular.woff2?v=ddacf774" as="font" type="font/woff2" crossorigin>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <script src="app.js?v=a39f3ad0" defer>
 </script>
 <script src="portfolio-v6.js?v=b88d1683" defer></script>
 <script src="page-navigation.js?v=abc9b69f" defer></script>
 <script src="media-playback.js?v=0217169f" defer></script>
-<link rel="stylesheet" href="site.css?v=9b3e13c0">
+<link rel="stylesheet" href="site.css?v=7687cf8a">
 </head>
 <body>
 <a class="skip-link" href="#main">본문으로 바로가기</a>
@@ -49,11 +49,12 @@
 <h2>
 <a href="bbiyong.html">BBIYONG</a>
 </h2>
+<p class="project-period"><time datetime="2026-07-06">2026.07.06</time>–08.10</p>
 <p class="work-subtitle">화재·과열 감지 로봇과 관제 서비스</p>
 <p class="work-description">화재 탐지 결과를 비교하는 평가 도구, 탐지 기준과 놓친 열원을 다시 찾는 로직, 사건 저장과 알림 백엔드를 맡았습니다. Jenkins 배포 파이프라인과 서버 실행 환경도 구성했습니다.</p>
 <div class="work-meta">
 <span>Spring Boot · Python · Jenkins</span>
-<span>2026</span>
+
 </div>
 <a class="text-link work-open" href="bbiyong.html">개발 내용 보기 <span aria-hidden="true">↗</span>
 </a>
@@ -69,31 +70,45 @@
 <h2>
 <a href="gabolle.html">GABOLLE</a>
 </h2>
+<p class="project-period">개발 <time datetime="2026-08-10">2026.08.10</time>–10.05</p>
 <p class="work-subtitle">취향과 조건에 맞춘 부산 여행 서비스</p>
 <p class="work-description">인증부터 여행·추천 작업, 기록·공유까지 REST API를 구현했습니다. 앱 출시 후 서비스 중이며 회원은 약 80명입니다(2026.10.21 기준). 현장 피드백을 반영해 입력 절차와 화면을 다듬었습니다.</p>
 <div class="work-meta">
 <span>Spring Boot · PostgreSQL · SSE</span>
-<span>2026</span>
+
 </div>
 <a class="text-link work-open" href="gabolle.html">개발 내용 보기 <span aria-hidden="true">↗</span>
 </a>
 </div>
 <div class="work-visual"><div class="browser-frame"><div class="browser-chrome" aria-hidden="true"><i></i><i></i><i></i></div><img src="assets/gabolle-map.jpg" width="2360" height="1640" alt="여행 일정과 방문 순서를 지도에 표시한 GABOLLE 화면" loading="lazy"></div><a class="visual-link" href="gabolle.html" aria-label="GABOLLE 개발 내용 보기"><span class="visual-hover" aria-hidden="true"><strong>GABOLLE</strong><span>여행 일정과 방문 순서를 보여주는 지도</span></span></a></div>
 </article>
+<article class="work-feature research reveal" id="vlm">
+<div class="work-copy">
+<span class="work-number">03 · 기업 연계 프로젝트 <span class="research-status">진행 중</span></span>
+<h2><a href="vlm.html">조리 영상의 동작 구간 경계 검출 파이프라인 개발</a></h2>
+<p class="project-period"><time datetime="2026-10-06">2026.10.06</time>–진행 중</p>
+<p class="work-subtitle">조리 로봇의 학습용 구간 라벨을 만드는 파이프라인</p>
+<p class="work-description">로보터블과 함께 조리 영상의 동작 구간을 나누는 기업 연계 프로젝트입니다. 같은 동작이 반복되는 장면의 VLM 추론을 줄이기 위해, 다양한 영상 분석 방법으로 동작이 바뀌는 지점을 추립니다. 프레임 선별 방법 조사, 비교 실험 설계와 평가 코드 작성을 맡고 있습니다.</p>
+<div class="work-meta"><span>Python · 영상 특징·임베딩 · 경계 검출 · VLM</span></div>
+<a class="text-link work-open" href="vlm.html">프로젝트 내용 보기 <span aria-hidden="true">↗</span></a>
+</div>
+<div class="work-visual research-visual"><div class="pipeline-preview"><span class="preview-label">COOKING VIDEO / ACTION BOUNDARIES</span><div class="preview-frames"><div class="cooking-frame"><img src="assets/cooking-frame-15.webp" width="720" height="720" alt="준비 장면" loading="lazy"><div class="frame-label"><span>00:00</span><strong>준비</strong></div></div><div class="cooking-frame"><img src="assets/cooking-frame-17.webp" width="720" height="720" alt="달걀 투입 장면" loading="lazy"><div class="frame-label"><span>00:20</span><strong>달걀 투입</strong></div></div><div class="cooking-frame"><img src="assets/cooking-frame-19.webp" width="720" height="720" alt="밥 투입 장면" loading="lazy"><div class="frame-label"><span>01:10</span><strong>밥 투입</strong></div></div></div><div class="preview-bottom"><span>영상 속 변화가 구간 라벨이 되도록</span><span aria-hidden="true">↗</span></div></div><a class="visual-link" href="vlm.html" aria-label="조리 영상의 동작 구간 경계 검출 파이프라인 개발 내용 보기"><span class="visual-hover" aria-hidden="true"><strong>COOKING VIDEO PIPELINE</strong><span>프레임 선별부터 판독 결과 비교까지</span></span></a></div>
+</article>
 <section class="minor-projects" id="more">
 <article class="minor-project reveal">
-<span class="eyebrow">03 · 도서 창작 지원</span>
+<span class="eyebrow">04 · 도서 창작 지원</span>
 <h2>Arctic</h2>
+<p class="project-period"><time datetime="2026-06-08">2026.06.08</time>–06.26</p>
 <h3>도서 추천과 창작 지원 웹서비스</h3>
 <p>취향에 맞는 도서 추천, 독서 기록과 AI 창작 지원을 제공한 3인 팀 프로젝트입니다. Django의 도서·사용자 API와 FastAPI AI 서버를 분리해 연결하고, 추천 계산과 캐시 코드를 수정했습니다.</p>
 <p>OpenAI API와 알라딘 API를 연동했습니다. Django는 웹 기능과 저장을, FastAPI는 AI 요청·응답과 외부 API 호출을 담당했습니다.</p>
 <div class="work-meta">
-<span>2026.06.08–06.26 / 팀장</span>
+<span>팀장</span>
 <span>1학기 프로젝트 우수상</span>
 </div>
 </article>
 <article class="minor-project reveal">
-<span class="eyebrow">04 · 데이터 분석</span>
+<span class="eyebrow">05 · 데이터 분석</span>
 <h2>데이터 분석</h2>
 <div class="data-list">
 <div>

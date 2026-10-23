@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="640" viewBox="0 0 960 640">
+<defs>
+ <linearGradient id="paper" x2="1" y2="1"><stop stop-color="#fff7ee"/><stop offset=".55" stop-color="#f3decc"/><stop offset="1" stop-color="#f7eee7"/></linearGradient>
+ <linearGradient id="frame" x2="0" y2="1"><stop stop-color="#e4c0a1"/><stop offset="1" stop-color="#f6e5d5"/></linearGradient>
+ <linearGradient id="heat" x2="1" y2="0"><stop stop-color="#da6d35" stop-opacity=".12"/><stop offset=".5" stop-color="#da6d35" stop-opacity=".8"/><stop offset="1" stop-color="#da6d35" stop-opacity=".12"/></linearGradient>
+ <g id="scene"><rect width="144" height="104" rx="9" fill="url(#frame)"/><path d="M0 73h144v31H0" fill="#cead92"/><ellipse cx="74" cy="67" rx="42" ry="12" fill="#8b6b55"/><path d="M32 66q4 24 42 24t42-24" fill="#66584b"/><ellipse cx="74" cy="65" rx="37" ry="8" fill="#e9bb80"/><path d="M114 71h23" stroke="#66584b" stroke-width="7" stroke-linecap="round"/></g>
+</defs>
+<rect width="960" height="640" fill="url(#paper)"/>
+<g font-family="Arial,sans-serif" fill="#57483e"><text x="64" y="78" font-size="13" letter-spacing="3">COOKING VIDEO / BOUNDARY DETECTION</text><text x="64" y="126" font-size="32" font-weight="700" letter-spacing="-1">From video to action intervals.</text><text x="64" y="157" font-size="15" fill="#806f61">Frame selection · Model reading · Evaluation</text></g>
+<g transform="translate(64 210)"><use href="#scene"/><use href="#scene" x="172"/><use href="#scene" x="344"/><use href="#scene" x="516"/><use href="#scene" x="688"/>
+<g fill="none" stroke="#fff7ed" stroke-width="3" stroke-linecap="round"><path d="M407 48q-12-12 0-23t0-22M426 48q-10-10 0-20"/><path d="M581 48q-12-12 0-23t0-22M600 48q-10-10 0-20M618 48q-10-10 0-20"/><path d="M753 48q-12-12 0-23t0-22M772 48q-10-10 0-20M790 48q-10-10 0-20"/></g>
+<g font-family="Arial,sans-serif" font-size="11" fill="#8b7665"><text y="128">VIDEO INPUT</text><text x="344" y="128">CHANGE CANDIDATE</text><text x="688" y="128">STATE CHANGE</text></g></g>
+<path d="M64 400h832" stroke="#c9b4a2"/><path d="M64 399h832" stroke="url(#heat)" stroke-width="5"/>
+<g fill="#fff6ed" stroke="#cb8b62" stroke-width="2"><circle cx="136" cy="400" r="7"/><circle cx="308" cy="400" r="7"/><circle cx="480" cy="400" r="9" fill="#da6d35"/><circle cx="652" cy="400" r="7"/><circle cx="824" cy="400" r="7"/></g>
+<path d="M480 413v42m-7-8 7 8 7-8" fill="none" stroke="#c28258" stroke-width="1.5"/>
+<rect x="64" y="482" width="832" height="90" rx="12" fill="#fff9f1" fill-opacity=".72" stroke="#e4cfbc"/>
+<g font-family="Arial,sans-serif"><g fill="#a6572d" font-size="12" letter-spacing="1.5"><text x="92" y="514">01 SELECT</text><text x="369" y="514">02 READ</text><text x="646" y="514">03 COMPARE</text></g><g fill="#57483e" font-size="18"><text x="92" y="545">Relevant frames</text><text x="369" y="545">Actions &amp; states</text><text x="646" y="545">Quality &amp; token cost</text></g></g>
+<path d="M338 502v50m277-50v50" stroke="#dfcbb9"/>
+</svg>
