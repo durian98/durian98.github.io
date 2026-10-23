@@ -114,3 +114,10 @@ body{background-color:#fff;}
 .learning-example h3{font-size:22px;font-weight:500;line-height:1.5;letter-spacing:-.03em;margin:0 0 12px;}
 .about-learning .learning-followup{margin-top:28px;color:var(--muted);}
 @media(max-width:760px){.learning-example{margin-top:24px;}.learning-example h3{font-size:21px;}}
+
+/* Background changes mark a content chapter, spanning its individual sections. */
+.chapter-band{position:relative;isolation:isolate;}
+.chapter-band::before{content:"";position:absolute;inset-block:0;left:50%;width:var(--page-width,100%);transform:translateX(-50%);z-index:-1;pointer-events:none;background:var(--section-wash);}
+.chapter-band--product{--section-wash:radial-gradient(ellipse 115% 110% at 105% 80%,transparent 25%,#ffbd9240 52%,transparent 80%),radial-gradient(ellipse 95% 70% at 10% 100%,#ffda9340,transparent 88%),linear-gradient(#fff1e6,#fff1e6);}
+.chapter-band--tools{--section-wash:radial-gradient(ellipse 60% 90% at 48% 48%,#ffbe8b45,transparent 90%),radial-gradient(ellipse 70% 80% at 0% 80%,#ffdc9b38,transparent 86%),linear-gradient(#fff1e6,#fff1e6);}
+.chapter-band--profile{--section-wash:radial-gradient(ellipse 110% 80% at 50% 0%,#ffc78a45,transparent 84%),radial-gradient(ellipse 80% 80% at 100% 100%,#ffb79240,transparent 84%),linear-gradient(#fff1e6,#fff1e6);}

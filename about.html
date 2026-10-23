@@ -24,7 +24,7 @@
 <link rel="stylesheet" href="sky-preview.css?v=9e9cb6b2">
 <link rel="stylesheet" href="palette-study.css?v=35c14085">
 <link rel="stylesheet" href="editorial.css?v=54a3d43d">
-<link rel="stylesheet" href="final-refinement.css?v=56a2aeea">
+<link rel="stylesheet" href="final-refinement.css?v=96e57301">
 </head>
 <body>
 <a class="skip-link" href="#main">본문으로 바로가기</a>
@@ -67,7 +67,7 @@
 <article class="collaboration-entry reveal">
 <h3>피드백 수용과 반영</h3>
 <div><p class="collaboration-context">GABOLLE · FLY ASIA 창업박람회</p>
-<p>앱 출시 후 투자자와 사용자에게 서비스를 보여주고 피드백을 받았습니다. 지도에서 여행 경로가 더 잘 보이도록 수정하고, 여행 생성에 불필요한 입력을 덜었습니다. 필요한 기능을 두 단계 안에서 찾도록 화면 동선도 검토했습니다.</p>
+<p>앱 출시 후 투자자와 사용자에게 서비스를 보여주고 피드백을 받았습니다. 지도에서 여행 경로가 더 잘 보이도록 수정하고, 여행 생성에 불필요한 입력을 덜었습니다.</p>
 <a class="text-link" href="gabolle.html">프로젝트에서 한 일 <span aria-hidden="true">↗</span></a></div>
 </article>
 </section>
@@ -75,8 +75,12 @@
 <h2 id="learning-method">학습과 검증</h2>
 <div><p>새로운 기술은 공식 문서와 기술 블로그, AI로 개념을 파악한 뒤 프로젝트에서 어디에 어떻게 쓸지 정합니다. 적용할 곳이 정해지면 직접 구현하며 익힙니다.</p>
 <article class="learning-example">
-<h3>통신 원리와 실제 요청 흐름</h3>
-<p>백엔드와 인프라를 맡으며 OSI 계층과 소켓 통신, Nginx에서 요청이 분기되는 방식을 공부했습니다. BBIYONG에서는 EC2·Nginx·Docker Compose로 실행 환경을 구성하고, Jenkins로 파트별 검증과 배포를 연결했습니다. Nginx에 API 요청률 제한을 설정한 뒤에는 정상 요청과 동시 요청의 응답, 로그를 비교해 설정이 적용됐는지 확인했습니다.</p>
+<h3>통신 원리와 서버 보안 설정</h3>
+<p>백엔드와 인프라를 맡으며 OSI 계층과 소켓 통신, Nginx에서 요청이 분기되는 방식을 공부했습니다. BBIYONG에서는 EC2·Nginx·Docker Compose로 실행 환경을 구성하고, Jenkins로 파트별 검증과 배포를 연결했습니다. Nginx에는 동일 IP의 과도한 API 요청을 제한하도록 설정했습니다. 정상 요청은 통과하고, 한 IP에서 요청을 동시에 보냈을 때 일부가 제한되는지 응답과 로그로 확인했습니다.</p>
+</article>
+<article class="learning-example">
+<h3>UI·UX의 화면 배치와 동선</h3>
+<p>화면 배치와 내비게이션 바 구성을 공부하며, 선택할 수 있는 기능이 바로 보이는지와 원하는 기능까지 몇 단계를 거치는지 살폈습니다. GABOLLE에서는 이 기준으로 여행 생성 절차를 간소화하고, 주요 기능을 두 단계 안에서 찾도록 화면 동선을 검토했습니다.</p>
 </article>
 <article class="learning-example">
 <h3>객체 탐지 평가와 로봇 적용</h3>
@@ -84,7 +88,8 @@
 </article>
 <p class="learning-followup">프로젝트가 끝난 뒤에도 MySQL 동시 저장 시험과 GABOLLE 후보 저장 성능 비교로 구현을 다시 점검했습니다.</p></div>
 </section>
-<section class="about-blocks wrap section-tint">
+<div class="chapter-band chapter-band--profile">
+<section class="about-blocks wrap">
 <div class="reveal">
 <h2>기술 스택</h2>
 <div class="skill-row">
@@ -164,6 +169,7 @@
 </div>
 </div>
 </section>
+</div>
 </main>
 <footer class="contact-section wrap" id="contact">
 <div class="contact-top">
