@@ -129,3 +129,11 @@ body{background-color:#fff;}
 .site-nav .header-home{margin-right:0;min-width:44px;justify-content:center;}
 .project-topline:has(>span:only-child){justify-content:flex-end;}
 @media(max-width:760px){.site-header .menu-toggle{margin-left:auto;}.site-nav .header-home{font-size:inherit;justify-content:flex-start;}}
+
+.analysis-case{padding-block:28px;border-top:1px solid var(--line);}
+.analysis-case h3{font-size:25px;line-height:1.5;font-weight:500;letter-spacing:-.035em;margin:0 0 20px;}
+.analysis-details{display:grid;grid-template-columns:1fr 1fr 1.4fr;gap:26px;margin:0;}
+.analysis-details dt{font-size:13px;color:var(--muted);margin-bottom:10px;}
+.analysis-details dd{font-size:18px;line-height:1.75;margin:0;word-break:keep-all;overflow-wrap:anywhere;}
+.analysis-takeaway{padding-top:28px;}
+@media(max-width:760px){.analysis-case h3{font-size:23px;}.analysis-details{grid-template-columns:1fr;gap:20px;}.analysis-details dd{font-size:17px;}.analysis-details dt{margin-bottom:6px;}}
