@@ -16,6 +16,8 @@
   const closeMenu = () => { if (!toggle || !nav) return; nav.classList.remove('is-open'); toggle.setAttribute('aria-expanded', 'false'); toggle.textContent = '메뉴'; };
   toggle?.addEventListener('click', () => { const open = toggle.getAttribute('aria-expanded') !== 'true'; toggle.setAttribute('aria-expanded', String(open)); nav.classList.toggle('is-open', open); toggle.textContent = open ? '닫기' : '메뉴'; });
   nav?.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+  document.addEventListener('click', event => { if (nav?.classList.contains('is-open') && !event.target.closest('.site-header')) closeMenu(); });
+  mobileMenu.addEventListener('change', () => { if (!mobileMenu.matches) closeMenu(); });
   document.addEventListener('keydown', event => { if (event.key === 'Escape' && nav?.classList.contains('is-open')) { closeMenu(); toggle.focus(); } });
   document.querySelectorAll('.back-top').forEach(el => el.addEventListener('click', () => window.scrollTo({ top: 0, behavior: reducedMotion ? 'instant' : 'smooth' })));
   document.querySelectorAll('[data-page-top]').forEach(button => button.addEventListener('click', () => window.scrollTo({ top: 0, behavior: reducedMotion ? 'instant' : 'smooth' })));
@@ -57,9 +59,8 @@
 
   const progress = document.querySelector('.reading-progress');
   if (progress) {
-    let scheduled = false;
+    let scheduled = false, distance = 0;
     const updateProgress = () => {
-      const distance = document.documentElement.scrollHeight - window.innerHeight;
       const amount = distance > 0 ? Math.min(1, Math.max(0, window.scrollY / distance)) : 0;
       progress.style.transform = `scaleX(${amount})`;
       scheduled = false;
@@ -67,8 +68,10 @@
     window.addEventListener('scroll', () => {
       if (!scheduled) { scheduled = true; window.requestAnimationFrame(updateProgress); }
     }, {passive: true});
-    window.addEventListener('resize', updateProgress);
-    updateProgress();
+    const measureProgress = () => { distance = document.documentElement.scrollHeight - window.innerHeight; updateProgress(); };
+    window.addEventListener('resize', measureProgress, {passive:true});
+    new ResizeObserver(measureProgress).observe(document.body);
+    measureProgress();
   }
   if (!reducedMotion && 'IntersectionObserver' in window) {
     const observer = new IntersectionObserver(entries => {

@@ -361,7 +361,7 @@ body { background-image: url('assets/paper-grain.svg?v=g2'); }
 /* Scroll rendering replaces the whole-section fade. */
 .rv-ready .reveal, .rv-ready .motion-ready .reveal { opacity: 1 !important; transform: none !important; }
 .motion-ready .work-feature.reveal.is-visible .browser-frame { animation: none; }
-.rv-item { opacity: 0; translate: 0 18px; transition: opacity .42s cubic-bezier(.2,.7,.2,1), translate .55s cubic-bezier(.2,.7,.2,1); }
+.rv-item { opacity: 0; translate: 0 18px; transition: opacity .28s cubic-bezier(.2,.7,.2,1), translate .4s cubic-bezier(.2,.7,.2,1); }
 .rv-item.is-in { opacity: 1; translate: 0 0; }
 
 /* Hero photos read as cut off by the top edge. */
@@ -382,7 +382,7 @@ body { background-image: url('assets/paper-grain.svg?v=g2'); }
   .home .hero-name-en { font-size: clamp(15px, 4.6vw, 20px); margin-top: 8px; display: block; }
   .home .hero-cta { margin-top: 22px; font-size: 12px; }
   .hero-card figcaption { font-size: 11px; padding: 36px 10px 10px; }
-  .rv-item { translate: 0 26px; transition-duration: .6s, .7s; }
+  .rv-item { translate: 0 18px; transition-duration: .32s, .42s; }
 }
 .app-gallery > div:nth-child(2) { margin-top: 0; }
 @media (max-width:760px) { .app-gallery > div:nth-child(2) { margin-top: 0; } }

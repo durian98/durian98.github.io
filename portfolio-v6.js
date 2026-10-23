@@ -1,35 +1,6 @@
 (() => {
   document.documentElement.classList.add('portfolio-ready');
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const players = [...document.querySelectorAll('.motion-media[data-motion]')].map(root => {
-    const img = root.querySelector('img');
-    const state = { root, img, paused: reduced.matches, visible: false, playing: false };
-    const update = () => {
-      const play = state.visible && !state.paused && !document.hidden;
-      if (play !== state.playing) {
-        img.src = play ? img.dataset.gifSrc : img.dataset.posterSrc;
-        state.playing = play;
-      }
-    };
-    state.update = update;
-    update();
-    return state;
-  });
-  if ('IntersectionObserver' in window) {
-    const mediaObserver = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        const player = players.find(item => item.root === entry.target);
-        player.visible = entry.isIntersecting;
-        player.update();
-      });
-    }, { threshold: .12 });
-    players.forEach(player => mediaObserver.observe(player.root));
-  } else {
-    players.forEach(player => { player.visible = true; player.update(); });
-  }
-  document.addEventListener('visibilitychange', () => players.forEach(player => player.update()));
-  reduced.addEventListener('change', () => players.forEach(player => { player.paused = reduced.matches; player.update(); }));
-
   const root = document.querySelector('.skills');
   if (!root) return;
   const track = root.querySelector('.skill-track');
@@ -205,44 +176,15 @@
   new ResizeObserver(() => { measure(); paint(); }).observe(track);
   reduced.addEventListener('change', () => { if (reduced.matches) stopAuto(); });
   if ('IntersectionObserver' in window) {
-    new IntersectionObserver(entries => { visible = entries[0].isIntersecting; if (visible && automatic) start(); }, { threshold: .1 }).observe(track);
-    document.addEventListener('visibilitychange', () => { if (!document.hidden && automatic) start(); });
+    new IntersectionObserver(entries => { visible = entries[0].isIntersecting; if (!visible) { cancelAnimationFrame(frame); cancelAnimationFrame(inertiaFrame); cancelAnimationFrame(glide); frame = 0; lastTime = 0; } else if (automatic) start(); }, { threshold: .1 }).observe(track);
+    document.addEventListener('visibilitychange', () => { if (document.hidden) { cancelAnimationFrame(frame); cancelAnimationFrame(inertiaFrame); cancelAnimationFrame(glide); frame = 0; lastTime = 0; } else if (automatic) start(); });
   } else visible = true;
   centerTab(selected);
   if (automatic) start(); else paint();
 })();
 
 
-// Mouse-wheel scrolling glides to a stop (about half a second), like the reference; touch, keyboard and reduced motion keep native scrolling.
-(() => {
-  if (!matchMedia('(hover: hover) and (pointer: fine)').matches || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  let target = scrollY, current = scrollY, running = false;
-  const limit = () => document.documentElement.scrollHeight - innerHeight;
-  const step = () => {
-    if (!running) return;
-    current += (target - current) * .14;
-    if (Math.abs(target - current) < .5) current = target;
-    scrollTo({ top: current, behavior: 'instant' });
-    if (current === target) running = false; else requestAnimationFrame(step);
-  };
-  addEventListener('wheel', event => {
-    if (event.ctrlKey || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
-    // Touchpads already glide natively; only notched mouse wheels (large, whole-step deltas) are smoothed.
-    if (event.deltaMode === 0 && (Math.abs(event.deltaY) < 50 || !Number.isInteger(event.deltaY))) { running = false; return; }
-    for (let el = event.target; el && el !== document.body; el = el.parentElement) {
-      if (/(auto|scroll)/.test(getComputedStyle(el).overflowY) && el.scrollHeight > el.clientHeight) return;
-    }
-    event.preventDefault();
-    const delta = event.deltaMode === 1 ? event.deltaY * 40 : event.deltaMode === 2 ? event.deltaY * innerHeight : event.deltaY;
-    if (!running) target = current = scrollY;
-    target = Math.max(0, Math.min(limit(), target + delta));
-    if (!running) { running = true; requestAnimationFrame(step); }
-  }, { passive: false });
-  addEventListener('scroll', () => { if (!running) target = current = scrollY; }, { passive: true });
-  document.addEventListener('click', event => { if (event.target.closest('a[href^="#"]')) running = false; });
-})();
-
-// Scroll rendering: each block fades up as it enters, items in the same batch 70ms apart (measured from the reference clip).
+// Reveal content with a short stagger; avoid leaving a blank viewport during scroll.
 (() => {
   if (matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
   const roots = document.querySelectorAll('.reveal, .intro-inner, .contact-section');
@@ -264,7 +206,7 @@
     const shown = entries.filter(entry => entry.isIntersecting).map(entry => entry.target)
       .sort((a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top || a.getBoundingClientRect().left - b.getBoundingClientRect().left);
     shown.forEach((el, i) => {
-      el.style.transitionDelay = `${Math.min(i, 6) * 70}ms`;
+      el.style.transitionDelay = `${Math.min(i, 4) * 35}ms`;
       el.classList.add('is-in');
       observer.unobserve(el);
     });

@@ -1,7 +1,7 @@
 /* Typography and media framing only. Colors come from the orange / charcoal palette. */
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&display=swap');
+400;500;600&display=swap');
 .home .hero:has(.hero-film) .hero-name-en,
-.home .hero:has(.hero-film) .hero-cta{font-family:Manrope,Pretendard,sans-serif;}
+.home .hero:has(.hero-film) .hero-cta{font-family:Pretendard,sans-serif;}
 .section-heading h2,.project-title{font-weight:400;letter-spacing:-.035em;}
 .section-heading h2{font-size:clamp(40px,4.2vw,58px);}
 .work-feature .work-visual{background:var(--surface);border-radius:10px;padding:clamp(14px,1.8vw,26px);}
