@@ -1520,7 +1520,7 @@ body{background-color:#fff;}
 .intro-photo-stage .intro-slide img{max-width:none;width:100%;height:100%;}
 .return-nav,.return-nav a,.return-nav button{border:0!important;}
 .site-header{border-bottom:0;}
-.return-nav{left:auto;right:clamp(16px,2vw,28px);display:grid;place-items:center;width:44px;height:44px;padding:0;border-radius:50%;background:rgba(255,251,245,.9);box-shadow:0 4px 18px rgba(39,40,42,.12);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);}
+.return-nav{left:auto;right:max(clamp(10px,1vw,16px),env(safe-area-inset-right,0px));display:grid;place-items:center;width:44px;height:44px;padding:0;border-radius:50%;background:rgba(255,251,245,.9);box-shadow:0 4px 18px rgba(39,40,42,.12);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);}
 .return-nav button{display:grid;place-items:center;width:44px;height:44px;min-height:44px;padding:0;border-radius:50%;}
 .return-nav svg{width:18px;height:18px;}
 .header-home{position:relative;display:inline-flex;align-items:center;min-width:44px;min-height:44px;padding-block:10px;margin-right:auto;font-size:14px;line-height:1.4;color:inherit;text-decoration:none;}
