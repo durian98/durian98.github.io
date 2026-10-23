@@ -24,7 +24,7 @@
 <link rel="stylesheet" href="sky-preview.css?v=9e9cb6b2">
 <link rel="stylesheet" href="palette-study.css?v=35c14085">
 <link rel="stylesheet" href="editorial.css?v=54a3d43d">
-<link rel="stylesheet" href="final-refinement.css?v=6f8ddee4">
+<link rel="stylesheet" href="final-refinement.css?v=56a2aeea">
 </head>
 <body>
 <a class="skip-link" href="#main">본문으로 바로가기</a>
@@ -74,7 +74,15 @@
 <section class="about-learning wrap" aria-labelledby="learning-method">
 <h2 id="learning-method">학습과 검증</h2>
 <div><p>새로운 기술은 공식 문서와 기술 블로그, AI로 개념을 파악한 뒤 프로젝트에서 어디에 어떻게 쓸지 정합니다. 적용할 곳이 정해지면 직접 구현하며 익힙니다.</p>
-<p>BBIYONG에서는 실제 로봇을 움직이며 탐지 기준과 재포착 방식을 조정했습니다. 프로젝트가 끝난 뒤에도 MySQL 동시 저장 시험과 GABOLLE 후보 저장 성능 비교로 구현을 다시 점검했습니다.</p></div>
+<article class="learning-example">
+<h3>통신 원리와 실제 요청 흐름</h3>
+<p>백엔드와 인프라를 맡으며 OSI 계층과 소켓 통신, Nginx에서 요청이 분기되는 방식을 공부했습니다. BBIYONG에서는 EC2·Nginx·Docker Compose로 실행 환경을 구성하고, Jenkins로 파트별 검증과 배포를 연결했습니다. Nginx에 API 요청률 제한을 설정한 뒤에는 정상 요청과 동시 요청의 응답, 로그를 비교해 설정이 적용됐는지 확인했습니다.</p>
+</article>
+<article class="learning-example">
+<h3>객체 탐지 평가와 로봇 적용</h3>
+<p>객체 탐지의 평가 지표와 후처리 방식을 익히며, 탐지 기준별 결과를 비교하는 Python 평가 도구를 만들었습니다. 신뢰도와 중복 박스 제거 기준을 바꾸면서 오탐·미탐과 추론 비용을 함께 살폈습니다. 팀원과 모델을 ONNX·TensorRT로 변환해 Jetson에서 실행하고, 실제 로봇을 움직이며 탐지 기준과 재포착 방식을 조정했습니다.</p>
+</article>
+<p class="learning-followup">프로젝트가 끝난 뒤에도 MySQL 동시 저장 시험과 GABOLLE 후보 저장 성능 비교로 구현을 다시 점검했습니다.</p></div>
 </section>
 <section class="about-blocks wrap section-tint">
 <div class="reveal">
