@@ -20,7 +20,7 @@
   const values=encoded.split(',').map(Number);
   if(values.length===4&&values.every(Number.isFinite)&&!reduced.matches){
    configure({left:values[0],top:values[1],width:values[2],height:values[3]});root.dataset.pageFallback='opening';
-   document.addEventListener('animationend',event=>{if(event.target===document.body)root.dataset.pageFallback='complete';});
+   document.addEventListener('animationend',event=>{if(event.target===document.querySelector('main'))root.dataset.pageFallback='complete';});
   }
   arrival.searchParams.delete(parameter);
   try{history.replaceState(history.state,'',arrival.pathname+arrival.search+arrival.hash);}catch{}

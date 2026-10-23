@@ -165,7 +165,6 @@ body { background-image: url('assets/paper-grain.svg?v=g2'); }
 
 /* Thinner header on every page; on the home page it sits over the full-height hero. */
 .site-header { height: 64px; }
-.home .site-header { position: absolute; top: 0; left: 0; right: 0; border-bottom: 0; }
 .home .hero { min-height: min(max(640px, 100svh), 1000px); }
 .home .hero-copy { padding-top: 84px; }
 #intro { scroll-margin-top: -38px; }

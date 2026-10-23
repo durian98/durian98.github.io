@@ -292,7 +292,7 @@ body::before{background:none;}
  .media-copy p{font-size:17px;}
 }
 /* A full-bleed rendered surface, followed by a manually browsed portrait gallery. */
-.home:has(.hero-film) .site-header{position:absolute;top:0;left:50%;transform:translateX(-50%);color:#33271f;border-bottom-color:#33271f26;}
+.home:has(.hero-film) .site-header{color:#33271f;}
 .home:has(.hero-film) .site-nav a{color:#33271f;}
 .home:has(.hero-film) .menu-toggle{color:inherit;}
 .home .hero.wrap:has(.hero-film){display:flex;align-items:center;isolation:isolate;width:100%;max-width:none;height:auto;min-height:100svh;margin:0;padding:110px var(--gutter) 80px;overflow:hidden;background:#efa273;}

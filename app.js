@@ -5,6 +5,14 @@
   window.addEventListener('resize', updatePageWidth, {passive:true});
   const toggle = document.querySelector('.menu-toggle');
   const nav = document.querySelector('.site-nav');
+  const mobileMenu = window.matchMedia('(max-width: 760px)');
+  const positionHomeLink = () => {
+    const home = nav?.querySelector('.header-home');
+    if (!home) return;
+    if (mobileMenu.matches) nav.append(home); else nav.prepend(home);
+  };
+  positionHomeLink();
+  mobileMenu.addEventListener('change', positionHomeLink);
   const closeMenu = () => { if (!toggle || !nav) return; nav.classList.remove('is-open'); toggle.setAttribute('aria-expanded', 'false'); toggle.textContent = '메뉴'; };
   toggle?.addEventListener('click', () => { const open = toggle.getAttribute('aria-expanded') !== 'true'; toggle.setAttribute('aria-expanded', String(open)); nav.classList.toggle('is-open', open); toggle.textContent = open ? '닫기' : '메뉴'; });
   nav?.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
