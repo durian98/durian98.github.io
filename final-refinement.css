@@ -137,3 +137,5 @@ body{background-color:#fff;}
 .analysis-details dd{font-size:18px;line-height:1.75;margin:0;word-break:keep-all;overflow-wrap:anywhere;}
 .analysis-takeaway{padding-top:28px;}
 @media(max-width:760px){.analysis-case h3{font-size:23px;}.analysis-details{grid-template-columns:1fr;gap:20px;}.analysis-details dd{font-size:17px;}.analysis-details dt{margin-bottom:6px;}}
+
+@media(max-width:760px){.home:has(.hero-film) .site-header .site-nav.is-open{background:#fff;color:var(--ink);}}
