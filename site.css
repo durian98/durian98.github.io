@@ -1706,24 +1706,13 @@ body>.site-header{position:absolute;inset:0 0 auto;transform:none;width:calc(min
 .pipeline-overview p{font-size:15px;line-height:1.7;color:#716860;word-break:keep-all}
 @media(max-width:700px){.pipeline-preview{padding:28px 20px 22px}.preview-frames{gap:8px}.preview-label{font-size:9px;letter-spacing:.1em;margin-bottom:22px}.preview-bottom{font-size:12px;margin-top:22px}.cooking-sequence{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 14px}.cooking-frame img{border-radius:8px}.pipeline-overview ol{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 20px}.pipeline-overview h2{font-size:17px}.pipeline-overview p{font-size:14px}.cooking-example{margin-bottom:36px}}
 
-/* Preserve the original type sizes and emphasize arrow links with motion. */
-.text-link,
-.section-heading .text-link,
-.work-open,
-.skill-projects .text-link,
-.contact-top .text-link,
-.collaboration-entry .text-link,
-.home .intro-links .text-link,
-.home .hero.sculpture-hero:has(.hero-film) .hero-cta {
-  font-weight: 700;
+/* Keep original typography; the opening hero link stays unchanged. */
+.text-link:not(.hero-cta) {
   transition: color .25s, gap .2s, scale .24s cubic-bezier(.22,.72,.2,1);
-}
-
-.text-link {
   transform-origin: center;
 }
 
-.text-link.link-arrived {
+.text-link:not(.hero-cta).link-arrived {
   animation: link-arrival .8s cubic-bezier(.22,.72,.2,1) .15s both;
 }
 
@@ -1733,15 +1722,15 @@ body>.site-header{position:absolute;inset:0 0 auto;transform:none;width:calc(min
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .text-link:hover {
+  .text-link:not(.hero-cta):hover {
     animation: none;
     scale: 1.08;
   }
 }
 
-.text-link:focus-visible { scale: 1.08; }
+.text-link:not(.hero-cta):focus-visible { scale: 1.08; }
 
 @media (prefers-reduced-motion: reduce) {
-  .text-link.link-arrived { animation: none; }
-  .text-link:hover, .text-link:focus-visible { scale: 1; }
+  .text-link:not(.hero-cta).link-arrived { animation: none; }
+  .text-link:not(.hero-cta):hover, .text-link:not(.hero-cta):focus-visible { scale: 1; }
 }

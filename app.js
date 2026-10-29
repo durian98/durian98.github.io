@@ -74,23 +74,28 @@
     measureProgress();
   }
   if (!reducedMotion && 'IntersectionObserver' in window) {
+    const arrivedLinks = new WeakSet();
     const linkObserver = new IntersectionObserver(entries => {
       for (const entry of entries) {
-        if (!entry.isIntersecting) continue;
         const link = entry.target;
-        link.classList.add('link-arrived');
-        const finishArrival = event => {
-          if (event.animationName !== 'link-arrival') return;
+        if (!entry.isIntersecting) {
+          arrivedLinks.delete(link);
           link.classList.remove('link-arrived');
-          link.removeEventListener('animationend', finishArrival);
-          link.removeEventListener('animationcancel', finishArrival);
-        };
-        link.addEventListener('animationend', finishArrival);
-        link.addEventListener('animationcancel', finishArrival);
-        linkObserver.unobserve(link);
+          continue;
+        }
+        if (entry.intersectionRatio < .99 || arrivedLinks.has(link)) continue;
+        arrivedLinks.add(link);
+        link.classList.add('link-arrived');
       }
-    }, {rootMargin: '0px 0px -12% 0px', threshold: 1});
-    document.querySelectorAll('.text-link').forEach(link => linkObserver.observe(link));
+    }, {rootMargin: '0px 0px -12% 0px', threshold: [0, 1]});
+    document.querySelectorAll('.text-link:not(.hero-cta)').forEach(link => {
+      const finishArrival = event => {
+        if (event.animationName === 'link-arrival') link.classList.remove('link-arrived');
+      };
+      link.addEventListener('animationend', finishArrival);
+      link.addEventListener('animationcancel', finishArrival);
+      linkObserver.observe(link);
+    });
 
     const observer = new IntersectionObserver(entries => {
       for (const entry of entries) {

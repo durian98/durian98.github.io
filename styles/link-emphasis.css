@@ -1,21 +1,10 @@
-/* Preserve the original type sizes and emphasize arrow links with motion. */
-.text-link,
-.section-heading .text-link,
-.work-open,
-.skill-projects .text-link,
-.contact-top .text-link,
-.collaboration-entry .text-link,
-.home .intro-links .text-link,
-.home .hero.sculpture-hero:has(.hero-film) .hero-cta {
-  font-weight: 700;
+/* Keep original typography; the opening hero link stays unchanged. */
+.text-link:not(.hero-cta) {
   transition: color .25s, gap .2s, scale .24s cubic-bezier(.22,.72,.2,1);
-}
-
-.text-link {
   transform-origin: center;
 }
 
-.text-link.link-arrived {
+.text-link:not(.hero-cta).link-arrived {
   animation: link-arrival .8s cubic-bezier(.22,.72,.2,1) .15s both;
 }
 
@@ -25,15 +14,15 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .text-link:hover {
+  .text-link:not(.hero-cta):hover {
     animation: none;
     scale: 1.08;
   }
 }
 
-.text-link:focus-visible { scale: 1.08; }
+.text-link:not(.hero-cta):focus-visible { scale: 1.08; }
 
 @media (prefers-reduced-motion: reduce) {
-  .text-link.link-arrived { animation: none; }
-  .text-link:hover, .text-link:focus-visible { scale: 1; }
+  .text-link:not(.hero-cta).link-arrived { animation: none; }
+  .text-link:not(.hero-cta):hover, .text-link:not(.hero-cta):focus-visible { scale: 1; }
 }
