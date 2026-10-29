@@ -74,6 +74,24 @@
     measureProgress();
   }
   if (!reducedMotion && 'IntersectionObserver' in window) {
+    const linkObserver = new IntersectionObserver(entries => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        const link = entry.target;
+        link.classList.add('link-arrived');
+        const finishArrival = event => {
+          if (event.animationName !== 'link-arrival') return;
+          link.classList.remove('link-arrived');
+          link.removeEventListener('animationend', finishArrival);
+          link.removeEventListener('animationcancel', finishArrival);
+        };
+        link.addEventListener('animationend', finishArrival);
+        link.addEventListener('animationcancel', finishArrival);
+        linkObserver.unobserve(link);
+      }
+    }, {rootMargin: '0px 0px -12% 0px', threshold: 1});
+    document.querySelectorAll('.text-link').forEach(link => linkObserver.observe(link));
+
     const observer = new IntersectionObserver(entries => {
       for (const entry of entries) {
         if (entry.isIntersecting) { entry.target.classList.add('is-visible'); observer.unobserve(entry.target); }

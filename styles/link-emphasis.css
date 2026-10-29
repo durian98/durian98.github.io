@@ -1,4 +1,4 @@
-/* Give arrow links a consistent visual weight across page contexts. */
+/* Preserve the original type sizes and emphasize arrow links with motion. */
 .text-link,
 .section-heading .text-link,
 .work-open,
@@ -7,20 +7,33 @@
 .collaboration-entry .text-link,
 .home .intro-links .text-link,
 .home .hero.sculpture-hero:has(.hero-film) .hero-cta {
-  font-size: 17px;
   font-weight: 700;
-  line-height: 1.5;
+  transition: color .25s, gap .2s, scale .24s cubic-bezier(.22,.72,.2,1);
 }
 
-@media (max-width: 760px) {
-  .text-link,
-  .section-heading .text-link,
-  .work-open,
-  .skill-projects .text-link,
-  .contact-top .text-link,
-  .collaboration-entry .text-link,
-  .home .intro-links .text-link,
-  .home .hero.sculpture-hero:has(.hero-film) .hero-cta {
-    font-size: 16px;
+.text-link {
+  transform-origin: center;
+}
+
+.text-link.link-arrived {
+  animation: link-arrival .8s cubic-bezier(.22,.72,.2,1) .15s both;
+}
+
+@keyframes link-arrival {
+  0%, 100% { scale: 1; }
+  45% { scale: 1.1; }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .text-link:hover {
+    animation: none;
+    scale: 1.08;
   }
+}
+
+.text-link:focus-visible { scale: 1.08; }
+
+@media (prefers-reduced-motion: reduce) {
+  .text-link.link-arrived { animation: none; }
+  .text-link:hover, .text-link:focus-visible { scale: 1; }
 }
