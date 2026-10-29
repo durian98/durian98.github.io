@@ -1,0 +1,26 @@
+/* Give arrow links a consistent visual weight across page contexts. */
+.text-link,
+.section-heading .text-link,
+.work-open,
+.skill-projects .text-link,
+.contact-top .text-link,
+.collaboration-entry .text-link,
+.home .intro-links .text-link,
+.home .hero.sculpture-hero:has(.hero-film) .hero-cta {
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+@media (max-width: 760px) {
+  .text-link,
+  .section-heading .text-link,
+  .work-open,
+  .skill-projects .text-link,
+  .contact-top .text-link,
+  .collaboration-entry .text-link,
+  .home .intro-links .text-link,
+  .home .hero.sculpture-hero:has(.hero-film) .hero-cta {
+    font-size: 16px;
+  }
+}
