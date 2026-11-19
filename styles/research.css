@@ -3,14 +3,12 @@
 .research-status::before{content:"";width:6px;height:6px;border-radius:50%;background:#dc692e}
 .work-feature.research .work-visual{padding:0;overflow:hidden;background:#f7ece3;border:1px solid #e9d7c9;border-radius:18px}
 .work-feature.research .work-visual>img{display:block;width:100%;height:auto;object-fit:contain}
-.work-feature.research .work-copy h2,.work-feature.research .work-copy h3{font-size:clamp(28px,3vw,44px);line-height:1.25;letter-spacing:-.045em;word-break:keep-all}
 .research-detail .project-summary p{margin-top:26px;line-height:1.85}
 .research-flow{margin-top:28px;margin-bottom:64px}
 .research-flow img{display:block;width:100%;height:auto;max-height:560px;object-fit:contain;background:#f7ece3;border-radius:20px}
 .research-flow figcaption{font-size:13px;color:#786a60;margin-top:14px}
 @media(max-width:600px){.project-period{font-size:14px;margin:10px 0 18px}.research-status{margin-left:8px}.research-flow{margin-bottom:40px}.research-flow img{border-radius:12px}}
 
-.work-feature.research .work-copy h2,.work-feature.research .work-copy h3{font-size:clamp(28px,2.5vw,36px);line-height:1.35}
 .pipeline-preview{padding:36px 28px 26px;background:radial-gradient(ellipse at 20% 15%,#fff8ee,transparent 70%),#f5e2d0}
 .preview-label{display:block;margin-bottom:28px;color:#8a6248;font-size:10px;letter-spacing:.16em;font-weight:700}
 .preview-frames{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
