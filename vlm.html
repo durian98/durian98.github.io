@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#FFFFFF">
-<title>조리 영상의 동작 구간 경계 검출 파이프라인 개발 — 박재현</title>
-<meta name="description" content="조리 영상의 단계 검출 실험, 요리 기록 앱 레시픽, 아이폰 웹 영상 업로드 개선을 소개합니다.">
-<meta property="og:title" content="조리 영상의 동작 구간 경계 검출 파이프라인 개발 — 박재현">
-<meta property="og:description" content="조리 영상의 단계 검출 실험, 요리 기록 앱 레시픽, 아이폰 웹 영상 업로드 개선을 소개합니다.">
+<title>레시픽 | 조리 영상 분석과 VLM 파인튜닝 — 박재현</title>
+<meta name="description" content="조리 영상을 레시피로 만드는 레시픽의 동작 흐름, 영상 경계 검출과 VLM 판독 실험, Qwen3.5-27B 파인튜닝 결과를 소개합니다.">
+<meta property="og:title" content="레시픽 | 조리 영상 분석과 VLM 파인튜닝 — 박재현">
+<meta property="og:description" content="조리 영상을 레시피로 만드는 레시픽의 동작 흐름, 영상 경계 검출과 VLM 판독 실험, Qwen3.5-27B 파인튜닝 결과를 소개합니다.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://durian98.github.io/assets/portrait.webp">
 <link rel="preload" href="assets/fonts/Pretendard-Regular.woff2?v=14f1dfb5" as="font" type="font/woff2" crossorigin>
@@ -27,6 +27,11 @@
 .recipick-screens{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
 .recipick-screens a{display:block}.recipick-screens img{display:block;width:100%;height:auto;border:1px solid #e5d9ce;border-radius:12px}
 .recipick-screens strong{display:block;margin-top:10px;font-size:.94rem;line-height:1.4;word-break:keep-all}
+.recipick-results{max-width:760px;margin:24px 0;display:grid;gap:12px}
+.recipick-results div{padding:12px 0;border-top:1px solid #decaba}
+.recipick-results dt{font-weight:700;word-break:keep-all}
+.recipick-results dd{margin:4px 0 0;color:#665b53;font-size:.94rem;line-height:1.6;word-break:keep-all}
+.recipick-results strong{color:var(--ink,#262321)}
 .recipick-flow figcaption{margin-top:14px;color:#665b53;font-size:.85rem}
 @media(max-width:560px){.recipick-screens{gap:7px}.recipick-screens img{border-radius:6px}.recipick-screens strong{font-size:.8rem}}
 </style>
@@ -50,65 +55,96 @@
 <main id="main" class="research-detail">
 <section class="project-hero wrap">
   <div class="project-topline"><span>로보터블 × SSAFY 기업 연계 프로젝트</span></div>
-  <h1 class="project-title">조리 영상의 동작 구간 경계 검출 파이프라인 개발</h1>
-  <p class="project-subtitle">조리 영상에서 동작이 바뀌는 시점을 찾아 로봇 학습용 구간으로 나눕니다.</p>
+  <h1 class="project-title">레시픽</h1>
+  <p class="project-subtitle">요리 영상을 단계별 레시피로 바꾸는 서비스</p>
   <p class="project-period"><time datetime="2026-10-06">2026.10.06</time>–<time datetime="2026-11-18">2026.11.18</time></p>
 </section>
 <section class="project-summary wrap">
   <div>
     <h2>프로젝트 개요</h2>
-    <p>조리 로봇의 학습 데이터를 만들려면 영상에서 각 동작이 시작하고 끝나는 시점을 표시해야 합니다. 팀은 변화가 큰 지점을 먼저 찾고 필요한 장면을 시각언어모델(VLM)로 읽어, 사람이 검수할 조리 단계의 초안을 만드는 방법을 비교했습니다.</p>
-    <p>이 과제는 요리 기록 앱 <strong>레시픽</strong>으로 확장됐습니다. 영상에서 레시피 카드를 만들고, 사용자가 분석 결과를 직접 확인하고 고칠 수 있도록 했습니다.</p>
+    <p>레시픽은 요리 과정을 촬영해 올리면 영상을 ‘양파 볶기’, ‘소스 넣기’ 같은 단계로 나누고, 각 단계의 시작·종료 시각과 이름을 제안하는 기록 앱입니다. 사용자는 영상과 분석 결과를 대조하며 잘못 나뉜 구간과 이름을 고치고, 완성한 레시피를 카드로 저장하거나 공유할 수 있습니다.</p>
+    <p>프로젝트는 조리 로봇의 학습에 쓸 영상에서 동작 구간을 표시하는 기업 과제로 시작했습니다. 팀은 사람이 일일이 구간을 찾는 작업을 줄이기 위해 영상 분석을 실험했고, 사용자가 레시피를 만들며 고친 단계와 학습에 동의한 영상을 수집할 수 있도록 서비스로 확장했습니다.</p>
   </div>
   <div>
     <dl class="project-facts">
-      <div><dt>담당 작업</dt><dd>프레임 선별·판독 실험, 사람 라벨과 평가 코드, 아이폰 웹 업로드 수정</dd></div>
-      <div><dt>개인 작업 기술</dt><dd>Python, VLM 평가, TypeScript, Java</dd></div>
+      <div><dt>기업 과제</dt><dd>조리 영상의 동작 구간 경계 검출 파이프라인 개발</dd></div>
+      <div><dt>담당</dt><dd>VLM에 보낼 장면 선별과 판독 비교, 사람 단계 라벨 구축, 평가 코드 작성</dd></div>
+      <div><dt>주요 기술</dt><dd>Python, 시각언어모델(VLM), Qwen3.5-27B, LoRA, Expo/React Native</dd></div>
     </dl>
   </div>
 </section>
-<section class="content-section wrap" id="methods">
-  <div class="section-side"><h2>조리 단계 분석 흐름</h2></div>
-  <div class="section-body">
-    <p>팀은 프레임 차분, 영상 임베딩과 변화점 탐지, 시간 합성곱 신경망(TCN)으로 경계 후보를 비교했습니다. 저는 후보를 받아 어디를 얼마나 읽을지 정하고, 판독 결과가 사람의 단계 구분과 얼마나 맞는지 검증했습니다.</p>
-    <ol class="recipick-pipeline">
-      <li><strong>변화 후보 검출</strong><span>영상에서 장면이 달라지는 시점을 찾습니다.</span></li>
-      <li><strong>프레임 선별</strong><span>후보 근처는 촘촘히 보고 나머지 구간도 일정 간격으로 확인합니다.</span></li>
-      <li><strong>VLM 판독</strong><span>고른 장면에서 조리 동작과 재료 상태를 읽습니다.</span></li>
-      <li><strong>단계 확정</strong><span>판독 결과를 작업 단위로 묶고 경계 시각을 정합니다.</span></li>
-    </ol>
-  </div>
-</section>
-<section class="content-section wrap" id="contribution">
-  <div class="section-side"><h2>제가 맡은 실험과 평가</h2></div>
-  <div class="section-body">
-    <article class="ai-use-entry">
-      <h3>필요한 장면을 골라 판독량 줄이기</h3>
-      <p>변화 후보 전후 2초와 8초 간격 보완 프레임을 묶어 읽는 조건을 설계했습니다. 공통 입력·실행·평가 코드를 작성해 8편을 직접 실행했고, 팀원이 실행한 8편을 합쳐 16편을 비교했습니다. 1초마다 한 장씩 읽는 기존 방식 대비 토큰 사용량은 <strong>53%</strong>였고, 경계 시각 ±5초 기준 F1은 <strong>0.674 → 0.709</strong>로 실험에서 정한 성능 기준을 충족했습니다.</p>
-    </article>
-    <article class="ai-use-entry">
-      <h3>사람이 구분하는 작업 단위로 평가하기</h3>
-      <p>놓친 경계 92개 중 64개는 모델이 양쪽 장면을 보고도 같은 단계로 분류한 경우였습니다. 사람 검수 라벨을 만들고, 지시문이 개별 움직임을 열거하는 대신 하나의 작업으로 묶도록 바꿔 비교했습니다. 사람의 조리 단계 기준으로 평가한 16편에서 변화 후보와 후보 사이의 중간 장면을 함께 읽는 조합을 제안했습니다. 이 결과는 연구 제안으로 정리했습니다.</p>
-      <a class="text-link" href="ai.html#vlm-research">AI 활용 경험 함께 보기 <span aria-hidden="true">↗</span></a>
-    </article>
-  </div>
-</section>
 <section class="content-section wrap" id="recipick">
-  <div class="section-side"><h2>요리 기록 앱 레시픽</h2></div>
+  <div class="section-side"><h2>촬영한 영상이 레시피가 되기까지</h2></div>
   <div class="section-body">
-    <p>팀은 레시픽에 자체 GPU에서 실행한 Qwen3.5-27B 영상 분석을 연결했습니다. 사용자는 영상을 올려 분석한 뒤 단계의 이름과 구간을 고치고, 레시피 카드로 저장하거나 공유할 수 있습니다. 사용자가 수정한 단계와 학습에 동의한 영상을 수집할 수 있게 설계했습니다.</p>
+    <p>사용자가 앱이나 웹에서 영상을 선택하면 업로드·분석 서버가 요청을 받습니다. GPU에서 실행하는 시각언어모델이 영상에서 시간순으로 뽑은 이미지 묶음을 읽어 어떤 재료를 사용하고 어떤 동작을 하는지 파악합니다. 이어서 장면을 조리 단계로 묶고 각 구간에 한국어 이름을 붙입니다.</p>
+    <p>분석 결과가 돌아오면 사용자는 단계별 영상과 시각을 확인하고 결과를 수정할 수 있습니다. 앱 서버는 레시피 기록, 단계 수정 이력, 학습 활용 동의·철회 이력을 저장합니다. 수정한 단계는 사람 검수 후보로 남고, 로봇 학습용 영상은 동의한 경우에만 수집할 수 있게 설계했습니다.</p>
     <figure class="recipick-flow">
       <div class="recipick-screens">
         <div><a href="assets/recipick-upload.webp"><img src="assets/recipick-upload.webp" width="600" height="1298" alt="선택한 조리 영상과 단계 나누기 버튼이 보이는 분석 요청 화면" loading="lazy"></a><strong>영상 선택·분석 요청</strong></div>
         <div><a href="assets/recipick-edit.webp"><img src="assets/recipick-edit.webp" width="600" height="1298" alt="조리 단계의 이름과 경계 시점을 검토하고 수정하는 화면" loading="lazy"></a><strong>분석 결과 확인·수정</strong></div>
         <div><a href="assets/recipick-card.webp"><img src="assets/recipick-card.webp" width="600" height="1298" alt="단계별 조리법과 공유 버튼이 보이는 레시피 카드 화면" loading="lazy"></a><strong>레시피 카드·공유</strong></div>
       </div>
-      <figcaption>최종 발표 자료에 사용한 기능별 화면 예시</figcaption>
+      <figcaption>레시픽의 영상 분석 요청, 단계 편집, 레시피 카드 화면</figcaption>
     </figure>
-    <article class="ai-use-entry" id="upload">
-      <h3>아이폰 웹에서 대용량 영상 올리기</h3>
-      <p>브라우저가 영상 전체를 복사하는 경로를 피하도록, 사용자가 고른 파일에서 업로드할 조각을 바로 읽게 수정했습니다. 서버에서는 영상의 표지 그림이 두 번째 영상으로 집계돼 업로드 확정이 거절되는 원인을 찾아, 실제 영상 트랙만 세도록 수정했습니다. iOS Chrome에서 15분 영상 업로드를 확인했습니다.</p>
+  </div>
+</section>
+<section class="content-section wrap" id="methods">
+  <div class="section-side"><h2>영상에서 조리 동작의 경계 찾기</h2></div>
+  <div class="section-body">
+    <p>처음에는 영상의 색 분포나 연속 프레임의 차이가 크게 바뀌는 곳을 찾았습니다. 재료를 넣거나 소스를 부을 때는 변화가 나타났지만, 비슷한 색의 재료를 뒤집거나 소량의 양념을 넣을 때는 놓치는 경우가 있었습니다. 팀은 사람 검수 영상 32편에서 색·움직임 특징, 영상 임베딩과 변화점 탐지 등 59가지 방법을 비교했습니다. Gemma 임베딩과 KTS의 조합을 주요 기준선으로 삼았고, 소량 투입은 여러 방법에서 계속 탐지하기 어려웠습니다.</p>
+    <ol class="recipick-pipeline" aria-label="초기 조리 단계 검출 실험 순서">
+      <li><strong>S1. 변화 후보 검출</strong><span>영상 특징을 비교해 동작이 달라졌을 만한 시각을 찾습니다.</span></li>
+      <li><strong>S2. 프레임 선별</strong><span>후보 주변을 촘촘히 보고 후보 사이에도 확인할 장면을 배치합니다.</span></li>
+      <li><strong>S3. VLM 판독</strong><span>선별한 장면을 시간순으로 묶어 재료와 조리 동작을 읽습니다.</span></li>
+      <li><strong>S4. 단계 확정</strong><span>이어지는 판독 결과를 작업 단위로 묶고 단계가 바뀌는 시각을 정합니다.</span></li>
+    </ol>
+  </div>
+</section>
+<section class="content-section wrap" id="contribution">
+  <div class="section-side"><h2>내가 맡은 실험과 평가</h2></div>
+  <div class="section-body">
+    <p>저는 변화 후보를 받은 뒤 어떤 장면을 모델에 보여 줄지, 모델이 읽은 장면을 어디서 나눌지, 그 결과를 어떤 기준으로 평가할지를 맡았습니다.</p>
+    <article class="ai-use-entry">
+      <h3>놓치는 단계가 늘지 않도록 판독할 장면 줄이기</h3>
+      <p>변화 후보 전후 2초는 더 자주 읽고, 후보가 없는 곳은 8초마다 보완 장면을 넣는 조건을 설계했습니다. 공통 입력·실행·평가 코드를 작성하고 8편을 직접 실행해 팀원이 실행한 8편과 합쳤습니다. 16편에서 1초마다 한 장을 읽는 기준 방식의 <strong>53%에 해당하는 토큰</strong>을 사용했습니다. 사람 경계와 ±5초 안에서 일치하는지를 본 F1은 기준 방식 0.674, 선별 방식 0.709로, 실험에서 정한 성능 유지 기준을 충족했습니다.</p>
     </article>
+    <article class="ai-use-entry">
+      <h3>장면을 봤는데도 경계를 놓치는 이유 확인</h3>
+      <p>선별 방식이 놓친 경계 92개를 확인하니, 64개는 앞뒤 장면을 읽고도 모델이 같은 단계라고 답한 경우였습니다. 이후에는 사람이 하나의 작업으로 보는 범위에 맞춰 답하도록 지시문을 바꿨습니다. 예를 들어 재료를 넣고 여러 번 젓는 장면에서 손이 움직일 때마다 단계를 새로 만드는 문제를 줄이려 했습니다.</p>
+      <p>사람이 붙인 단계 라벨을 만들고, 예측 경계와 정답 경계를 한 번씩만 짝짓도록 평가 코드를 고쳤습니다. 사람 단계 라벨이 있는 16편에서 작업 단위 지시문과 변화 후보·중간 프레임을 조합해 ±5초 F1 <strong>0.558</strong>을 얻었습니다. 8초 보완 프레임을 더한 조건과 점수 차이를 구별하기 어려워 더 적은 장면을 쓰는 조합을 연구안으로 제안했습니다. 앞선 토큰 절감 실험과는 정답의 단계 정의가 다릅니다.</p>
+    </article>
+  </div>
+</section>
+<section class="content-section wrap" id="fine-tuning">
+  <div class="section-side"><h2>호출 한도에서 공개 모델 파인튜닝으로</h2></div>
+  <div class="section-body">
+    <p>초기 앱은 영상 한 편을 분석하는 데 Claude를 세 번 호출했습니다. 장면 해석을 큰 모델에 다시 확인하는 실험까지 더해지면서 호출량과 비용이 늘었습니다. 팀은 영상 판독 능력을 자체 GPU에서 추론할 수 있는 공개 모델로 옮기기 위해 Qwen3.5-27B를 파인튜닝했습니다.</p>
+    <article class="ai-use-entry">
+      <h3>Claude Sonnet의 답을 학습 데이터로 만들기</h3>
+      <p>3초마다 뽑은 이미지를 12장씩 묶어 Claude Sonnet에 보내고, 65개 학습 클립의 모범 출력을 만들었습니다. 먼저 재료와 동작을 판독하도록 학습했고, 다음 실험에서는 <strong>장면 판독, 조리 단계 묶기, 한국어 단계명 생성</strong>을 하나의 LoRA 어댑터로 학습했습니다. 평가 영상 23편은 학습 영상과 겹치지 않게 구성했고, 평가는 사람이 확인한 라벨을 기준으로 했습니다.</p>
+    </article>
+    <article class="ai-use-entry">
+      <h3>학습 전후 비교</h3>
+      <dl class="recipick-results">
+        <div>
+          <dt>재료 적중률 <strong>55.0% → 77.5%</strong></dt>
+          <dd>팀 영상 16편에서 사람이 재료 라벨을 붙인 시각의 판독 결과를 비교했습니다.</dd>
+        </div>
+        <div>
+          <dt>동작 분할 적중률 <strong>39.3% → 54.0%</strong></dt>
+          <dd>영상 23편에서 20초 이상인 모델 단계의 ¼ 지점과 ¾ 지점이 사람이 정한 같은 단계에 들어오는 비율입니다.</dd>
+        </div>
+      </dl>
+      <p>두 수치는 3초 간격 입력으로 평가한 Qwen3.5-27B의 학습 전후 결과입니다. 1인칭 영상에서 재료를 놓치거나, 보이지 않는 재료를 이름에 넣고 서로 다른 작업을 길게 합치는 오류는 남았습니다.</p>
+    </article>
+  </div>
+</section>
+<section class="content-section wrap" id="outcome">
+  <div class="section-side"><h2>서비스 적용과 최종 결과</h2></div>
+  <div class="section-body">
+    <p>최종 앱에는 자체 GPU에서 실행하는 Qwen3.5-27B FP8 기본 모델을 연결했습니다. 앱은 1초 간격으로 장면을 뽑고, 긴 영상은 여러 조각으로 나눠 병렬로 판독합니다. 팀은 11월 14일 운영 검증에서 영상 업로드, 분석 결과의 단계 저장, 게시·다운로드 흐름을 확인했습니다. LoRA 어댑터의 학습 결과는 앞의 3초 간격 실험에서 검증했습니다.</p>
+    <p>11월 18일 최종 발표에서는 영상 한 편이 편집 가능한 조리 단계와 공유용 레시피로 바뀌는 흐름을 소개했습니다. 사용자 수정과 동의한 영상을 다음 검수 데이터로 수집할 구조까지 구현했습니다. 수집된 데이터를 이용한 재학습은 후속 범위로 남았습니다.</p>
+    <a class="text-link" href="ai.html#vlm-research">AI 활용 경험 함께 보기 <span aria-hidden="true">↗</span></a>
   </div>
 </section>
 </main><footer class="contact-section wrap" id="contact">
