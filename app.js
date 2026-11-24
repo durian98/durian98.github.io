@@ -74,6 +74,25 @@
     measureProgress();
   }
   if (!reducedMotion && 'IntersectionObserver' in window) {
+    const enteredCharts = new WeakSet();
+    const chartObserver = new IntersectionObserver(entries => {
+      for (const { target: chart, isIntersecting, intersectionRatio } of entries) {
+        if (!isIntersecting) {
+          enteredCharts.delete(chart);
+          continue;
+        }
+        if (intersectionRatio < 0.75 || enteredCharts.has(chart)) continue;
+        enteredCharts.add(chart);
+        chart.querySelectorAll('.evidence-track > span').forEach((bar, index) => {
+          bar.animate(
+            [{ transform: 'scaleX(0)', transformOrigin: 'left' }, { transform: 'scaleX(1)', transformOrigin: 'left' }],
+            { delay: 100 + index * 190, duration: 650, easing: 'cubic-bezier(.22, .61, .36, 1)', fill: 'backwards' }
+          );
+        });
+      }
+    }, { threshold: [0, 0.75] });
+    document.querySelectorAll('.comparison-chart').forEach(chart => chartObserver.observe(chart));
+
     const arrivedLinks = new WeakSet();
     const linkObserver = new IntersectionObserver(entries => {
       for (const entry of entries) {
