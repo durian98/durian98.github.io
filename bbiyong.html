@@ -82,25 +82,25 @@
 <section class="content-section wrap">
 <div class="section-side reveal">
 <div class="eyebrow">01</div>
-<h2>화재 탐지와 사건 처리</h2>
+<h2>탐지 평가와 경보 시스템 구현</h2>
 </div>
 <div class="section-body reveal">
 <article class="feature-entry">
 <div class="entry-number">01</div>
-<h3>로봇에서 동작하는 화재 탐지</h3>
-<p>화재를 놓치는 경우를 줄이기 위해 모델의 탐지 결과와 판정 기준을 비교하는 평가 도구를 만들었습니다. 모델 하나로만 탐지할 때와 결과를 한 번 더 판별할 때(Cascade), 이미지를 여러 형태로 바꿔 결과를 모을 때(TTA)를 비교했습니다. 실제 로봇에서는 탐지 기준을 조정하고, 주행 중 놓친 열원을 다시 찾는 로직을 수정했습니다.</p>
+<h3>실시간 주행에 맞는 탐지 방식 비교</h3>
+<p>주행 중 화재를 놓치는 경우를 줄이려고 YOLO 단독 판독과 재판별(Cascade), 여러 형태로 바꾼 영상의 결과를 모으는 방식(TTA)을 같은 데이터에서 비교하는 도구를 만들었습니다. 재판별과 TTA를 결합한 방식이 종합 점수는 가장 높았지만, 화재 탐지의 정밀도·재현율 목표를 모두 만족하지 못했고 추가 추론 시간도 따로 확인해야 했습니다. 평가에서 점수가 높은 방식과 실시간 주행에서 시험할 후보를 구분했습니다.</p>
 <div class="tech-line">Python · PyTorch · YOLO11n</div>
 </article>
 <article class="feature-entry">
 <div class="entry-number">02</div>
-<h3>사건 저장과 경보 재전송 처리</h3>
-<p>경보의 messageId와 DB unique 제약으로 중복 저장을 막았습니다. 저장한 사건 번호(eventId)를 로봇 회신, 관제 전달과 사건 영상에 공통으로 사용했습니다. 외부 알림은 대기 상태와 최대 3회 재시도를 따로 관리했습니다.</p>
+<h3>로봇·관제·사건 영상을 하나의 경보로 연결</h3>
+<p>로봇이 보낸 경보를 저장한 뒤, 같은 사건 번호를 로봇 회신·관제 화면·사건 영상에 사용했습니다. 재접속으로 경보가 다시 들어와도 사건을 한 번만 저장하고, 외부 알림은 실패해도 사건 기록이 남도록 별도로 재시도하게 했습니다.</p>
 <div class="tech-line">Spring Boot · MySQL · messageId / eventId</div>
 </article>
 <article class="feature-entry">
 <div class="entry-number">03</div>
 <h3>파트별 검증과 배포 자동화</h3>
-<p>GitLab MR에서는 임시 MySQL로 빌드·테스트하고, dev 병합 후에는 해당 파트만 배포하도록 나눴습니다. EC2, Nginx와 Docker Compose로 실행 환경을 구성하고, 서버 준비 상태를 확인한 뒤 배포 결과를 전달했습니다.</p>
+<p>백엔드·로봇·관제가 따로 변경되는 구조에 맞춰 파트별 검증과 배포를 구성했습니다. GitLab 병합 요청에서 빌드와 임시 MySQL 테스트를 실행하고, 개발 브랜치에 합쳐지면 변경된 파트만 배포하도록 했습니다. EC2에 Nginx와 Docker Compose로 실행 환경을 구성하고, 서버 준비 상태를 확인한 뒤 배포 결과를 공유했습니다.</p>
 <div class="tech-line">EC2 · Nginx · Docker Compose · Jenkins</div>
 </article>
 </div>
@@ -108,7 +108,7 @@
 <section class="content-section wrap">
 <div class="section-side reveal">
 <div class="eyebrow">02</div>
-<h2>모델 변환과 로봇 시험</h2>
+<h2>Jetson 최적화와 실제 주행 검증</h2>
 </div>
 <div class="section-body reveal">
 <p>학습 모델을 로봇 GPU에서 실행하도록 ONNX로 변환하고 TensorRT FP16으로 추론했습니다. 전열기를 시험용 열원으로 사용해 위험 감지부터 관제 경보까지 시험했습니다.</p>
@@ -136,10 +136,10 @@
     <li><div><span>TensorRT 적용 전</span><strong>30.17 ms</strong></div><span class="evidence-track" aria-hidden="true"><span style="--bar-width:86.20%"></span></span></li>
     <li><div><span>TensorRT FP16 적용 후</span><strong>10.51 ms</strong></div><span class="evidence-track" aria-hidden="true"><span style="--bar-width:30.03%"></span></span></li>
   </ul>
-  <small class="evidence-source">같은 보드와 열원으로 팀원과 비교했습니다. 수치 출처는 프로젝트 발표자료입니다.</small>
+  <small class="evidence-source">같은 Jetson 보드와 열원 조건에서 팀과 비교했습니다.</small>
 </figure>
 
-<div class="media-feature detection-demo"><div class="media-copy"><span class="eyebrow">과열 감지 · 실기기 시험</span><h3>열원 감지부터 관제 경보까지</h3><p>전열기를 시험용 열원으로 사용해 로봇의 위험 감지와 관제 전달을 함께 확인한 장면입니다. 탐지 기준과 재포착 로직을 조정하고, 사건 저장·알림 백엔드를 연결했습니다.</p></div><figure class="large-figure demo">
+<div class="media-feature detection-demo"><div class="media-copy"><span class="eyebrow">과열 감지 · 실기기 시험</span><h3>열원 감지부터 관제 경보까지</h3><p>주행 중 열원을 놓치거나 촬영 방향이 어긋나는 상황에서 탐지 기준과 열원 재포착 로직을 조정했습니다. 전열기를 시험용 열원으로 두고 로봇이 위험을 감지한 뒤 관제에 경보를 보내는 흐름까지 확인했습니다.</p></div><figure class="large-figure demo">
 <div class="browser-frame"><div class="browser-chrome" aria-hidden="true"><i></i><i></i><i></i></div><div class="motion-media" role="img" aria-label="전열기 과열 감지와 관제 경보 시연">
 <video class="demo-video" muted loop playsinline preload="none" poster="assets/bbiyong-demo-poster.webp" width="860" height="484" aria-hidden="true" tabindex="-1"><source data-src="assets/bbiyong-demo.mp4?v=1f553717" type="video/mp4"></video>
 <noscript><span class="motion-static-note">정지 화면</span></noscript>
@@ -149,93 +149,6 @@
 </div>
 </section>
 </div>
-<section class="content-section wrap">
-<div class="section-side reveal">
-<div class="eyebrow">03</div>
-<h2>중복 저장과 처리 순서 검증</h2>
-</div>
-<div class="section-body reveal">
-<article class="case">
-<span class="case-label">프로젝트 종료 후 로컬 검증</span>
-<h3>같은 경보가 동시에 도착해도 <br>저장은 한 번만</h3>
-<p>저장 전에 존재 여부를 조회해도 두 요청이 동시에 “없음”으로 판단하면 중복 저장을 시도할 수 있습니다. 경보 번호(messageId)의 DB unique 제약으로 중복 저장을 막고, 실제 MySQL에서 동시 저장을 시험했습니다.</p>
-<div class="metric-pair">
-<div>
-<div class="metric-number">24</div>
-<div class="metric-label">동시 작업 수 / 총 3회 반복</div>
-</div>
-<div>
-<div class="metric-number">1</div>
-<div class="metric-label">매회 실제 DB에 저장된 사건 행</div>
-</div>
-</div>
-<details>
-<summary>검증 조건과 확인 범위</summary>
-<div class="detail-body">
-<p>24개 작업이 모두 존재 여부 조회를 마치도록 맞춘 뒤 동시에 저장하게 했습니다. 3회 모두 DB에는 1행만 남았고, 후속 처리(모의)도 회마다 한 번만 실행됐습니다.</p>
-<p>로컬 MySQL에서 기존 중복 방어 로직을 검증했습니다. 로봇 회신, 관제와 외부 알림은 모의 처리로 분리했습니다.</p>
-</div>
-</details>
-</article>
-<article class="case" id="robot-queues">
-<span class="case-label">로컬 후속 시험</span>
-<h3>같은 로봇의 작업 순서만 보장</h3>
-<p>대기열이 차면 일부 작업이 앞선 작업을 추월해 처리 순서가 바뀌었습니다. 대기열에 빈자리가 생길 때까지 기다리도록 바꿔 순서는 지켰지만, 시험용 작업 400건의 총 처리 시간은 약 4.7초에서 6.2초로 늘었습니다.</p>
-<p>순서를 지켜야 하는 범위를 같은 로봇에서 들어온 작업으로 좁혔습니다. 로봇 번호로 대기열을 네 개로 나눠 각 대기열은 차례대로 처리하고, 다른 대기열은 동시에 처리하도록 구성했습니다.</p>
-<p>로컬 MySQL에 200건을 저장해 비교한 결과, 초당 처리량은 <strong>176.83건에서 607.90건</strong>으로 늘었습니다.</p>
-<details>
-<summary>수치와 시험 조건 자세히</summary>
-<div class="detail-body">
-<div class="table-scroll">
-<table class="data-table">
-<thead>
-<tr>
-<th>항목</th>
-<th>단일 경로</th>
-<th>4분할</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>배치 처리량</td>
-<td>176.83건/초</td>
-<td>607.90건/초</td>
-</tr>
-<tr>
-<td>p99</td>
-<td>1,118ms</td>
-<td>319ms</td>
-</tr>
-<tr>
-<td>저장 행</td>
-<td>200/200</td>
-<td>200/200</td>
-</tr>
-<tr>
-<td>순서 위반 / 실패</td>
-<td>0 / 0</td>
-<td>0 / 0</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>네 로봇 번호에 각 50건, 구조별 3회 중앙값입니다. 후속 알림은 모의 처리이며, 시험용 작업 400건의 순서 시험과 실제 DB 200건의 처리량 시험은 서로 다른 실험입니다.</p>
-
-</div>
-</details>
-</article>
-</div>
-</section>
-<section class="content-section wrap"><div class="section-side"><div class="eyebrow">04</div><h2>회고</h2></div><div class="section-body">
-<article class="reflection-entry">
-<h3>모델 평가와 실기기 검증</h3>
-<p>실제 주행에서는 열원을 놓치거나 촬영 방향이 어긋나 탐지 기준과 재포착 방식을 조정했습니다. 모델 비교 단계부터 주행 조건과 경보 성공 기준을 정하고, 추론시간과 재포착 동작, 관제 경보를 함께 확인할 필요가 있었습니다.</p>
-</article>
-<article class="reflection-entry">
-<h3>사건 처리 조건과 실패 상황의 설계</h3>
-<p>후속 부하 시험에서 대기열이 가득 차면 같은 로봇의 처리 순서가 바뀌는 문제를 확인했습니다. 처리량과 함께 순서와 중복 저장 여부를 검증하고, 대기열 포화와 종료 시 남은 작업의 처리 기준도 설계 단계에서 정해야 했습니다.</p>
-</article>
-</div></section>
 <a class="next-project wrap" href="vlm.html">
 <div>
 <div class="eyebrow">다른 프로젝트</div>

@@ -39,26 +39,26 @@
 <section class="about-hero wrap">
 <div class="petal-field green-hero-field" aria-hidden="true"></div>
 <div>
-<h1 class="about-lead">데이터 분석, AI와 웹서비스 개발을 경험한 신입 개발자 박재현입니다.</h1>
-<p>사람들과 편하게 소통하고, 함께 의견을 나누며 일하는 것을 좋아합니다. 의견이 갈릴 때는 각자의 입장을 듣고 정리해 서로 이해할 수 있는 지점을 찾습니다.</p>
-<p>진행 상황과 논의한 내용을 공유하고, 받은 피드백을 다음 작업에 반영합니다.</p>
+<h1 class="about-lead">개발자 박재현입니다.</h1>
+<p>부산 여행 앱의 REST API를 만들고, 로봇에서 화재를 감지해 관제에 알리는 흐름을 구현했습니다. 조리 영상 프로젝트에서는 모델이 어떤 장면을 읽어야 하는지 실험하고, 평가 기준을 다듬었습니다.</p>
+<p>팀으로 일할 때는 진행 상황을 자주 공유합니다. 의견이 갈리면 각자가 중요하게 보는 점을 먼저 듣고, 남은 시간 안에 함께 해결할 문제를 정합니다.</p>
 </div>
 <figure class="about-portrait intro-portrait"><img src="assets/portrait.png" width="320" height="435" alt="박재현 취업사진"></figure>
 </section>
 <section class="about-collaboration wrap" aria-labelledby="working-together">
 <h2 id="working-together">함께 일하는 방식</h2>
 <article class="collaboration-entry reveal">
-<h3>경청과 의견 조율</h3>
+<h3>다시 나온 의견을 일정 안에서 검토</h3>
 <div><p class="collaboration-context">GABOLLE · 6명 팀의 팀장</p>
-<p>팀장으로서 작업을 나누고 진행 상황을 점검했습니다. 일정과 아이디어를 정할 때 의견이 갈리면 팀원들의 입장을 다시 정리해 공유했습니다. 서로 이해할 수 있는 지점을 찾고, 공동의 목표를 기준으로 논의를 이어갔습니다.</p></div>
+<p>여행 서비스의 방향을 정한 뒤 회의에 참석하지 못했던 팀원이 주제를 다시 검토하자고 했습니다. 팀원들의 의견을 정리해 공유하고, 이틀 정도 대안을 검토할 시간을 뒀습니다. 팀은 기존 주제를 유지하면서 새 의견을 반영해 서비스의 범위를 다듬었습니다.</p></div>
 </article>
 <article class="collaboration-entry reveal">
-<h3>함께 일할 기준 정하기</h3>
+<h3>웹과 AI 서버가 만나는 지점 맞추기</h3>
 <div><p class="collaboration-context">Arctic · 웹 API와 AI 서버 연동</p>
 <p>병합 충돌이 반복되자 기능별로 담당을 나누고, 병합 전 절차를 팀과 같이 정했습니다. 웹 API와 AI 서버를 연결할 때도 요청·응답 형식을 함께 맞췄습니다.</p></div>
 </article>
 <article class="collaboration-entry reveal">
-<h3>피드백 수용과 반영</h3>
+<h3>현장에서 받은 피드백 반영</h3>
 <div><p class="collaboration-context">GABOLLE · FLY ASIA 창업박람회</p>
 <p>앱 출시 후 투자자와 사용자에게 서비스를 보여주고 피드백을 받았습니다. 지도에서 여행 경로가 더 잘 보이도록 수정하고, 여행 생성에 불필요한 입력을 덜었습니다.</p>
 </div>
@@ -67,7 +67,7 @@
 </section>
 <section class="about-learning wrap" aria-labelledby="learning-method">
 <h2 id="learning-method">학습과 검증</h2>
-<div><p>새로운 기술은 공식 문서와 기술 블로그, AI로 개념을 파악한 뒤 프로젝트에서 어디에 어떻게 쓸지 정합니다. 적용할 곳이 정해지면 직접 구현하며 익힙니다.</p>
+<div>
 <article class="learning-example">
 <h3>통신 원리와 서버 보안 설정</h3>
 <p>백엔드와 인프라를 맡으며 OSI 계층과 소켓 통신, Nginx에서 요청이 분기되는 방식을 공부했습니다. BBIYONG에서는 EC2·Nginx·Docker Compose로 실행 환경을 구성하고, Jenkins로 파트별 검증과 배포를 연결했습니다. Nginx에는 동일 IP의 과도한 API 요청을 제한하도록 설정했습니다. 정상 요청은 통과하고, 한 IP에서 요청을 동시에 보냈을 때 일부가 제한되는지 응답과 로그로 확인했습니다.</p>
@@ -80,7 +80,7 @@
 <h3>객체 탐지 평가와 로봇 적용</h3>
 <p>객체 탐지의 평가 지표와 후처리 방식을 익히며, 탐지 기준별 결과를 비교하는 Python 평가 도구를 만들었습니다. 신뢰도와 중복 박스 제거 기준을 바꾸면서 오탐·미탐과 추론 비용을 함께 살폈습니다. 모델을 ONNX·TensorRT로 변환해 Jetson에서 실행하고, 실제 로봇을 움직이며 탐지 기준과 재포착 방식을 조정했습니다.</p>
 </article>
-<p class="learning-followup">프로젝트가 끝난 뒤에도 MySQL 동시 저장 시험과 GABOLLE 후보 저장 성능 비교로 구현을 다시 점검했습니다.</p></div>
+</div>
 </section>
 <div class="chapter-band chapter-band--profile">
 <section class="about-blocks wrap">

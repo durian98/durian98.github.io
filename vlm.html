@@ -44,7 +44,7 @@
 <section class="project-summary wrap">
   <div>
     <h2>프로젝트 개요</h2>
-    <p>조리 로봇을 학습시키려면 영상에서 ‘양파 볶기’ 같은 동작이 언제 시작하고 끝나는지 표시해야 합니다. 로보터블이 제시한 과제는 이 작업을 자동화하는 것이었습니다. 팀은 영상에서 동작이 바뀌는 시점을 찾는 파이프라인을 개발하고, 분석 결과를 직접 고칠 수 있는 요리 기록 앱 쿠킹테이블에 연결했습니다.</p>
+    <p>조리 로봇을 학습시키려면 영상에서 ‘양파 볶기’ 같은 동작이 언제 시작하고 끝나는지 표시해야 합니다. 로보터블이 제시한 과제는 이 작업을 자동화하는 것이었습니다. 팀은 영상에서 조리 단계를 나누는 분석 기능을 만들고, 결과를 확인하고 고칠 수 있는 요리 기록 앱 쿠킹테이블에 연결했습니다.</p>
     <p>저는 반복되는 장면을 덜 읽고도 동작이 바뀌는 시점을 찾을 수 있도록 프레임 선별 방식을 설계하고 평가 코드를 작성했습니다.</p>
   </div>
   <div>
@@ -52,7 +52,7 @@
       <div><dt>기간</dt><dd><time datetime="2026-10-06">2026.10.06</time>–<time datetime="2026-11-18">2026.11.18</time></dd></div>
       <div><dt>기업 과제</dt><dd>조리 영상의 동작 구간 경계 검출 파이프라인 개발</dd></div>
       <div><dt>담당</dt><dd>프레임 선별 실험, 정답 라벨 작성, 경계 검출 평가</dd></div>
-      <div><dt>비교 결과</dt><dd>영상 16편 비교<br>토큰 사용량 <strong>기존 방식의 53%</strong></dd></div>
+      <div><dt>담당 산출물</dt><dd>프레임 선별·경계 평가 코드<br>작업 단계 기준 판독 지시문</dd></div>
     </dl>
   </div>
 </section>
@@ -90,40 +90,27 @@
   </div>
 </section>
 <div class="chapter-band chapter-band--product">
-<section class="content-section wrap" id="methods">
-  <div class="section-side"><h2>동작 변화가 있는 장면 선별</h2></div>
-  <div class="section-body">
-    <p>볶기처럼 같은 동작이 오래 이어지면 비슷한 장면이 반복됩니다. 모델이 읽을 장면을 줄이기 위해 동작이 바뀔 만한 시점을 먼저 찾고 그 주변을 자세히 읽는 방식을 시험했습니다. 팀은 첫 단계에서 프레임 차분, 색상 분포, 영상 임베딩 등 후보를 찾는 방법 59가지를 영상 32편으로 비교했습니다. 영상 임베딩은 장면을 숫자 벡터로 표현해, 색이 비슷한 장면에서도 동작이 바뀌는 시점을 찾는 데 썼습니다.</p>
-    <ol class="recipick-pipeline" aria-label="조리 단계 검출 실험 순서">
-      <li><strong>1. 변화 후보 찾기</strong><span>영상 특징을 비교해 동작이 바뀌었을 만한 시점을 찾습니다.</span></li>
-      <li><strong>2. 프레임 선별</strong><span>후보 앞뒤와 그 사이에서 판독할 장면을 고릅니다.</span></li>
-      <li><strong>3. 장면 판독</strong><span>시각언어모델(VLM)이 고른 장면을 시간순으로 읽어 재료와 동작을 파악합니다.</span></li>
-      <li><strong>4. 단계 확정</strong><span>판독 내용을 조리 작업 단위로 묶고 단계가 바뀌는 시각을 정합니다.</span></li>
-    </ol>
-  </div>
-</section>
 <section class="content-section wrap" id="contribution">
-  <div class="section-side"><h2>프레임 선별과 경계 평가</h2></div>
+  <div class="section-side"><h2>다음 동작을 놓치지 않고 읽을 장면 줄이기</h2></div>
   <div class="section-body">
-    <article class="ai-use-entry">
-      <h3>같은 동작이 이어지는 장면은 덜 읽기</h3>
-      <p>계속 볶는 장면은 비슷한 프레임이 이어지지만, 소스를 넣는 순간은 짧아서 놓치기 쉽습니다. 그래서 동작이 바뀔 만한 시점의 앞뒤 2초는 촘촘히 읽고, 나머지 구간은 8초마다 한 장씩 읽도록 설계했습니다. 팀에서 함께 쓸 실행·평가 코드를 작성하고, 팀원과 영상 16편을 비교했습니다.</p>
+    <article class="ai-use-entry" id="methods">
+      <h3>일정 간격과 변화 지점 중심 입력 비교</h3>
+      <p>볶는 장면이 길게 이어져도 소스를 넣는 순간은 짧습니다. 영상 전체를 일정 간격으로 읽는 방식과, 변화 후보 앞뒤를 촘촘히 보고 나머지는 8초마다 읽는 방식을 비교했습니다. 공통 실행·평가 코드를 작성하고 팀원과 영상 16편을 나눠 검증했습니다.</p>
       <dl class="metric-pair recipick-results">
-        <div><dt>기존 방식 대비 토큰 사용량</dt><dd class="metric-number">53%</dd><dd class="recipick-metric-note">영상에서 1초마다 한 장씩 뽑아 30초 단위로 모델에 보내는 기존 방식과 비교했습니다.</dd></div>
-        <div><dt>경계 검출 F1</dt><dd class="metric-number">0.674 → 0.709</dd><dd class="recipick-metric-note">사람이 표시한 시점에서 5초 이내에 들어온 예측을 맞힌 것으로 봤습니다. F1은 놓친 경계와 잘못 잡은 경계를 함께 반영하는 점수입니다.</dd></div>
+        <div><dt>초기 비교 · 판독 토큰</dt><dd class="metric-number">기존의 53%</dd><dd class="recipick-metric-note">1초마다 뽑은 장면을 30초 단위로 묶는 방식과 비교</dd></div>
+        <div><dt>초기 비교 · 경계 검출 F1</dt><dd class="metric-number">0.674 / 0.709</dd><dd class="recipick-metric-note">기존 / 선별 방식 · 사람이 표시한 시점에서 5초 이내로 비교</dd></div>
       </dl>
     </article>
     <article class="ai-use-entry">
-      <h3>사람이 나누는 조리 단계에 맞춰 판독 기준 수정</h3>
-      <p>놓친 경계 92개 중 64개에서는 앞뒤 장면을 모델에 보냈는데도 모델이 같은 단계 이름을 붙였습니다. 영상을 다시 보니 모델이 서로 다른 작업을 하나로 묶기도 하고, 사람이 한 단계로 보는 반복 동작을 여러 단계로 나누기도 했습니다.</p>
-      <p>‘양파를 여러 번 젓기’처럼 이어지는 동작을 한 단계로 보도록 판독 지시문을 고쳤습니다. 사람이 구분한 단계에 맞춰 정답 라벨을 만들고, 정답 경계 하나에 예측 하나만 대응하도록 평가 코드도 수정했습니다.</p>
-      <p>이 기준으로 다시 비교하니 변화 후보와 그 사이 장면만 읽어도 8초 간격 장면을 추가한 경우와 점수 차이가 크지 않았습니다. 그래서 더 적은 프레임을 쓰는 조합을 제안했습니다.</p>
+      <h3>판독할 장면과 조리 단계를 나누는 기준을 함께 수정</h3>
+      <p>놓친 경계 92개 중 64개는 모델이 앞뒤 장면을 읽고도 같은 단계 이름을 붙인 경우였습니다. 프레임만 더 넣어서는 해결하기 어려워, 반복해서 젓는 동작처럼 사람이 하나로 보는 작업을 같은 단계로 묶도록 판독 지시를 바꿨습니다. 사람이 구분한 단계로 정답 라벨을 만들고, 평가에서 정답 경계 하나에 예측 하나만 짝지었습니다.</p>
+      <p>새 기준으로 비교하니 변화 지점과 그 사이 장면을 읽는 조합의 F1은 0.558, 여기에 8초 간격 장면까지 더한 조합은 0.566이었습니다. 두 결과의 차이를 구별하기 어려워 판독할 장면이 적은 쪽을 제안했습니다.</p>
     </article>
   </div>
 </section>
 </div>
 <section class="content-section wrap" id="fine-tuning">
-  <div class="section-side"><h2>VLM 파인튜닝과 앱 분석 흐름</h2></div>
+  <div class="section-side"><h2>팀의 모델 학습과 앱 연결</h2></div>
   <div class="section-body">
     <article class="reflection-entry">
       <h3>조리 장면 판독과 단계 이름 붙이기</h3>
@@ -134,7 +121,7 @@
       </dl>
     </article>
     <article class="reflection-entry" id="outcome">
-      <h3>분석한 구간을 앱 타임라인에 표시</h3>
+      <h3>기본 모델의 분석 결과를 앱 타임라인에 표시</h3>
       <p>앱 서버는 업로드된 영상에서 1초마다 한 장을 뽑아 자체 GPU의 Qwen3.5-27B 기본 모델(FP8)에 보냅니다. 모델이 읽은 장면을 조리 단계로 묶고, 단계 이름과 구간 시각을 앱에 돌려줍니다. 이 결과로 타임라인에서 해당 영상 구간을 바로 재생하고, 사용자가 저장한 단계로 레시피 카드를 만듭니다.</p>
     </article>
     <a class="text-link" href="ai.html#vlm-research">AI 활용 사례 보기 <span aria-hidden="true">↗</span></a>
