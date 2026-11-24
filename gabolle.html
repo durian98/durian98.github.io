@@ -16,7 +16,7 @@
 </script>
 <script src="portfolio-v6.js?v=b88d1683" defer></script>
 <script src="page-navigation.js?v=abc9b69f" defer></script>
-<link rel="stylesheet" href="site.css?v=8cb0ec14">
+<link rel="stylesheet" href="site.css?v=0f50bb1f">
 </head>
 <body>
 <a class="skip-link" href="#main">본문으로 바로가기</a>
@@ -178,6 +178,24 @@
 </div>
 </div>
 
+<article class="case" id="candidate-storage">
+<h3>추천 후보 저장에 걸리는 시간 줄이기</h3>
+<p>새 후보를 200개씩 저장할 때, 이미 발급된 ID 때문에 JPA가 후보마다 DB에 존재 여부를 확인했습니다. 추천 결과 저장에 드는 시간을 줄이기 위해 조회만 뺀 방식과 50개씩 묶어 삽입한 방식을 로컬에서 비교하고, 후보·점수·코스가 그대로 저장되는지 확인했습니다.</p>
+<details>
+<summary>저장 방식별 측정 결과 <span aria-hidden="true">+</span></summary>
+<div class="detail-body">
+<figure class="portfolio-evidence">
+  <figcaption>후보 200개 저장 시간 <small>상세 SQL 계측을 켠 로컬 시험 · p95</small></figcaption>
+  <ul class="comparison-chart">
+    <li><div><span>기존 저장</span><strong>171.59 ms</strong></div><span class="evidence-track" aria-hidden="true"><span style="--bar-width:95.33%"></span></span></li>
+    <li><div><span>존재 조회 제거</span><strong>123.91 ms</strong></div><span class="evidence-track" aria-hidden="true"><span style="--bar-width:68.84%"></span></span></li>
+    <li><div><span>조회 제거 + 50개 묶음 저장</span><strong>52.52 ms</strong></div><span class="evidence-track" aria-hidden="true"><span style="--bar-width:29.18%"></span></span></li>
+  </ul>
+</figure>
+</div>
+</details>
+</article>
+
 </div>
 </section>
 </div>
@@ -203,7 +221,7 @@
 <section class="content-section wrap">
 <div class="section-side reveal">
 <div class="eyebrow">04</div>
-<h2>로그인 오류 수정과 저장 방식 비교</h2>
+<h2>소셜 로그인 오류 수정</h2>
 </div>
 <div class="section-body reveal">
 <article class="case">
@@ -219,55 +237,7 @@
 </div>
 </details>
 </article>
-<article class="case" id="candidate-storage">
-<span class="case-label">로컬 후속 시험</span>
-<h3>조회 제거와 묶음 저장의 효과를 따로 비교</h3>
-<p>새 후보 200개를 넣는데, 미리 부여한 ID 때문에 기존 데이터인지 200번 조회한 뒤 한 건씩 저장하고 있었습니다. 조회를 없앤 효과와 묶어 저장한 효과를 따로 보려고, 바로 삽입하는 방식(persist)과 여기에 50개씩 묶어 저장하는 방식을 각각 기존 방식과 비교했습니다.</p>
-<figure class="portfolio-evidence">
-  <figcaption>후보 200개 저장 시간 <small>로컬 시험 · p95 · 낮을수록 짧음</small></figcaption>
-  <ul class="comparison-chart">
-    <li><div><span>기존 저장</span><strong>171.59 ms</strong></div><span class="evidence-track" aria-hidden="true"><span style="--bar-width:95.33%"></span></span></li>
-    <li><div><span>존재 조회 제거</span><strong>123.91 ms</strong></div><span class="evidence-track" aria-hidden="true"><span style="--bar-width:68.84%"></span></span></li>
-    <li><div><span>조회 제거 + 50개 묶음 저장</span><strong>52.52 ms</strong></div><span class="evidence-track" aria-hidden="true"><span style="--bar-width:29.18%"></span></span></li>
-  </ul>
-</figure>
-<details>
-<summary>비교 조건과 데이터 보존 확인</summary>
-<div class="detail-body">
-<div class="table-scroll">
-<table class="data-table">
-<thead>
-<tr>
-<th>방식</th>
-<th>저장 p95</th>
-<th>실행된 저장 방식</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>기존</td>
-<td>171.59ms</td>
-<td>SELECT 200 + 개별 삽입</td>
-</tr>
-<tr>
-<td>신규 바로 저장</td>
-<td>123.91ms</td>
-<td>존재 조회 0 + 개별 삽입</td>
-</tr>
-<tr>
-<td>50개 묶음</td>
-<td>52.52ms</td>
-<td>존재 조회 0 + 50개 배치</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>방식별로 처음 3회는 예열로 빼고 20회를 측정했습니다. 각 방식에서 후보 200행이 저장됐고, 후보·점수·코스 내용이 같으며 오류가 나면 기존 트랜잭션대로 되돌아가는지 확인했습니다.</p>
-<p>SQL 계측을 켠 로컬 저장 구간의 비교입니다.</p>
 
-</div>
-</details>
-</article>
 </div>
 </section>
 <section class="content-section wrap"><div class="section-side"><div class="eyebrow">05</div><h2>회고</h2></div><div class="section-body">

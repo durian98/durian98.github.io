@@ -1770,7 +1770,8 @@ body>.site-header{position:absolute;inset:0 0 auto;transform:none;width:calc(min
   border-radius: clamp(19px, 2.4vw, 32px);
 }
 
-.recipick-gallery .phone-frame img {
+.recipick-gallery .phone-frame img,
+.recipick-gallery .phone-frame .demo-video {
   display: block;
   height: auto;
   object-fit: contain;
