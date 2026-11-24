@@ -1657,7 +1657,7 @@ body>.site-header{position:absolute;inset:0 0 auto;transform:none;width:calc(min
   color: var(--muted);
   font-weight: 400;
 }
-.section-body .storage-chart, .section-body .queue-lanes {
+.section-body .storage-chart {
   padding: 0;
   margin: 0;
   list-style: none;
@@ -1680,16 +1680,6 @@ body>.site-header{position:absolute;inset:0 0 auto;transform:none;width:calc(min
   border-radius: inherit;
 }
 .storage-chart li:last-child .evidence-track > span { background: #b94d20; }
-.queue-compare { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 18px; }
-.queue-compare > div { min-width: 0; border-top: 1px solid #dfcfc3; padding-top: 12px; }
-.queue-compare h4 { margin: 0; font-size: 17px; }
-.section-body .queue-compare p { margin: 4px 0 12px; font-size: 14px; color: var(--muted); }
-.section-body .queue-lanes { display: grid; gap: 5px; font-size: 14px; }
-.queue-lanes li { padding: 5px 10px; background: #eee5dd; border-radius: 5px; }
-.queue-lanes--parallel li { background: #f6e0d1; }
-@media (max-width: 600px) {
-  .queue-compare { grid-template-columns: 1fr; }
-}
 
 /* Full-bleed motion, with a fixed, readable identity at its centre. */
 .home .hero.wrap.sculpture-hero{min-height:100svh;padding:132px var(--gutter) 108px;background:#ffe5cf;justify-content:center;}
@@ -1888,62 +1878,6 @@ body>.site-header{position:absolute;inset:0 0 auto;transform:none;width:calc(min
   }
   .recipick-gallery .image-caption {
     margin-top: 12px;
-  }
-}
-
-.cooking-cost {
-  margin: 0;
-  padding: clamp(20px, 4vw, 44px);
-  border: 1px solid #eee0d3;
-  border-radius: 20px;
-  background: #fff8f1;
-}
-.cooking-cost figcaption { font-weight: 700; margin-bottom: 26px; }
-.cooking-cost figcaption small { display: block; color: var(--muted); font-weight: 400; }
-.cost-row + .cost-row { margin-top: 24px; }
-.cost-label { display: flex; align-items: baseline; flex-wrap: wrap; justify-content: space-between; gap: 4px 18px; }
-.cost-label strong { font-size: clamp(21px, 3vw, 32px); font-variant-numeric: tabular-nums; }
-.cost-row:last-child .cost-label strong { color: #9d3815; }
-.cost-track { margin-top: 8px; height: 12px; border-radius: 6px; background: #eaddd2; }
-.cost-bar {
-  display: block;
-  position: relative;
-  width: var(--high);
-  height: 100%;
-  border-radius: inherit;
-  background: #796c61;
-  transform-origin: left;
-}
-.cost-bar--model { min-width: 20px; background: #b94d20; }
-.cost-bar--model::after {
-  content: "";
-  position: absolute;
-  right: 0;
-  top: 50%;
-  width: 13px;
-  height: 13px;
-  border-radius: 50%;
-  box-shadow: 0 0 0 3px #fff8f1;
-  background: #b94d20;
-  transform: translate(50%, -50%);
-}
-.research-detail .section-body .cost-note { margin-top: 14px; color: var(--muted); font-size: 14px; }
-.cooking-latency { border-top: 1px solid var(--line); padding-top: 20px; margin-bottom: 20px; }
-.cooking-latency h3 { margin-bottom: 8px; }
-@media (prefers-reduced-motion: no-preference) {
-  .cooking-cost.has-animation:not(.is-visible) .cost-bar { transform: scaleX(0); }
-  .cooking-cost.is-visible .cost-bar { animation: cooking-cost-grow 1200ms cubic-bezier(.33,0,.22,1) both; }
-  .cooking-cost.is-visible .cost-bar--model { animation-delay: 220ms; }
-  .cooking-cost.is-visible .cost-bar--model::after {
-    animation: cooking-cost-marker 550ms 390ms ease-out both;
-  }
-  @keyframes cooking-cost-marker {
-    from { transform: translate(50%, 35%); opacity: 0; }
-    to { transform: translate(50%, -50%); opacity: 1; }
-  }
-  @keyframes cooking-cost-grow {
-    from { transform: scaleX(0); }
-    to { transform: scaleX(1); }
   }
 }
 

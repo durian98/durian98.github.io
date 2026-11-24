@@ -17,7 +17,7 @@
 <script src="portfolio-v6.js?v=b88d1683" defer></script>
 <script src="page-navigation.js?v=abc9b69f" defer></script>
 <script src="media-playback.js?v=0217169f" defer></script>
-<link rel="stylesheet" href="site.css?v=41d3cae8">
+<link rel="stylesheet" href="site.css?v=f17cc63f">
 </head>
 <body>
 <a class="skip-link" href="#main">본문으로 바로가기</a>
@@ -186,26 +186,6 @@
 <h3>같은 로봇의 작업 순서만 보장</h3>
 <p>대기열이 차면 일부 작업이 앞선 작업을 추월해 처리 순서가 바뀌었습니다. 대기열에 빈자리가 생길 때까지 기다리도록 바꿔 순서는 지켰지만, 시험용 작업 400건의 총 처리 시간은 약 4.7초에서 6.2초로 늘었습니다.</p>
 <p>순서를 지켜야 하는 범위를 같은 로봇에서 들어온 작업으로 좁혔습니다. 로봇 번호로 대기열을 네 개로 나눠 각 대기열은 차례대로 처리하고, 다른 대기열은 동시에 처리하도록 구성했습니다.</p>
-<figure class="portfolio-evidence">
-  <figcaption>로봇 이벤트 대기열 <small>작업 배치 예시</small></figcaption>
-  <div class="queue-compare">
-    <div>
-      <h4>공용 대기열</h4>
-      <p>모든 로봇의 작업이 한 줄에서 대기</p>
-      <ol class="queue-lanes"><li>A의 첫 작업 → B의 첫 작업 → A의 다음 작업 → …</li></ol>
-    </div>
-    <div>
-      <h4>로봇 번호로 네 대기열에 분산</h4>
-      <p>각 줄은 순서대로, 서로 다른 줄은 동시에 처리</p>
-      <ol class="queue-lanes queue-lanes--parallel">
-        <li>A의 첫 작업 → A의 다음 작업</li>
-        <li>B의 첫 작업 → B의 다음 작업</li>
-        <li>C의 첫 작업 → C의 다음 작업</li>
-        <li>D의 첫 작업 → D의 다음 작업</li>
-      </ol>
-    </div>
-  </div>
-</figure>
 <p>로컬 MySQL에 200건을 저장해 비교한 결과, 초당 처리량은 <strong>176.83건에서 607.90건</strong>으로 늘었습니다.</p>
 <details>
 <summary>수치와 시험 조건 자세히</summary>
