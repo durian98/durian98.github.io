@@ -10,14 +10,14 @@
 <meta property="og:description" content="로봇 화재 탐지 평가, 사건·알림 백엔드와 CI/CD를 개발한 BBIYONG 프로젝트.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://durian98.github.io/assets/portrait.webp">
-<link rel="preload" href="assets/fonts/Pretendard-Regular.woff2?v=a234950d" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/Pretendard-Regular.woff2?v=5471e4a9" as="font" type="font/woff2" crossorigin>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <script src="app.js?v=05c17c1d" defer>
 </script>
 <script src="portfolio-v6.js?v=b88d1683" defer></script>
 <script src="page-navigation.js?v=abc9b69f" defer></script>
 <script src="media-playback.js?v=0217169f" defer></script>
-<link rel="stylesheet" href="site.css?v=373b9be6">
+<link rel="stylesheet" href="site.css?v=41d3cae8">
 </head>
 <body>
 <a class="skip-link" href="#main">본문으로 바로가기</a>
@@ -181,21 +181,32 @@
 </div>
 </details>
 </article>
-<article class="case">
+<article class="case" id="robot-queues">
 <span class="case-label">로컬 후속 시험</span>
-<h3>같은 로봇의 순서는 지키고, <br>다른 로봇은 함께 처리</h3>
+<h3>같은 로봇의 작업 순서만 보장</h3>
 <p>대기열이 차면 일부 작업이 앞선 작업을 추월해 처리 순서가 바뀌었습니다. 대기열에 빈자리가 생길 때까지 기다리도록 바꿔 순서는 지켰지만, 시험용 작업 400건의 총 처리 시간은 약 4.7초에서 6.2초로 늘었습니다.</p>
-<p>이후 로봇 번호를 기준으로 대기열을 네 개로 나눴습니다. 같은 로봇의 작업은 들어온 순서대로 처리하고, 서로 다른 로봇은 함께 처리하는 구조를 실제 DB 저장 200건으로 비교했습니다.</p>
-<div class="metric-pair">
-<div>
-<div class="metric-number">176.83 → 607.90</div>
-<div class="metric-label">초당 배치 처리량 / 로컬 MySQL 시험</div>
-</div>
-<div>
-<div class="metric-number">1,118 → 319</div>
-<div class="metric-label">처리시간 p99, ms / 작업 99%가 이 값 이하</div>
-</div>
-</div>
+<p>순서를 지켜야 하는 범위를 같은 로봇에서 들어온 작업으로 좁혔습니다. 로봇 번호로 대기열을 네 개로 나눠 각 대기열은 차례대로 처리하고, 다른 대기열은 동시에 처리하도록 구성했습니다.</p>
+<figure class="portfolio-evidence">
+  <figcaption>로봇 이벤트 대기열 <small>작업 배치 예시</small></figcaption>
+  <div class="queue-compare">
+    <div>
+      <h4>공용 대기열</h4>
+      <p>모든 로봇의 작업이 한 줄에서 대기</p>
+      <ol class="queue-lanes"><li>A의 첫 작업 → B의 첫 작업 → A의 다음 작업 → …</li></ol>
+    </div>
+    <div>
+      <h4>로봇 번호로 네 대기열에 분산</h4>
+      <p>각 줄은 순서대로, 서로 다른 줄은 동시에 처리</p>
+      <ol class="queue-lanes queue-lanes--parallel">
+        <li>A의 첫 작업 → A의 다음 작업</li>
+        <li>B의 첫 작업 → B의 다음 작업</li>
+        <li>C의 첫 작업 → C의 다음 작업</li>
+        <li>D의 첫 작업 → D의 다음 작업</li>
+      </ol>
+    </div>
+  </div>
+</figure>
+<p>로컬 MySQL에 200건을 저장해 비교한 결과, 초당 처리량은 <strong>176.83건에서 607.90건</strong>으로 늘었습니다.</p>
 <details>
 <summary>수치와 시험 조건 자세히</summary>
 <div class="detail-body">
@@ -252,7 +263,7 @@
 <a class="next-project wrap" href="vlm.html">
 <div>
 <div class="eyebrow">다른 프로젝트</div>
-<h2>레시픽</h2>
+<h2>쿠킹테이블</h2>
 </div>
 <span class="next-arrow" aria-hidden="true">↗</span>
 </a>
