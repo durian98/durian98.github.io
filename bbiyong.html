@@ -88,7 +88,7 @@
 <article class="feature-entry">
 <div class="entry-number">01</div>
 <h3>실시간 주행에 맞는 탐지 방식 비교</h3>
-<p>주행 중 화재를 놓치는 경우를 줄이려고 YOLO 단독 판독과 재판별(Cascade), 여러 형태로 바꾼 영상의 결과를 모으는 방식(TTA)을 같은 데이터에서 비교하는 도구를 만들었습니다. 재판별과 TTA를 결합한 방식이 종합 점수는 가장 높았지만, 화재 탐지의 정밀도·재현율 목표를 모두 만족하지 못했고 추가 추론 시간도 따로 확인해야 했습니다. 평가에서 점수가 높은 방식과 실시간 주행에서 시험할 후보를 구분했습니다.</p>
+<p>주행 중 화재를 놓치는 경우를 줄이려고 YOLO 단독 판독과 재판별(Cascade), 여러 형태로 바꾼 영상의 결과를 모으는 방식(TTA)을 같은 데이터에서 비교하는 도구를 만들었습니다. 재판별과 TTA를 결합한 방식의 종합 점수가 가장 높았습니다. 다만 화재 탐지의 정밀도·재현율 목표를 충족하지 못했고, 이 비교에는 여러 장을 읽는 데 걸리는 시간이 반영되지 않았습니다. 그래서 정확도 비교에 쓸 방식과 로봇에서 시험할 후보를 따로 골랐습니다.</p>
 <div class="tech-line">Python · PyTorch · YOLO11n</div>
 </article>
 <article class="feature-entry">
@@ -139,7 +139,7 @@
   <small class="evidence-source">같은 Jetson 보드와 열원 조건에서 팀과 비교했습니다.</small>
 </figure>
 
-<div class="media-feature detection-demo"><div class="media-copy"><span class="eyebrow">과열 감지 · 실기기 시험</span><h3>열원 감지부터 관제 경보까지</h3><p>주행 중 열원을 놓치거나 촬영 방향이 어긋나는 상황에서 탐지 기준과 열원 재포착 로직을 조정했습니다. 전열기를 시험용 열원으로 두고 로봇이 위험을 감지한 뒤 관제에 경보를 보내는 흐름까지 확인했습니다.</p></div><figure class="large-figure demo">
+<div class="media-feature detection-demo"><div class="media-copy"><span class="eyebrow">과열 감지 · 실기기 시험</span><h3>열원 감지부터 관제 경보까지</h3><p>로봇이 회전하다 열원을 놓치거나 카메라가 열원 옆을 향하는 문제가 있었습니다. 제자리에서 천천히 도는 방법과 최근 이동 방향을 기억해 반대 방향으로 돌리는 방법을 시험했습니다. 열원을 다시 찾는 동작에는 최근 이동 방향을 활용하는 방식을 적용했습니다. 전열기를 시험용 열원으로 두고, 로봇이 감지한 경보가 관제 화면까지 전달되는 것을 팀과 확인했습니다.</p></div><figure class="large-figure demo">
 <div class="browser-frame"><div class="browser-chrome" aria-hidden="true"><i></i><i></i><i></i></div><div class="motion-media" role="img" aria-label="전열기 과열 감지와 관제 경보 시연">
 <video class="demo-video" muted loop playsinline preload="none" poster="assets/bbiyong-demo-poster.webp" width="860" height="484" aria-hidden="true" tabindex="-1"><source data-src="assets/bbiyong-demo.mp4?v=1f553717" type="video/mp4"></video>
 <noscript><span class="motion-static-note">정지 화면</span></noscript>

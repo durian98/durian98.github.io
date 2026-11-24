@@ -45,7 +45,7 @@
 <section class="project-summary wrap reveal">
 <div>
 <h2>프로젝트 개요</h2>
-<p style="margin-top:28px">취향과 이동·식단·접근성 조건을 입력하면 부산 여행 코스를 추천합니다. 추천받은 일정을 편집하고, 여행 중 남긴 기록을 동행이나 다른 사용자와 공유할 수 있습니다.</p>
+<p style="margin-top:28px">취향과 이동·식단·접근성 조건을 입력하면 부산 여행 코스를 추천합니다. 추천받은 일정을 편집하고, 여행 중 남긴 기록을 동행자나 다른 사용자와 공유할 수 있습니다.</p>
 </div>
 <div>
 <dl class="project-facts">
@@ -138,7 +138,7 @@
 <h2>추천 요청과 계산을 분리한 이유</h2>
 </div>
 <div class="section-body reveal">
-<p>조건에 맞는 장소를 고르고 동선을 계산하는 동안 사용자가 응답을 기다려야 하는 구조는 피하고 싶었습니다. 여행 조건을 저장한 뒤 <strong>접수 응답(HTTP 202)과 작업 번호</strong>를 먼저 보내고, 추천 계산은 같은 백엔드 안의 별도 실행기에 넘겼습니다. 화면은 서버가 보내는 진행 상태(SSE)를 받아 표시하고, 같은 작업 번호로 결과를 조회합니다. 요청을 다시 보내도 여행이 두 번 생성되지 않도록 처리했습니다.</p>
+<p>장소를 고르고 이동 경로를 계산하는 동안 아무 응답이 없으면 사용자는 요청이 접수됐는지 알기 어렵습니다. 여행 조건을 저장한 뒤 <strong>접수 응답(HTTP 202)과 작업 번호</strong>를 먼저 보내고, 추천 계산은 같은 백엔드 안의 별도 실행기에 넘겼습니다. 화면은 서버가 보내는 진행 상태(SSE)를 받아 표시하고, 같은 작업 번호로 결과를 조회합니다. 요청을 다시 보내도 여행이 두 번 생성되지 않도록 처리했습니다.</p>
 <div class="stage-tabs" role="group" aria-label="추천 작업 단계">
 <button class="stage-button" aria-pressed="true" aria-controls="stage-detail">
 <span>01</span>접수</button>
@@ -196,7 +196,7 @@
 <section class="content-section wrap">
 <div class="section-side"><div class="eyebrow">04</div><h2>배포 환경에서 확인한 로그인 흐름</h2></div>
 <div class="section-body">
-<p>서버 API는 응답했지만 배포된 웹의 소셜 로그인은 화면 전환부터 막혔습니다. 브라우저에 배포된 JavaScript에서 OAuth client ID가 비어 있고 API 주소가 localhost인 것을 확인했습니다. 인증 후 돌아올 경로도 추가하고, 배포 환경에서 네이버 동의 화면부터 토큰 교환까지 확인했습니다.</p>
+<p>서버 API는 응답했지만 배포된 웹에서는 소셜 로그인 화면이 열리지 않았습니다. 브라우저가 내려받은 JavaScript를 확인하니 OAuth 클라이언트 ID가 비어 있고 API 주소는 localhost로 들어가 있었습니다. 웹을 빌드할 때 필요한 설정이 전달되도록 배포 파이프라인을 수정하고, 인증 뒤 돌아올 화면의 경로를 추가했습니다. 다시 배포한 웹에서 네이버 동의 화면부터 토큰 교환까지 확인했습니다.</p>
 </div></section>
 <a class="next-project wrap" href="bbiyong.html">
 <div>
