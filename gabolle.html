@@ -10,13 +10,13 @@
 <meta property="og:description" content="인증부터 여행과 추천 작업, 기록·공유까지 REST API 전반을 구현한 여행 서비스 GABOLLE.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://durian98.github.io/assets/portrait.webp">
-<link rel="preload" href="assets/fonts/Pretendard-Regular.woff2?v=5471e4a9" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/Pretendard-Regular.woff2?v=d67ec856" as="font" type="font/woff2" crossorigin>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <script src="app.js?v=05c17c1d" defer>
 </script>
 <script src="portfolio-v6.js?v=b88d1683" defer></script>
 <script src="page-navigation.js?v=abc9b69f" defer></script>
-<link rel="stylesheet" href="site.css?v=f17cc63f">
+<link rel="stylesheet" href="site.css?v=8cb0ec14">
 </head>
 <body>
 <a class="skip-link" href="#main">본문으로 바로가기</a>
@@ -225,7 +225,7 @@
 <p>새 후보 200개를 넣는데, 미리 부여한 ID 때문에 기존 데이터인지 200번 조회한 뒤 한 건씩 저장하고 있었습니다. 조회를 없앤 효과와 묶어 저장한 효과를 따로 보려고, 바로 삽입하는 방식(persist)과 여기에 50개씩 묶어 저장하는 방식을 각각 기존 방식과 비교했습니다.</p>
 <figure class="portfolio-evidence">
   <figcaption>후보 200개 저장 시간 <small>로컬 시험 · p95 · 낮을수록 짧음</small></figcaption>
-  <ul class="storage-chart">
+  <ul class="comparison-chart">
     <li><div><span>기존 저장</span><strong>171.59 ms</strong></div><span class="evidence-track" aria-hidden="true"><span style="--bar-width:95.33%"></span></span></li>
     <li><div><span>존재 조회 제거</span><strong>123.91 ms</strong></div><span class="evidence-track" aria-hidden="true"><span style="--bar-width:68.84%"></span></span></li>
     <li><div><span>조회 제거 + 50개 묶음 저장</span><strong>52.52 ms</strong></div><span class="evidence-track" aria-hidden="true"><span style="--bar-width:29.18%"></span></span></li>
