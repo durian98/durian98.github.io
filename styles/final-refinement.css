@@ -154,6 +154,16 @@ body>.site-header{position:absolute;inset:0 0 auto;transform:none;width:calc(min
 :root[data-page-fallback="opening"] main{animation:page-open .85s cubic-bezier(.22,.72,.2,1) both;transform-origin:var(--entry-x) var(--entry-y);}
 @media(prefers-reduced-motion:reduce){:root[data-page-fallback="opening"] main{animation:none;}}
 
+.project-summary:has(.project-facts) h2 + p { margin-top: 26px; }
+.project-facts .project-facts-extra { grid-column: 1 / -1; }
+.project-facts dd time { white-space: nowrap; }
+.route-demo .media-copy h2 {
+  font-size: clamp(32px, 3.45vw, 52px);
+  line-height: 1.25;
+  font-weight: 600;
+  word-break: keep-all;
+}
+
 .portfolio-evidence {
   margin: 26px 0;
   padding: clamp(16px, 3vw, 34px);
